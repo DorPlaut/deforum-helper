@@ -15,14 +15,14 @@ const Editor = () => {
     setTransX,
     transY,
     setTransY,
-    transD,
-    setTransD,
+    transZ,
+    setTransZ,
     rotX,
     setRotX,
     rotY,
     setRotY,
-    rotD,
-    setRotD,
+    rotZ,
+    setRotZ,
   } = useFramesStore((state) => state);
   // set channels
   const channels = [
@@ -93,7 +93,18 @@ const Editor = () => {
                     <button
                       className="btn copy-btn"
                       onClick={() => {
-                        console.log(formatArrayToString(transX));
+                        if (channelName === 'Translation X')
+                          console.log(formatArrayToString(transX));
+                        if (channelName === 'Translation Y')
+                          console.log(formatArrayToString(transY));
+                        if (channelName === 'Translation Z')
+                          console.log(formatArrayToString(transZ));
+                        if (channelName === 'Rotation X')
+                          console.log(formatArrayToString(rotX));
+                        if (channelName === 'Rotation Y')
+                          console.log(formatArrayToString(rotY));
+                        if (channelName === 'Rotation Z')
+                          console.log(formatArrayToString(rotZ));
                       }}
                     >
                       Copy string

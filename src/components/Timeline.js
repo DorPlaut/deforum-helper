@@ -18,14 +18,14 @@ const Timeline = ({ selected, zoom, first, channelName }) => {
     setTransX,
     transY,
     setTransY,
-    transD,
-    setTransD,
+    transZ,
+    setTransZ,
     rotX,
     setRotX,
     rotY,
     setRotY,
-    rotD,
-    setRotD,
+    rotZ,
+    setRotZ,
   } = useFramesStore((state) => state);
   // create array of frames
   const createNumberArray = () => {
@@ -41,6 +41,10 @@ const Timeline = ({ selected, zoom, first, channelName }) => {
   useEffect(() => {
     if (channelName === 'Translation X') setTransX(frames);
     if (channelName === 'Translation Y') setTransY(frames);
+    if (channelName === 'Translation Z') setTransZ(frames);
+    if (channelName === 'Rotation X') setRotX(frames);
+    if (channelName === 'Rotation Y') setRotY(frames);
+    if (channelName === 'Rotation Z') setRotZ(frames);
   }, [frames]);
   //
 
