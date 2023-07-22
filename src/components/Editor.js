@@ -56,7 +56,20 @@ const Editor = () => {
       <div className="editor-control-panel">
         <ZoomFader zoom={zoom} setZoom={setZoom} />
         <div className="control-buttons">
-          <button className="btn" onClick={() => {}}>
+          <button
+            className="btn"
+            onClick={() => {
+              console.log({
+                fps: fps,
+                translation_x: formatArrayToString(transX),
+                translation_y: formatArrayToString(transY),
+                translation_z: formatArrayToString(transZ),
+                rotation_3d_x: formatArrayToString(rotX),
+                rotation_3d_y: formatArrayToString(rotY),
+                rotation_3d_z: formatArrayToString(rotZ),
+              });
+            }}
+          >
             Download settings
           </button>
         </div>
@@ -78,16 +91,18 @@ const Editor = () => {
               <div
                 key={index}
                 className="channel"
-                onClick={() => {
-                  if (selectedChannel === channelName) {
-                    setSelectedChannel('');
-                  } else setSelectedChannel(channelName);
-                }}
                 style={{
                   height: channelName === selectedChannel ? '8rem' : '2rem',
                 }}
               >
-                {channelName}
+                <span
+                  onClick={() => {
+                    setSelectedChannel(channelName);
+                  }}
+                >
+                  {channelName}
+                </span>
+
                 {channelName === selectedChannel && (
                   <>
                     <button
@@ -108,6 +123,14 @@ const Editor = () => {
                       }}
                     >
                       Copy string
+                    </button>
+                    <button
+                      className="btn copy-btn"
+                      onClick={() => {
+                        setSelectedChannel('');
+                      }}
+                    >
+                      Minimize
                     </button>
                   </>
                 )}
