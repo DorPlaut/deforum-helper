@@ -10,7 +10,7 @@ const page = () => {
 
   return (
     <div>
-      <Editor data={{ fps: 12, frameCount: 3100 }} />
+      <Editor data={{ fps: 12, frameCount: 800 }} />
     </div>
   );
 };
