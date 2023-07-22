@@ -197,3 +197,8 @@
 .down-btn:hover {
   color: var(--editorColor1);
 }
+
+/* .copy-btn {
+  position: fixed;
+  transform: translateY(8rem) translateX(-5rem);
+} */

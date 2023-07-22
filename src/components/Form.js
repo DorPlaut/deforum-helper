@@ -1,38 +1,48 @@
 'use client';
+import { useFramesStore } from '@/store/framesStore';
 import { redirect } from 'next/navigation';
 import React, { useState } from 'react';
 
 const Form = () => {
+  // data
+  const { fps, frameCount, setFps, setFrameCount } = useFramesStore(
+    (state) => state
+  );
   // local state
-  const [fps, setFps] = useState(0);
-  const [frameCount, setFrameCount] = useState(0);
+  const [tempFps, setTempFps] = useState(fps);
+  const [tempFrameCount, setTempFrameCount] = useState(frameCount);
 
   //   handle submit
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log(fps, frameCount);
+  //   // request body
+  //   const requestBody = {
+  //     fps,
+  //     frameCount,
+  //   };
+  //   // POST data to create timeline
+  //   try {
+  //     const response = await fetch('/api/timeline/create', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(requestBody),
+  //     });
+  //     const data = await response.json();
+  //     if (data) {
+  //       redirect('./editor');
+  //     }
+  //   } catch (error) {
+  //     // Handle network or other errors
+  //     console.error('An error occurred:', error);
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(fps, frameCount);
-    // request body
-    const requestBody = {
-      fps,
-      frameCount,
-    };
-    // POST data to create timeline
-    try {
-      const response = await fetch('/api/timeline/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-      });
-      const data = await response.json();
-      if (data) {
-        redirect('./editor');
-      }
-    } catch (error) {
-      // Handle network or other errors
-      console.error('An error occurred:', error);
-    }
+    setFps(tempFps);
+    setFrameCount(tempFrameCount);
   };
 
   return (
@@ -40,16 +50,18 @@ const Form = () => {
       <label htmlFor="fps">Frame rate(fps):</label>
       <input
         type="number"
-        value={fps}
-        onChange={(e) => setFps(e.target.value)}
+        value={tempFps}
+        onChange={(e) => setTempFps(parseInt(e.target.value))}
       />
       <label htmlFor="leangh">Video leangth (in frames)</label>
       <input
         type="number"
-        value={frameCount}
-        onChange={(e) => setFrameCount(e.target.value)}
+        value={tempFrameCount}
+        onChange={(e) => setTempFrameCount(parseInt(e.target.value))}
       />
-      <button type="submit">Create The Timeline</button>
+      <button className="btn" type="submit">
+        Update Timeline Settings
+      </button>
     </form>
   );
 };

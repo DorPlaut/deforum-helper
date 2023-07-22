@@ -1,4 +1,5 @@
 'use client';
+import { useFramesStore } from '@/store/framesStore';
 import React, { useEffect, useState } from 'react';
 import {
   AiFillCaretDown,
@@ -6,10 +7,26 @@ import {
   AiOutlinePoweroff,
 } from 'react-icons/ai';
 
-const Timeline = ({ data, selected, zoom, first }) => {
-  // local state for data
-  const [fps, setFps] = useState(data.fps);
-  const [frameCount, setFrameCount] = useState(data.frameCount);
+const Timeline = ({ selected, zoom, first, channelName }) => {
+  // data
+  const {
+    fps,
+    frameCount,
+    setFps,
+    setFrameCount,
+    transX,
+    setTransX,
+    transY,
+    setTransY,
+    transD,
+    setTransD,
+    rotX,
+    setRotX,
+    rotY,
+    setRotY,
+    rotD,
+    setRotD,
+  } = useFramesStore((state) => state);
   // create array of frames
   const createNumberArray = () => {
     const numberArray = [];
@@ -20,10 +37,15 @@ const Timeline = ({ data, selected, zoom, first }) => {
     return numberArray;
   };
   const [frames, setFrames] = useState(createNumberArray());
+  // update global state
+  useEffect(() => {
+    if (channelName === 'Translation X') setTransX(frames);
+    if (channelName === 'Translation Y') setTransY(frames);
+  }, [frames]);
   //
 
   // frames to time (minutes and seconds)
-  function framesToTime(fps, frameNumber) {
+  const framesToTime = (fps, frameNumber) => {
     const totalSeconds = Math.floor(frameNumber / fps);
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
@@ -35,7 +57,7 @@ const Timeline = ({ data, selected, zoom, first }) => {
     const formattedMilliseconds = String(milliseconds).padStart(3, '0');
 
     return `${formattedMinutes}:${formattedSeconds}:${formattedMilliseconds}`;
-  }
+  };
   // colors
   const [color1, setColor1] = useState('');
   const [color2, setColor2] = useState('');
@@ -64,10 +86,9 @@ const Timeline = ({ data, selected, zoom, first }) => {
       );
       //
     }
-  }, []);
+  }, [document]);
 
   // set inner div height to represent tranistions
-  const [height, setHeight] = useState(0);
   const getFrameHeight = (frame) => {
     const index = frame[0];
     const value = frame[1];
@@ -78,7 +99,6 @@ const Timeline = ({ data, selected, zoom, first }) => {
       // calculate height of frame
       const nextAnchorFrame = findNextAnchor(index);
       const previousAnchorFrame = findPreviousAnchor(index);
-      // console.log(previousAnchorFrame, frame, nextAnchorFrame);
       if (previousAnchorFrame && frame && nextAnchorFrame) {
         return interpolateValue(previousAnchorFrame, frame, nextAnchorFrame);
       } else if (previousAnchorFrame && frame && !nextAnchorFrame) {
@@ -116,7 +136,7 @@ const Timeline = ({ data, selected, zoom, first }) => {
   };
 
   // get middle frame value
-  function interpolateValue(previous, current, next) {
+  const interpolateValue = (previous, current, next) => {
     const [prevFrame, prevValue] = previous;
     const [currentFrame, currentValue] = current;
     const [nextFrame, nextValue] = next;
@@ -127,7 +147,12 @@ const Timeline = ({ data, selected, zoom, first }) => {
     // Interpolate the numeric value based on the progress
     const interpolatedValue = prevValue + (nextValue - prevValue) * progress;
     return interpolatedValue;
-  }
+  };
+
+  // update data on submit
+  useEffect(() => {
+    setFrames(createNumberArray());
+  }, [frameCount, setFrames]);
   return (
     <>
       {first && (
@@ -224,8 +249,8 @@ const Timeline = ({ data, selected, zoom, first }) => {
                         onClick={() => {
                           // update frame value
                           const newFrames = [...frames];
-                          if (frame[1] + 1 <= 10) {
-                            newFrames[index][1] = frame[1] + 1;
+                          if (frame[1] + 0.5 <= 10) {
+                            newFrames[index][1] = frame[1] + 0.5;
                             if (newFrames[index].length === 2) {
                               newFrames[index].push(true);
                             }
@@ -242,8 +267,8 @@ const Timeline = ({ data, selected, zoom, first }) => {
                         onClick={() => {
                           // update frame value
                           const newFrames = [...frames];
-                          if (frame[1] - 1 >= 0) {
-                            newFrames[index][1] = frame[1] - 1;
+                          if (frame[1] - 0.5 >= 0) {
+                            newFrames[index][1] = frame[1] - 0.5;
                             if (newFrames[index].length === 2) {
                               newFrames[index].push(true);
                             }

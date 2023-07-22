@@ -1,16 +1,17 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import Timeline from '@/components/Timeline';
 import axios from 'axios';
 import Editor from '@/components/Editor';
-// import getTimeline from '@/utils/getTimeline';
+import Form from '@/components/Form';
+import { useFramesStore } from '@/store/framesStore';
 
 const page = () => {
-  // fetch data
-  // const data = await getTimeline();
-
+  const { fps, frameCount } = useFramesStore((state) => state);
   return (
     <div>
-      <Editor data={{ fps: 12, frameCount: 800 }} />
+      <Form />
+      <Editor />
     </div>
   );
 };
