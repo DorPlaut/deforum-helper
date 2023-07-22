@@ -1,3 +1,4 @@
+'use client';
 // import { Slider } from '@mui/material';
 import React, { useState } from 'react';
 import ReactSlider from 'react-slider';

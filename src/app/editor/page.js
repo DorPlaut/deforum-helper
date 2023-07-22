@@ -2,12 +2,7 @@ import React from 'react';
 import Timeline from './components/Timeline';
 import axios from 'axios';
 import Editor from './components/Editor';
-
-const getTimeline = async () => {
-  const url = process.env.NEXT_PUBLIC_URL;
-  const res = await axios.get(`${url}/api/timeline`);
-  return res.data;
-};
+import getTimeline from '@/utils/getTimeline';
 
 const page = async () => {
   // fetch data
