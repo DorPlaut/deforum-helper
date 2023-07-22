@@ -1,7 +1,7 @@
 import React from 'react';
-import Timeline from './components/Timeline';
+import Timeline from '@/components/Timeline';
 import axios from 'axios';
-import Editor from './components/Editor';
+import Editor from '@/components/Editor';
 import getTimeline from '@/utils/getTimeline';
 
 const page = async () => {
