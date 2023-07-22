@@ -1,7 +1,7 @@
 import React from 'react';
-import Timeline from './Timeline';
+import Timeline from './components/Timeline';
 import axios from 'axios';
-import Editor from './Editor';
+import Editor from './components/Editor';
 
 const getTimeline = async () => {
   const url = process.env.NEXT_PUBLIC_URL;
