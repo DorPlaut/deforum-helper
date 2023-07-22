@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AiFillCaretDown,
   AiFillCaretUp,
@@ -37,18 +37,34 @@ const Timeline = ({ data, selected, zoom, first }) => {
     return `${formattedMinutes}:${formattedSeconds}:${formattedMilliseconds}`;
   }
   // colors
-  const color1 = getComputedStyle(document.documentElement).getPropertyValue(
-    '--editorColor4'
-  );
-  const color2 = getComputedStyle(document.documentElement).getPropertyValue(
-    '--editorColor5'
-  );
-  const green = getComputedStyle(document.documentElement).getPropertyValue(
-    '--green'
-  );
-  const red = getComputedStyle(document.documentElement).getPropertyValue(
-    '--red'
-  );
+  const [color1, setColor1] = useState('');
+  const [color2, setColor2] = useState('');
+  const [green, setGreen] = useState('');
+  const [red, setRed] = useState('');
+  useEffect(() => {
+    if (document) {
+      setColor1(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--editorColor4'
+        )
+      );
+      //
+      setColor2(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--editorColor5'
+        )
+      );
+      //
+      setGreen(
+        getComputedStyle(document.documentElement).getPropertyValue('--green')
+      );
+      //
+      setRed(
+        getComputedStyle(document.documentElement).getPropertyValue('--red')
+      );
+      //
+    }
+  }, []);
 
   // set inner div height to represent tranistions
   const [height, setHeight] = useState(0);
