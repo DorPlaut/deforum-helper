@@ -17,7 +17,10 @@ const ZoomFader = ({ zoom, setZoom }) => {
         value={zoom}
         min={min}
         max={max}
-        renderThumb={(props, state) => <div {...props}></div>}
+        renderThumb={(props, state) => {
+          const { key, ...otherProps } = props;
+          return <div key={key} {...otherProps}></div>;
+        }}
       />
     </div>
   );
