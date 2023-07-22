@@ -90,7 +90,7 @@ const Timeline = ({ selected, zoom, first, channelName }) => {
       );
       //
     }
-  }, [document]);
+  }, []);
 
   // set inner div height to represent tranistions
   const getFrameHeight = (frame) => {
