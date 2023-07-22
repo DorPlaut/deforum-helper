@@ -10,7 +10,7 @@ const ZoomFader = ({ zoom, setZoom }) => {
 
   return (
     <div className="zoom-fader-container">
-      {/* <ReactSlider
+      <ReactSlider
         aria-label="zoom"
         className="zoom-fader"
         thumbClassName="btn zoom-fader-handle"
@@ -22,7 +22,7 @@ const ZoomFader = ({ zoom, setZoom }) => {
           const { key, ...otherProps } = props;
           return <div key={key} {...otherProps}></div>;
         }}
-      /> */}
+      />
     </div>
   );
 };

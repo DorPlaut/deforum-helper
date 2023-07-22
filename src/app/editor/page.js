@@ -8,7 +8,11 @@ const page = () => {
   // fetch data
   // const data = await getTimeline();
 
-  return <div>{/* <Editor data={data} /> */}</div>;
+  return (
+    <div>
+      <Editor data={{ fps: 12, frameCount: 3100 }} />
+    </div>
+  );
 };
 
 export default page;
