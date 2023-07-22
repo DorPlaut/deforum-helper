@@ -4,7 +4,8 @@ import axios from 'axios';
 import Editor from './Editor';
 
 const getTimeline = async () => {
-  const res = await axios.get('http://localhost:3000/api/timeline');
+  const url = process.env.NEXT_PUBLIC_URL;
+  const res = await axios.get(`${url}/api/timeline`);
   return res.data;
 };
 

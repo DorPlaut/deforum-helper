@@ -19,15 +19,37 @@ const Editor = ({ data }) => {
   const [zoom, setZoom] = useState(50);
   return (
     <div className="editor">
-      <ZoomFader zoom={zoom} setZoom={setZoom} />
+      {/* control panel */}
+      <div className="editor-control-panel">
+        <ZoomFader zoom={zoom} setZoom={setZoom} />
+        <div className="control-buttons">
+          <button className="btn" onClick={() => console.log(data)}>
+            Download settings
+          </button>
+        </div>
+      </div>
       <div className="timeline-container">
         <div className="channels">
+          {/* rullers */}
+          <div
+            className="channel"
+            style={{
+              height: '2rem',
+            }}
+          >
+            frame/time
+          </div>
+          {/* channels */}
           {channels.map((channelName, index) => {
             return (
               <div
                 key={index}
                 className="channel"
-                onClick={() => setSelectedChannel(channelName)}
+                onClick={() => {
+                  if (selectedChannel === channelName) {
+                    setSelectedChannel('');
+                  } else setSelectedChannel(channelName);
+                }}
                 style={{
                   height: channelName === selectedChannel ? '8rem' : '2rem',
                 }}
