@@ -3,8 +3,10 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main>
-      <Link href={'/createTimeline'}>lets create a timeline</Link>
-    </main>
+    <>
+      <Link className="btn block-btn editor-link" href={'/editor'}>
+        lets create a timeline
+      </Link>
+    </>
   );
 }

@@ -6,6 +6,7 @@ import {
   AiFillCaretUp,
   AiOutlinePoweroff,
 } from 'react-icons/ai';
+import formatArrayToString from '@/utils/formatArrayToString';
 
 const Timeline = ({ selected, zoom, first, channelName }) => {
   // data
