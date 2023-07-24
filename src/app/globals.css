@@ -18,6 +18,15 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+a {
+  text-decoration: none;
+  color: var(--editorColor1);
+  transition: 0.2s;
+}
+a:hover {
+  color: var(--editorColor3);
+}
 .btn {
   z-index: 1;
   border: none;
@@ -28,13 +37,14 @@
 body {
   background: var(--editorColor6);
   color: var(--editorColor2);
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 main {
-  position: relative;
   text-align: center;
   background: var(--editorColor6);
   color: var(--editorColor2);
-  min-height: 100vh;
 }
 .header {
   padding: 1rem;
@@ -47,6 +57,7 @@ main {
   background: var(--editorColor5);
   margin: 1rem;
   border: solid 1px var(--editorColor3);
+  position: relative;
 }
 .editor-control-panel {
   padding: 1rem;
@@ -125,9 +136,11 @@ main {
   /* background: rgb(5, 137, 177); */
   border-bottom: solid 1px var(--editorColor3);
   border-left: solid 1px var(--editorColor4);
-  height: 1rem;
-  position: relative;
+  height: 2rem;
   transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .ruller-time {
   height: 1rem;
@@ -135,9 +148,22 @@ main {
   width: fit-content;
   transition: 0.2s;
 }
-.ruller-time-number {
+
+.time-display {
   position: absolute;
+  top: 1rem;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20rem;
+  border-radius: 20px;
+  background: var(--editorColor2);
+  transition: 0.2s;
+  z-index: 2;
+  font-size: 2rem;
 }
+
 /* channels */
 
 .channel {
@@ -152,7 +178,7 @@ main {
 .frames {
   overflow-x: scroll;
   overflow-y: hidden;
-  position: relative;
+  /* position: relative; */
   /* transform: translateY(-1rem); */
 }
 .frames::-webkit-scrollbar {
@@ -166,16 +192,6 @@ main {
   border-radius: 0 0 20px 0;
 }
 
-.fader-handle {
-  /* width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #333;
-  position: relative;
-  top: -5px;
-  transition: 0.2s;
-  pointer-events: none; */
-}
 .timeline {
   display: flex;
   width: fit-content;
@@ -202,8 +218,6 @@ main {
   bottom: 0;
   height: 50%;
   width: 100%;
-  /* background: rgb(168, 19, 19, 0.5);
-  background: rgba(93, 255, 247, 0.5); */
   z-index: 0;
   transition: 0.3s;
 }
@@ -290,7 +304,6 @@ main {
 
 .timeline-settings-form {
   border: solid 1px var(--editorColor3);
-
   border-radius: 20px;
   background: var(--editorColor5);
   color: var(--editorColor6);
@@ -317,7 +330,7 @@ main {
   background: var(--editorColor2);
   border-radius: 20px;
   padding: 0.5rem;
-  margin: 0 0.5rem 0.5rem 0.5rem;
+  margin: 0.5rem;
 }
 .inputs-container input {
   border: 0;
@@ -355,5 +368,6 @@ footer {
   .editor-control-panel {
     flex-direction: column-reverse;
     height: 8rem;
+    margin-top: 4rem;
   }
 }

@@ -17,12 +17,21 @@ export default function RootLayout({ children }) {
             <h1>Deforum Timeline Helper</h1>
             <h2>Vissualize youre timeline for stable diffusion deforum</h2>
           </div>
-
           {children}
-          <div className="footer-spacer"></div>
-
-          <footer>created by Dor Plaut</footer>
         </main>
+        <div className="footer-spacer" />
+        <footer>
+          <span>
+            Built by{' '}
+            <a
+              href="https://dorplaut.netlify.app/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Dor Plaut
+            </a>
+          </span>
+        </footer>
       </body>
     </html>
   );

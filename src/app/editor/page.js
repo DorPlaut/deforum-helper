@@ -1,9 +1,7 @@
 'use client';
-import React, { useState } from 'react';
-import Timeline from '@/app/editor/components/Timeline';
-import axios from 'axios';
-import Editor from '@/app/editor/components/Editor';
-import Form from '@/app/editor/components/Form';
+import React from 'react';
+import Editor from './Editor';
+import Form from './Form';
 
 const page = () => {
   return (
