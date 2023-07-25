@@ -36,9 +36,9 @@ This application is made with Next.js, a popular React framework for building se
 
 ## Credits
 
-[Deforum](https://github.com/deforum-art/deforum-stable-diffusion): Stable diffusion extension for creating videos with Stable Diffusion Image Generator AI.
-[Stable Diffusion](https://github.com/Stability-AI/stablediffusion): The core library behind Deforum's stable diffusion extension.
-[AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui): An interface for interacting with Stable Diffusion AI.
+- [Deforum](https://github.com/deforum-art/deforum-stable-diffusion): Stable diffusion extension for creating videos with Stable Diffusion Image Generator AI.
+- [Stable Diffusion](https://github.com/Stability-AI/stablediffusion): The core library behind Deforum's stable diffusion extension.
+- [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui): An interface for interacting with Stable Diffusion AI.
 Me: this app code 😊
 
 ## Contribution
