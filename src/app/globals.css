@@ -53,11 +53,22 @@ main {
 /* WELCOME PAGE */
 .welcome-page {
   height: calc(100vh - 8rem);
+  width: calc(100vw - 4rem);
+  position: relative;
+  left: 0;
+  right: 0;
+  margin-right: auto;
+  margin-left: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background: red;
+}
+.welcome-page ul {
+  list-style: none;
+  text-align: left;
+}
+.welcome-page li {
+  margin-bottom: 0.5rem;
 }
 
 .editor-link {
@@ -119,7 +130,7 @@ main {
 .editor {
   border-radius: 20px;
   background: var(--editorColor5);
-  margin: 1rem;
+  margin: 1rem 5rem;
   border: solid 1px var(--editorColor3);
   position: relative;
 }
@@ -372,5 +383,8 @@ footer {
 
   .header h2 {
     font-size: 3.5vw;
+  }
+  .editor {
+    margin: 1rem 1rem;
   }
 }
