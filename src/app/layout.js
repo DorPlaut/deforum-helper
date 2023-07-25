@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
         <main>
           <div className="header">
             <h1>Deforum Timeline Helper</h1>
-            <h2>Vissualize youre timeline for stable diffusion deforum</h2>
+            <h2>Visualize your timeline for Stable diffusion Deforum</h2>
           </div>
           {children}
         </main>
