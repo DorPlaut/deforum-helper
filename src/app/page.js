@@ -5,6 +5,7 @@ export default function Home() {
   return (
     <>
       <div className="welcome-page">
+        <br />
         <h3>welcome!</h3>
         <p>
           Deforum Timeline Helper is a tool for creating and visualizing
