@@ -258,7 +258,6 @@ main {
 .frame-inner-up {
   position: absolute;
   bottom: 50%;
-  height: 50%;
   width: 100%;
   z-index: 0;
   transition: 0.3s;
@@ -266,7 +265,6 @@ main {
 .frame-inner-down {
   position: absolute;
   top: 50%;
-  height: 50%;
   width: 100%;
   z-index: 0;
   transition: 0.3s;
