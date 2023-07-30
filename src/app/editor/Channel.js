@@ -1,7 +1,7 @@
 'use client';
 import { useFramesStore } from '@/store/framesStore';
 import formatArrayToString from '@/utils/formatArrayToString';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiFillCaretDown, AiFillCaretUp, AiOutlineCopy } from 'react-icons/ai';
 
 const Channel = ({ channelName, selectedChannel, setSelectedChannel }) => {
@@ -9,11 +9,30 @@ const Channel = ({ channelName, selectedChannel, setSelectedChannel }) => {
   const { transX, transY, transZ, rotX, rotY, rotZ } = useFramesStore(
     (state) => state
   );
+
+  // dynamic css
+  const [heightOpen, setHeightOpen] = useState('5rem');
+  const [heightClose, setHeightClose] = useState('12rem');
+  // get css var value
+  useEffect(() => {
+    if (document) {
+      setHeightOpen(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--channelHeightOpen'
+        )
+      );
+      setHeightClose(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--channelHeightClose'
+        )
+      );
+    }
+  }, []);
   return (
     <div
       className="channel"
       style={{
-        height: channelName === selectedChannel ? '8rem' : '2rem',
+        height: channelName === selectedChannel ? heightOpen : heightClose,
       }}
     >
       <span>{channelName}</span>

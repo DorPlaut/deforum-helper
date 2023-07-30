@@ -11,6 +11,8 @@
   --green: green;
   --red: darkRed;
   --editorTransitions: 0.2s;
+  --channelHeightOpen: 15rem;
+  --channelHeightClose: 5rem;
 }
 /* page settings */
 * {
@@ -49,6 +51,14 @@ main {
 .header {
   padding: 1rem;
 }
+::-webkit-scrollbar {
+  background: var(--editorColor6);
+  width: 1rem;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--editorColor2);
+  border-radius: 20px;
+}
 
 /* WELCOME PAGE */
 .welcome-page {
@@ -72,8 +82,8 @@ main {
 }
 
 .editor-link {
-  text-decoration: none;
-  padding: 0.7rem;
+  /* text-decoration: none; */
+  /* padding: 0.7rem; */
 }
 
 /* FORM */
@@ -245,9 +255,17 @@ main {
 .frame-value {
   z-index: 1;
 }
-.frame-inner {
+.frame-inner-up {
   position: absolute;
-  bottom: 0;
+  bottom: 50%;
+  height: 50%;
+  width: 100%;
+  z-index: 0;
+  transition: 0.3s;
+}
+.frame-inner-down {
+  position: absolute;
+  top: 50%;
   height: 50%;
   width: 100%;
   z-index: 0;
@@ -408,4 +426,12 @@ canvas {
   top: 5rem;
   left: 5rem;
   z-index: 5;
+}
+
+.btn-container {
+  /* background: red; */
+  height: 7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -66,7 +66,6 @@ const Editor = () => {
           })}
         </div>
       </div>
-      <Link href={'/livedemo'}>experimental live view with 3d</Link>
     </div>
   );
 };

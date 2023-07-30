@@ -4,6 +4,7 @@ import { PerspectiveCamera } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import React, { useEffect, useRef, useState } from 'react';
 import useTimeline from '../../../hooks/useTimeline';
+import * as THREE from 'three';
 
 const Scene = () => {
   // data
@@ -12,6 +13,10 @@ const Scene = () => {
   // camera settings
   const cameraRef = useRef();
   const [cameraPosition, setCameraPosition] = useState([0, 0, 0]);
+  // round camera position
+  const roundToNearest = (num, multiple) =>
+    Math.round(num / multiple) * multiple;
+
   // animation settings
   const animationSettings = framesToAnimation(
     fps,
@@ -37,18 +42,23 @@ const Scene = () => {
     for (let x = -halfBoxesAmount; x <= halfBoxesAmount; x++) {
       for (let y = -halfBoxesAmount; y <= halfBoxesAmount; y++) {
         for (let z = -halfBoxesAmount; z <= halfBoxesAmount; z++) {
+          // position handle
+          // Round the camera position to the nearest boxSpacing
+          const roundedCameraX = roundToNearest(cameraPosition[0], boxSpacing);
+          const roundedCameraY = roundToNearest(cameraPosition[1], boxSpacing);
+          const roundedCameraZ = roundToNearest(cameraPosition[2], boxSpacing);
           // Create the mesh elements and push them into the temporary array
           newBoxes.push(
             <mesh
               position={[
-                cameraPosition[0] + x * boxSpacing,
-                cameraPosition[1] + y * boxSpacing,
-                cameraPosition[2] + z * boxSpacing,
+                roundedCameraX + x * boxSpacing,
+                roundedCameraY + y * boxSpacing,
+                roundedCameraZ + z * boxSpacing,
               ]}
               key={x + '' + y + '' + z}
             >
               <boxGeometry args={[boxSize, boxSize, boxSize]} />
-              <meshStandardMaterial color={'black'} />
+              <meshStandardMaterial color={'white'} />
             </mesh>
           );
         }
@@ -77,12 +87,19 @@ const Scene = () => {
   // camera animation settings
   useFrame((state, delta) => {
     if (cameraRef.current && isRunning) {
-      cameraRef.current.position.x += positionX / 50;
-      cameraRef.current.position.y += positionY / 50;
-      cameraRef.current.position.z += -(positionZ / 50);
-      cameraRef.current.rotation.x += rotationX / 150;
-      cameraRef.current.rotation.y += rotationY / 150;
-      cameraRef.current.rotation.z += rotationZ / 150;
+      setCameraPosition([
+        cameraRef.current.position.x,
+        cameraRef.current.position.y,
+        cameraRef.current.position.z,
+      ]);
+      populateBoxes();
+      // console.log(cameraPosition);
+      cameraRef.current.position.x -= positionX / 25;
+      cameraRef.current.position.y += positionY / 25;
+      cameraRef.current.position.z -= positionZ / 25;
+      cameraRef.current.rotation.x += rotationX / 200;
+      cameraRef.current.rotation.y -= rotationY / 200;
+      cameraRef.current.rotation.z -= rotationZ / 200;
     }
   });
 
@@ -117,14 +134,24 @@ const Scene = () => {
 
   //
   return (
-    <group>
+    <>
       {/* cameras */}
       <mesh ref={cameraRef}>
         <PerspectiveCamera makeDefault />
       </mesh>
+      {/* light */}
+      <ambientLight intensity={2} />
+      {/* fog */}
+      <>
+        <mesh position={cameraPosition} scale={10}>
+          <boxGeometry args={[200, 200, 200]} />
+          <meshBasicMaterial color={'black'} side={THREE.DoubleSide} />
+        </mesh>
+        <fog attach="fog" color={'black'} near={0} far={87} />
+      </>
       {/* elements */}
       {...boxes}
-    </group>
+    </>
   );
 };
 

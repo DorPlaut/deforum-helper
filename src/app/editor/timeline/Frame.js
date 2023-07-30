@@ -29,6 +29,8 @@ const Frame = ({
       );
     }
   }, []);
+  const max = 10;
+  const min = -10;
   return (
     <div
       className="frame"
@@ -67,7 +69,7 @@ const Frame = ({
                 onClick={() => {
                   // update frame value
                   const newFrames = [...frames];
-                  if (frame[1] + 0.5 <= 10) {
+                  if (frame[1] + 0.5 <= max) {
                     newFrames[index][1] = frame[1] + 0.5;
                     if (newFrames[index].length === 2) {
                       newFrames[index].push(true);
@@ -85,7 +87,7 @@ const Frame = ({
                 onClick={() => {
                   // update frame value
                   const newFrames = [...frames];
-                  if (frame[1] - 0.5 >= 0) {
+                  if (frame[1] - 0.5 >= min) {
                     newFrames[index][1] = frame[1] - 0.5;
                     if (newFrames[index].length === 2) {
                       newFrames[index].push(true);
@@ -102,15 +104,25 @@ const Frame = ({
       )}
       {/* visual representation of frame animation */}
       <div
-        className="frame-inner"
+        className="frame-inner-up"
         style={{
-          height: `${getFrameHeight(frame) * 10}%`,
+          height: `${getFrameHeight(frame) * (max / 2)}%`,
           background: isAnchor
             ? 'rgba(93, 255, 247, 0.5)'
             : 'rgb(168, 19, 19, 0.5)',
         }}
         onClick={() => {}}
-      ></div>
+      />
+      <div
+        className="frame-inner-down"
+        style={{
+          height: `${-getFrameHeight(frame) * (max / 2)}%`,
+          background: isAnchor
+            ? 'rgba(93, 255, 247, 0.5)'
+            : 'rgb(168, 19, 19, 0.5)',
+        }}
+        onClick={() => {}}
+      />
     </div>
   );
 };

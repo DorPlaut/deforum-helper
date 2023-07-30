@@ -121,6 +121,8 @@ const Timeline = ({
   // COLORS
   const [color1, setColor1] = useState('');
   const [color2, setColor2] = useState('');
+  const [heightOpen, setHeightOpen] = useState('15rem');
+  const [heightClose, setHeightClose] = useState('5rem');
   // get css var value
   useEffect(() => {
     if (document) {
@@ -134,6 +136,16 @@ const Timeline = ({
           '--editorColor5'
         )
       );
+      setHeightOpen(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--channelHeightOpen'
+        )
+      );
+      setHeightClose(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--channelHeightClose'
+        )
+      );
     }
   }, []);
 
@@ -145,7 +157,7 @@ const Timeline = ({
         onClick={() => setSelectedChannel(channelName)}
         className="timeline"
         style={{
-          height: selected ? '8rem' : '2rem',
+          height: selected ? heightOpen : heightClose,
           background: selected ? color1 : color2,
         }}
       >
