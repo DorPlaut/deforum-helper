@@ -6,9 +6,18 @@ import framesToTime from '@/utils/framesToTime';
 
 const Form = () => {
   // data
-  const { fps, frameCount, setFps, setFrameCount } = useFramesStore(
-    (state) => state
-  );
+  const {
+    fps,
+    frameCount,
+    setFps,
+    setFrameCount,
+    setTransX,
+    setTransY,
+    setTransZ,
+    setRotX,
+    setRotY,
+    setRotZ,
+  } = useFramesStore((state) => state);
   // local state
   const [tempFps, setTempFps] = useState(fps);
   const [tempFrameCount, setTempFrameCount] = useState(frameCount);
@@ -29,6 +38,12 @@ const Form = () => {
     e.preventDefault();
     setFps(tempFps);
     setFrameCount(tempFrameCount);
+    setTransX([]);
+    setTransY([]);
+    setTransZ([]);
+    setRotX([]);
+    setRotY([]);
+    setRotZ([]);
   };
 
   return (
@@ -51,13 +66,6 @@ const Form = () => {
           <div className="frames-input">
             <label htmlFor="leangh">
               Length (in {countIn === 'frames' ? 'frames' : 'time'}){' '}
-              {/* <button
-                className="btn  time-frames-btn"
-                type="button"
-                onClick={(e) => handleCountIn(e)}
-              >
-                <BsArrowRepeat />
-              </button> */}
             </label>
             <input
               max={2000}

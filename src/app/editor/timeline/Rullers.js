@@ -3,7 +3,7 @@ import framesToTime from '@/utils/framesToTime';
 import React, { useState } from 'react';
 
 const Rullers = ({ frames, zoom }) => {
-  const { fps } = useFramesStore((state) => state);
+  const { fps, frameCount } = useFramesStore((state) => state);
   //   local state
   const [isHovered, setIsHovered] = useState(false);
   const [hoverdFrame, setHoverdFrame] = useState(0);
@@ -35,7 +35,11 @@ const Rullers = ({ frames, zoom }) => {
       </div>
 
       <div className="time-display">
-        <span> {framesToTime(fps, frames[hoverdFrame][0])}</span>
+        {frames.length >= hoverdFrame ? (
+          <span> {framesToTime(fps, frames[hoverdFrame][0])}</span>
+        ) : (
+          <span> 00:00:000</span>
+        )}
       </div>
     </div>
   );

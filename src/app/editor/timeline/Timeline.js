@@ -22,8 +22,28 @@ const Timeline = ({
     setRotX,
     setRotY,
     setRotZ,
+    transX,
+    transY,
+    transZ,
+    rotX,
+    rotY,
+    rotZ,
   } = useFramesStore((state) => state);
+  // select to correct channel
+  const setChannel = () => {
+    if (channelName === 'Translation X') return transX;
+    if (channelName === 'Translation Y') return transY;
+    if (channelName === 'Translation Z') return transZ;
+    if (channelName === 'Rotation X') return rotX;
+    if (channelName === 'Rotation Y') return rotY;
+    if (channelName === 'Rotation Z') return rotZ;
+  };
+  const channel = setChannel();
   // create array of frames
+  const handleTimelineArrey = () => {
+    if (channel.length > 0) return channel;
+    else return createNumberArray();
+  };
   const createNumberArray = () => {
     const numberArray = [];
     for (var i = 0; i <= frameCount; i++) {
@@ -32,7 +52,7 @@ const Timeline = ({
     }
     return numberArray;
   };
-  const [frames, setFrames] = useState(createNumberArray());
+  const [frames, setFrames] = useState(handleTimelineArrey());
 
   // update global state
   useEffect(() => {
@@ -45,8 +65,8 @@ const Timeline = ({
   }, [frames]);
   // update data on submit
   useEffect(() => {
-    setFrames(createNumberArray());
-  }, [frameCount, setFrames]);
+    setFrames(handleTimelineArrey());
+  }, [frameCount]);
 
   // ##
   // set inner div height to represent tranistions

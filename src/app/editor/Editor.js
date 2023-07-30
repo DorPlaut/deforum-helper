@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Timeline from './timeline/Timeline';
 import ControlPanel from './control-panel/ControlPanel';
 import Channel from './Channel';
+import Link from 'next/link';
 
 const Editor = () => {
   // ## CHANNELS ##
@@ -65,6 +66,7 @@ const Editor = () => {
           })}
         </div>
       </div>
+      <Link href={'/livedemo'}>experimental live view with 3d</Link>
     </div>
   );
 };
