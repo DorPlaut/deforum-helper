@@ -11,8 +11,8 @@ const Channel = ({ channelName, selectedChannel, setSelectedChannel }) => {
   );
 
   // dynamic css
-  const [heightOpen, setHeightOpen] = useState('5rem');
-  const [heightClose, setHeightClose] = useState('12rem');
+  const [heightOpen, setHeightOpen] = useState('15rem');
+  const [heightClose, setHeightClose] = useState('5rem');
   // get css var value
   useEffect(() => {
     if (document) {

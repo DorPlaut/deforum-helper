@@ -76,10 +76,8 @@ const ControlPanel = ({ zoom, setZoom }) => {
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = '.txt';
-      input.onchange = async (event) => {
+      input.onchange = (event) => {
         const file = event.target.files[0];
-        console.log(file);
-
         // create a FileReader object
         const reader = new FileReader();
         //  handle data on load

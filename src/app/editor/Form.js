@@ -1,6 +1,6 @@
 'use client';
 import { useFramesStore } from '@/store/framesStore';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BsArrowRepeat } from 'react-icons/bs';
 import framesToTime from '@/utils/framesToTime';
 
@@ -12,17 +12,26 @@ const Form = () => {
     setFps,
     setFrameCount,
     setTransX,
+
     setTransY,
     setTransZ,
     setRotX,
     setRotY,
     setRotZ,
+    transX,
+    transY,
+    transZ,
+    rotX,
+    rotY,
+    rotZ,
   } = useFramesStore((state) => state);
   // local state
   const [tempFps, setTempFps] = useState(fps);
   const [tempFrameCount, setTempFrameCount] = useState(frameCount);
   const [tempTime, setTempTime] = useState(framesToTime(fps, frameCount));
   const [countIn, setCountIn] = useState('frames');
+
+  //
 
   // handle count in btn
   const handleCountIn = (e) => {
@@ -35,7 +44,7 @@ const Form = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     setFps(tempFps);
     setFrameCount(tempFrameCount);
     setTransX([]);
@@ -64,19 +73,13 @@ const Form = () => {
             />
           </div>
           <div className="frames-input">
-            <label htmlFor="leangh">
-              Length (in {countIn === 'frames' ? 'frames' : 'time'}){' '}
-            </label>
+            <label htmlFor="leangh">Length (in frames)</label>
             <input
-              max={2000}
+              max={5000}
               min={1}
               type="number"
-              value={countIn === 'frames' ? tempFrameCount : tempTime}
-              onChange={(e) =>
-                countIn === 'frames'
-                  ? setTempFrameCount(parseInt(e.target.value))
-                  : setTempTime(e.target.value)
-              }
+              value={tempFrameCount}
+              onChange={(e) => setTempFrameCount(parseInt(e.target.value))}
             />
           </div>
         </div>
