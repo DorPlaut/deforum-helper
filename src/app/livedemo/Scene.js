@@ -34,7 +34,7 @@ const Scene = () => {
   const [boxes, setBoxes] = useState([]);
   const boxSpacing = 15;
   const populateBoxes = () => {
-    const boxesAmount = 10; // Adjust this value as needed.
+    const boxesAmount = 9; // Adjust this value as needed.
     const halfBoxesAmount = Math.floor(boxesAmount / 2);
     const boxSize = 1;
     // Create a temporary array to hold the boxes
@@ -94,12 +94,12 @@ const Scene = () => {
       ]);
       populateBoxes();
       // console.log(cameraPosition);
-      cameraRef.current.position.x -= positionX / 30;
+      cameraRef.current.position.x += positionX / 30;
       cameraRef.current.position.y += positionY / 30;
-      cameraRef.current.position.z -= positionZ / 30;
-      cameraRef.current.rotation.x += rotationX / 300;
-      cameraRef.current.rotation.y -= rotationY / 300;
-      cameraRef.current.rotation.z += rotationZ / 300;
+      cameraRef.current.position.z += positionZ / 30;
+      cameraRef.current.rotation.x += rotationX / 200;
+      cameraRef.current.rotation.y -= rotationY / 200;
+      cameraRef.current.rotation.z -= rotationZ / 200;
     }
   });
 
