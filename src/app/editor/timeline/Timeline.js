@@ -66,7 +66,7 @@ const Timeline = ({
   // update data on submit
   useEffect(() => {
     setFrames(handleTimelineArrey());
-  }, [frameCount]);
+  }, [frameCount, fps, transX, transY, transZ, rotX, rotY, rotZ]);
 
   // ##
   // set inner div height to represent tranistions

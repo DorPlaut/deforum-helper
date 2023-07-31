@@ -1,38 +1,10 @@
 import { NextResponse, NextRequest } from 'next/server';
 
-export async function GET() {
-  try {
-    const response = {
-      fps: 15,
-      max_frames: 150,
-      animation_mode: '3D',
-      border: 'wrap',
-      translation_x: '0:(0)',
-      translation_y: '0:(0)',
-      translation_z: '0:(0)',
-      rotation_3d_x: '0:(0)',
-      rotation_3d_y: '0:(0)',
-      rotation_3d_z: '0:(0)',
-    };
-
-    const content = JSON.stringify(response, null, 2);
-    const headers = {
-      'Content-Disposition': 'attachment; filename="settings.txt"',
-      'Content-Type': 'text/plain',
-    };
-
-    return new Response(content, { headers });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json({ error: error.message });
-  }
-}
-
-// POST request - Download setting as settings.txt file
+// POST request - Get settings from client and download setting as settings.txt file
 export async function POST(req) {
   try {
     const response = await req.json();
-    // settings file!
+    // set settings file
     const content = {
       W: 512,
       H: 512,
@@ -70,12 +42,12 @@ export async function POST(req) {
       f: 8,
       timestring: '20230731011244',
       prompts: {
-        0: 'a 3d render of a grid of white blocks on black background',
+        0: 'ENTER YOUR PROMPT :)',
       },
-      positive_prompts: 'simple, black and white',
-      negative_prompts: 'portrait',
+      positive_prompts: '',
+      negative_prompts: '',
       animation_mode: '3D',
-      max_frames: response.max_frames,
+      max_frames: response.max_frames + 1,
       border: 'wrap',
       angle: '0:(0)',
       zoom: '0:(0)',
@@ -291,17 +263,14 @@ export async function POST(req) {
       sd_model_hash: '81761151',
       deforum_git_commit_id: '62c90a01',
     };
-    // const content = { ...response, hello: 'world' };
-    // settings file!
+    // stringify it
     const contentString = JSON.stringify(content, null, 2);
-
-    // const content = JSON.stringify(response, null, 2);
-    // console.log({ ...content, hello: 'world' });
+    // set headers
     const headers = {
       'Content-Disposition': 'attachment; filename="settings.txt"',
       'Content-Type': 'text/plain',
     };
-
+    // return
     return new Response(contentString, { headers });
   } catch (error) {
     console.log(error);

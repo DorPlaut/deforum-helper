@@ -1,9 +1,14 @@
 import React from 'react';
 import ZoomFader from './ZoomFader';
 import { useFramesStore } from '@/store/framesStore';
-import { AiOutlineCopy, AiOutlineDownload } from 'react-icons/ai';
+import {
+  AiOutlineCopy,
+  AiOutlineDownload,
+  AiOutlineUpload,
+} from 'react-icons/ai';
 import axios from 'axios';
 import formatArrayToString from '@/utils/formatArrayToString';
+import formatStringToArray from '@/utils/formatStringToArray';
 
 const ControlPanel = ({ zoom, setZoom }) => {
   // data
@@ -25,7 +30,7 @@ const ControlPanel = ({ zoom, setZoom }) => {
     rotZ,
     setRotZ,
   } = useFramesStore((state) => state);
-  //
+  // download settings
   const handleDownload = async () => {
     try {
       const response = await axios.post(
@@ -46,13 +51,10 @@ const ControlPanel = ({ zoom, setZoom }) => {
           responseType: 'blob', // This ensures that the response is treated as a file
         }
       );
-
       // Create a Blob from the response data
       const blob = new Blob([response.data], { type: 'text/plain' });
-
       // Create a URL for the Blob
       const url = URL.createObjectURL(blob);
-
       // Create a temporary link element to trigger the download
       const link = document.createElement('a');
       link.href = url;
@@ -67,10 +69,66 @@ const ControlPanel = ({ zoom, setZoom }) => {
       console.error(error);
     }
   };
+
+  // upload settings
+  const handleUpload = async () => {
+    try {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.txt';
+      input.onchange = async (event) => {
+        const file = event.target.files[0];
+        console.log(file);
+
+        // create a FileReader object
+        const reader = new FileReader();
+        //  handle data on load
+        reader.onload = () => {
+          const fileData = reader.result;
+          const jsonData = JSON.parse(fileData);
+          // frase needed data
+          const {
+            fps,
+            max_frames,
+            translation_x,
+            translation_y,
+            translation_z,
+            rotation_3d_x,
+            rotation_3d_y,
+            rotation_3d_z,
+          } = jsonData;
+          // update the global state with the extracted data
+          setFps(fps);
+          setFrameCount(max_frames);
+          setTransX(formatStringToArray(translation_x, frameCount));
+          setTransY(formatStringToArray(translation_y, frameCount));
+          setTransZ(formatStringToArray(translation_z, frameCount));
+          setRotX(formatStringToArray(rotation_3d_x, frameCount));
+          setRotY(formatStringToArray(rotation_3d_y, frameCount));
+          setRotZ(formatStringToArray(rotation_3d_z, frameCount));
+        };
+        // Read the contents of the file as a text string
+        reader.readAsText(file);
+      };
+      // Trigger the file input
+      input.click();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  //
   return (
     <div className="editor-control-panel">
       <ZoomFader zoom={zoom} setZoom={setZoom} />
       <div className="control-buttons">
+        <button
+          className="btn block-btn"
+          onClick={async () => {
+            handleUpload();
+          }}
+        >
+          <AiOutlineUpload /> Upload settings
+        </button>
         <button
           className="btn block-btn"
           onClick={async () => {

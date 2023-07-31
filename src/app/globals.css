@@ -388,21 +388,25 @@ footer {
 /* 3d live demo */
 .scene-container {
   position: relative;
-  background: red;
   width: 100%;
   height: calc(100vh - 8rem);
 }
 canvas {
-  background: rgb(68, 0, 255);
-  /* width: 100%;
-  height: 100%; */
 }
 
 /* MEDIA QUERIES */
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1200px) {
+  .time-display {
+    scale: 0.6;
+  }
+}
+@media screen and (max-width: 1000px) {
   :root {
     font-size: 13px;
+  }
+  .time-display {
+    scale: 1;
   }
   .editor-control-panel {
     flex-direction: column-reverse;

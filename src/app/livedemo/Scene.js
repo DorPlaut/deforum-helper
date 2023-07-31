@@ -94,12 +94,12 @@ const Scene = () => {
       ]);
       populateBoxes();
       // console.log(cameraPosition);
-      cameraRef.current.position.x -= positionX / 41;
-      cameraRef.current.position.y += positionY / 41;
-      cameraRef.current.position.z -= positionZ / 41;
-      cameraRef.current.rotation.x += rotationX / 500;
-      cameraRef.current.rotation.y -= rotationY / 500;
-      cameraRef.current.rotation.z -= rotationZ / 500;
+      cameraRef.current.position.x -= positionX / 30;
+      cameraRef.current.position.y += positionY / 30;
+      cameraRef.current.position.z -= positionZ / 30;
+      cameraRef.current.rotation.x += rotationX / 300;
+      cameraRef.current.rotation.y -= rotationY / 300;
+      cameraRef.current.rotation.z += rotationZ / 300;
     }
   });
 

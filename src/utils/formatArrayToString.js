@@ -7,4 +7,5 @@ const formatArrayToString = (arrays) => {
   });
   return formattedStrings.join(', ');
 };
+
 export default formatArrayToString;
