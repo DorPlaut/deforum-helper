@@ -30,7 +30,7 @@ const Timeline = ({
     rotZ,
   } = useFramesStore((state) => state);
   // select to correct channel
-  const setChannel = () => {
+  const findFrames = () => {
     if (channelName === 'Translation X') return transX;
     if (channelName === 'Translation Y') return transY;
     if (channelName === 'Translation Z') return transZ;
@@ -38,12 +38,23 @@ const Timeline = ({
     if (channelName === 'Rotation Y') return rotY;
     if (channelName === 'Rotation Z') return rotZ;
   };
-  const channel = setChannel();
-  // create array of frames
-  const handleTimelineArrey = () => {
-    if (channel.length > 0) return channel;
-    else return createNumberArray();
+  const frames = findFrames();
+  const findSetFrames = () => {
+    if (channelName === 'Translation X') return setTransX;
+    if (channelName === 'Translation Y') return setTransY;
+    if (channelName === 'Translation Z') return setTransZ;
+    if (channelName === 'Rotation X') return setRotX;
+    if (channelName === 'Rotation Y') return setRotY;
+    if (channelName === 'Rotation Z') return setRotZ;
   };
+  const setFrames = findSetFrames();
+
+  const handleFramesonPageLoad = () => {
+    if (frames.length === 1) {
+      setFrames(createNumberArray());
+    }
+  };
+
   const createNumberArray = () => {
     const numberArray = [];
     for (var i = 0; i <= frameCount; i++) {
@@ -52,21 +63,13 @@ const Timeline = ({
     }
     return numberArray;
   };
-  const [frames, setFrames] = useState(handleTimelineArrey());
 
-  // update global state
+  //
   useEffect(() => {
-    if (channelName === 'Translation X') setTransX(frames);
-    if (channelName === 'Translation Y') setTransY(frames);
-    if (channelName === 'Translation Z') setTransZ(frames);
-    if (channelName === 'Rotation X') setRotX(frames);
-    if (channelName === 'Rotation Y') setRotY(frames);
-    if (channelName === 'Rotation Z') setRotZ(frames);
-  }, [frames]);
-  // update data on submit
-  useEffect(() => {
-    setFrames(handleTimelineArrey());
-  }, [frameCount, fps]);
+    while (frames.length < frameCount) {
+      frames.push([frames.length, 0]);
+    }
+  }, [fps, frameCount, frames]);
 
   // ##
   // set inner div height to represent tranistions
@@ -123,8 +126,12 @@ const Timeline = ({
   const [color2, setColor2] = useState('');
   const [heightOpen, setHeightOpen] = useState('15rem');
   const [heightClose, setHeightClose] = useState('5rem');
-  // get css var value
+
+  // get css variabls and set page on first load
   useEffect(() => {
+    // set frames
+    handleFramesonPageLoad();
+    // css
     if (document) {
       setColor1(
         getComputedStyle(document.documentElement).getPropertyValue(
@@ -163,19 +170,20 @@ const Timeline = ({
       >
         {frames.map((frame, index) => {
           const isAnchor = frame.length === 3;
-          return (
-            <Frame
-              key={index}
-              index={index}
-              frame={frame}
-              frames={frames}
-              setFrames={setFrames}
-              zoom={zoom}
-              isAnchor={isAnchor}
-              selected={selected}
-              getFrameHeight={getFrameHeight}
-            />
-          );
+          if (frameCount > index)
+            return (
+              <Frame
+                key={index}
+                index={index}
+                frame={frame}
+                frames={frames}
+                setFrames={setFrames}
+                zoom={zoom}
+                isAnchor={isAnchor}
+                selected={selected}
+                getFrameHeight={getFrameHeight}
+              />
+            );
         })}
       </div>
     </>

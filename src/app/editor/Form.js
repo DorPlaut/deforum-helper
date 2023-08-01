@@ -12,7 +12,6 @@ const Form = () => {
     setFps,
     setFrameCount,
     setTransX,
-
     setTransY,
     setTransZ,
     setRotX,
@@ -28,31 +27,22 @@ const Form = () => {
   // local state
   const [tempFps, setTempFps] = useState(fps);
   const [tempFrameCount, setTempFrameCount] = useState(frameCount);
-  const [tempTime, setTempTime] = useState(framesToTime(fps, frameCount));
   const [countIn, setCountIn] = useState('frames');
+
+  // updated local state when fps or frameCount changes
+  useEffect(() => {
+    setTempFps(fps);
+    setTempFrameCount(frameCount);
+  }, [frameCount, fps]);
 
   //
 
   // handle count in btn
-  const handleCountIn = (e) => {
-    e.preventDefault();
-    if (countIn === 'frames') {
-      setCountIn('time');
-    } else {
-      setCountIn('frames');
-    }
-  };
 
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
     setFps(tempFps);
     setFrameCount(tempFrameCount);
-    setTransX([]);
-    setTransY([]);
-    setTransZ([]);
-    setRotX([]);
-    setRotY([]);
-    setRotZ([]);
   };
 
   return (

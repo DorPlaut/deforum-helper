@@ -31,6 +31,35 @@ const Frame = ({
   }, []);
   const max = 10;
   const min = -10;
+
+  //
+  // handle increes value
+  const increesValue = () => {
+    // update frame value
+    const newFrames = [...frames];
+    if (frame[1] + 0.5 <= max) {
+      newFrames[index][1] = frame[1] + 0.5;
+      if (newFrames[index].length === 2) {
+        newFrames[index].push(true);
+      }
+      setFrames(newFrames);
+      getFrameHeight(frame);
+    }
+  };
+  // handle decrees value
+  const decreesValue = () => {
+    // update frame value
+    const newFrames = [...frames];
+    if (frame[1] - 0.5 >= min) {
+      newFrames[index][1] = frame[1] - 0.5;
+      if (newFrames[index].length === 2) {
+        newFrames[index].push(true);
+      }
+      setFrames(newFrames);
+    }
+  };
+  let timer;
+  const [isMouseDown, setIsMouseDown] = useState(false);
   return (
     <div
       className="frame"
@@ -66,36 +95,27 @@ const Frame = ({
             <>
               <button
                 className="btn up-btn"
-                onClick={() => {
-                  // update frame value
-                  const newFrames = [...frames];
-                  if (frame[1] + 0.5 <= max) {
-                    newFrames[index][1] = frame[1] + 0.5;
-                    if (newFrames[index].length === 2) {
-                      newFrames[index].push(true);
-                    }
-                    setFrames(newFrames);
-                    getFrameHeight(frame);
-                  }
-                }}
+                onClick={increesValue}
+                // onMouseDown={() => {
+                //   setIsMouseDown(true);
+                //   timer = setInterval(() => {
+                //     console.log('runtime');
+                //     increesValue();
+                //   }, 200);
+                // }}
+                // onMouseUp={() => {
+                //   setIsMouseDown(false);
+                //   clearInterval(timer);
+                // }}
+                // onMouseLeave={() => {
+                //   setIsMouseDown(false);
+                //   clearInterval(timer);
+                // }}
               >
                 <AiFillCaretUp />
               </button>
               <span className="frame-value">{frame[1]}</span>
-              <button
-                className="btn down-btn"
-                onClick={() => {
-                  // update frame value
-                  const newFrames = [...frames];
-                  if (frame[1] - 0.5 >= min) {
-                    newFrames[index][1] = frame[1] - 0.5;
-                    if (newFrames[index].length === 2) {
-                      newFrames[index].push(true);
-                    }
-                    setFrames(newFrames);
-                  }
-                }}
-              >
+              <button className="btn down-btn" onClick={decreesValue}>
                 <AiFillCaretDown />
               </button>
             </>

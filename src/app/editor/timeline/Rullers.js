@@ -6,31 +6,32 @@ const Rullers = ({ frames, zoom }) => {
   const { fps, frameCount } = useFramesStore((state) => state);
   //   local state
   const [isHovered, setIsHovered] = useState(false);
-  const [hoverdFrame, setHoverdFrame] = useState(0);
+  const [hoverdFrame, setHoverdFrame] = useState([0, 0, true]);
 
   return (
     <div className="rullers">
       <div className="timeline-ruller">
         {frames.map((frame, index) => {
-          return (
-            <div
-              onMouseEnter={() => {
-                setIsHovered(true);
-                setHoverdFrame(index);
-              }}
-              onMouseLeave={() => setIsHovered(false)}
-              key={index}
-              className="ruller-frame"
-              style={{ width: `${zoom}px` }}
-            >
-              {zoom > 20 && index % 5 === 0 && (
-                <span className="ruller-frame-number">{frame[0]}</span>
-              )}
-              {zoom < 20 && index % 10 === 0 && (
-                <span className="ruller-frame-number">{frame[0]}</span>
-              )}
-            </div>
-          );
+          if (index < frameCount)
+            return (
+              <div
+                onMouseEnter={() => {
+                  setIsHovered(true);
+                  setHoverdFrame(index);
+                }}
+                onMouseLeave={() => setIsHovered(false)}
+                key={index}
+                className="ruller-frame"
+                style={{ width: `${zoom}px` }}
+              >
+                {zoom > 20 && index % 5 === 0 && (
+                  <span className="ruller-frame-number">{frame[0]}</span>
+                )}
+                {zoom < 20 && index % 10 === 0 && (
+                  <span className="ruller-frame-number">{frame[0]}</span>
+                )}
+              </div>
+            );
         })}
       </div>
 
