@@ -69,6 +69,9 @@ const Timeline = ({
     while (frames.length < frameCount) {
       frames.push([frames.length, 0]);
     }
+    while (frames.length > frameCount) {
+      frames.pop();
+    }
   }, [fps, frameCount, frames]);
 
   // ##

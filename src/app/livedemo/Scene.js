@@ -1,3 +1,4 @@
+'use client';
 import { useFramesStore } from '@/store/framesStore';
 import framesToAnimation from '@/utils/framesToAnimation';
 import { PerspectiveCamera } from '@react-three/drei';
@@ -5,6 +6,7 @@ import { useFrame } from '@react-three/fiber';
 import React, { useEffect, useRef, useState } from 'react';
 import useTimeline from '../../../hooks/useTimeline';
 import * as THREE from 'three';
+import Timeline from '../editor/timeline/Timeline';
 
 const Scene = () => {
   // data
@@ -32,6 +34,7 @@ const Scene = () => {
   // BOXES
   // create boxes
   const [boxes, setBoxes] = useState([]);
+
   const boxSpacing = 15;
   const populateBoxes = () => {
     const boxesAmount = 10; // Adjust this value as needed.
@@ -84,30 +87,29 @@ const Scene = () => {
   const [rotationX, setRotationX] = useState(0);
   const [rotationY, setRotationY] = useState(0);
   const [rotationZ, setRotationZ] = useState(0);
-  // camera animation settings
-  useFrame((state, delta) => {
-    if (cameraRef.current && isRunning) {
-      setCameraPosition([
-        cameraRef.current.position.x,
-        cameraRef.current.position.y,
-        cameraRef.current.position.z,
-      ]);
-      populateBoxes();
-      // console.log(cameraPosition);
-      cameraRef.current.position.x += positionX / 30;
-      cameraRef.current.position.y += positionY / 30;
-      cameraRef.current.position.z -= positionZ / 30;
-      cameraRef.current.rotation.x += rotationX / 250;
-      cameraRef.current.rotation.y -= rotationY / 250;
-      cameraRef.current.rotation.z -= rotationZ / 250;
-    }
-  });
 
-  // animate
-  useEffect(() => {
-    // set the animated values as their timestamp match the timeline
-    // start
-    if (isRunning) {
+  // camera animation!
+  useFrame((state, delta) => {
+    // chack if camera exist
+    if (cameraRef.current && isRunning) {
+      // update boxes positon
+      if (timeLine % 2 === 0) {
+        setCameraPosition([
+          cameraRef.current.position.x,
+          cameraRef.current.position.y,
+          cameraRef.current.position.z,
+        ]);
+        populateBoxes();
+      }
+      // control camera movment speed
+      cameraRef.current.position.x += positionX / 47;
+      cameraRef.current.position.y += positionY / 47;
+      cameraRef.current.position.z -= positionZ / 47;
+      cameraRef.current.rotation.x += rotationX / 300;
+      cameraRef.current.rotation.y -= rotationY / 300;
+      cameraRef.current.rotation.z -= rotationZ / 300;
+
+      //  set frame movment value from global state
       animationSettings.translationX.map((timeStemp, index) => {
         if (timeLine === timeStemp[0]) setPositionX(timeStemp[1]);
       });
@@ -128,9 +130,10 @@ const Scene = () => {
       });
       // end animation when reachd animation length
       if (timeLine > animationSettings.animationLength) setIsRunning(false);
+
+      //
     }
-  }, [timeLine]);
-  //
+  });
 
   //
   return (
