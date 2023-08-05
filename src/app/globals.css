@@ -10,6 +10,8 @@
   --editorColor6: rgb(24, 24, 24);
   --green: green;
   --red: darkRed;
+  --blueTransperent: rgba(93, 255, 247, 0.5);
+  --redTransperent: rgb(168, 19, 19, 0.5);
   --editorTransitions: 0.2s;
   --channelHeightOpen: 15rem;
   --channelHeightClose: 5rem;
@@ -108,6 +110,10 @@ main {
 .inputs-container {
   display: flex;
 }
+.total-time {
+  color: var(--editorColor2);
+  margin-bottom: 0.5rem;
+}
 /* FORM - inputs */
 .fps-input,
 .frames-input {
@@ -150,6 +156,11 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.control-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 /* EDITOR - control panel - time display */
 .time-display {
@@ -310,6 +321,9 @@ main {
   color: var(--editorColor5);
   padding: 0.5rem;
   margin: 0 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .block-btn:hover {
   background: var(--editorColor5);
@@ -371,7 +385,33 @@ main {
   color: var(--editorColor5);
   background: var(--editorColor1);
 }
-/* BUTTONS - general use button */
+/* BUTTONS - 3d buttom in editor */
+.btn-3d {
+  font-size: 2rem;
+  padding: 0.1rem;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+.btn-3d span {
+  position: absolute;
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: 0.2s;
+}
+.btn-3d svg {
+  opacity: 0;
+  transition: 0.2s;
+  scale: 1.5;
+}
+.btn-3d:hover svg {
+  animation: spin 3s infinite linear alternate-reverse;
+  opacity: 1;
+  scale: 1;
+}
+.btn-3d:hover span {
+  opacity: 0.3;
+}
 
 footer {
   position: absolute;
@@ -396,9 +436,11 @@ canvas {
 
 /* MEDIA QUERIES */
 
-@media screen and (max-width: 1200px) {
-  .time-display {
-    scale: 0.6;
+@media screen and (max-width: 1400px) {
+  .editor-control-panel {
+    flex-direction: column-reverse;
+    height: 8rem;
+    margin-top: 4rem;
   }
 }
 @media screen and (max-width: 1000px) {
@@ -407,11 +449,6 @@ canvas {
   }
   .time-display {
     scale: 1;
-  }
-  .editor-control-panel {
-    flex-direction: column-reverse;
-    height: 8rem;
-    margin-top: 4rem;
   }
 
   .header h2 {
@@ -423,9 +460,9 @@ canvas {
 }
 
 /* TEMPORERY! */
-.linkk {
+.back-to-editor-btn {
   position: absolute;
-  top: 5rem;
+  top: -3rem;
   left: 5rem;
   z-index: 5;
 }
@@ -436,4 +473,85 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/*  */
+/* LOAIDNG */
+/*  */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5rem;
+  position: relative;
+}
+
+.loading span {
+  position: absolute;
+  z-index: 2;
+  font-size: 2rem;
+}
+.cube-container {
+  width: 10rem;
+  height: 10rem;
+  perspective: 600px;
+  perspective-origin: 50% 50%;
+}
+
+.cube {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  animation: spin 5s infinite ease-in-out alternate-reverse;
+}
+
+.cube-face-1,
+.cube-face-2,
+.cube-face-3,
+.cube-face-4,
+.cube-face-5,
+.cube-face-6 {
+  position: absolute;
+  width: 10rem;
+  height: 10rem;
+  opacity: 0.7;
+}
+
+.cube-face-1 {
+  background-color: var(--red); /* Red */
+  transform: translateZ(5rem);
+}
+
+.cube-face-2 {
+  background-color: var(--blueTransperent); /* Green */
+  transform: rotateY(90deg) translateZ(5rem);
+}
+
+.cube-face-3 {
+  background-color: var(--red); /* Blue */
+  transform: rotateY(180deg) translateZ(5rem);
+}
+
+.cube-face-4 {
+  background-color: var(--blueTransperent); /* Yellow */
+  transform: rotateY(-90deg) translateZ(5rem);
+}
+
+.cube-face-5 {
+  background-color: var(--blueTransperent); /* Magenta */
+  transform: rotateX(90deg) translateZ(5rem);
+}
+
+.cube-face-6 {
+  background-color: var(--blueTransperent); /* Cyan */
+  transform: rotateX(-90deg) translateZ(5rem);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotateX(0) rotateY(0);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
 }

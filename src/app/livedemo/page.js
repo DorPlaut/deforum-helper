@@ -10,7 +10,7 @@ const page = () => {
       <Canvas>
         <Scene />
       </Canvas>
-      <Link className="linkk" href={'/editor'}>
+      <Link className="back-to-editor-btn  block-btn btn" href={'/editor'}>
         back to editor
       </Link>
     </div>

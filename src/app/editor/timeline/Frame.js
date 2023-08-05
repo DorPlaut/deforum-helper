@@ -1,3 +1,5 @@
+import { useFramesStore } from '@/store/framesStore';
+import framesToTime from '@/utils/framesToTime';
 import React, { useEffect, useState } from 'react';
 import {
   AiFillCaretDown,
@@ -15,6 +17,7 @@ const Frame = ({
   setFrames,
   index,
 }) => {
+  const { fps } = useFramesStore((state) => state);
   // COLORS
   const [green, setGreen] = useState('');
   const [red, setRed] = useState('');
@@ -58,12 +61,14 @@ const Frame = ({
       setFrames(newFrames);
     }
   };
-  let timer;
+  const [timer, setTimer] = useState(null);
+
   const [isMouseDown, setIsMouseDown] = useState(false);
   return (
     <div
+      title={`frame:${frame[0]} time:${framesToTime(fps, frame[0])}`}
       className="frame"
-      style={{ width: `${zoom}px`, border: zoom < 5 && 'none' }}
+      style={{ width: `${zoom}px`, border: zoom < 15 && 'none' }}
     >
       {selected && (
         <>
@@ -96,26 +101,40 @@ const Frame = ({
               <button
                 className="btn up-btn"
                 onClick={increesValue}
-                // onMouseDown={() => {
-                //   setIsMouseDown(true);
-                //   timer = setInterval(() => {
-                //     console.log('runtime');
-                //     increesValue();
-                //   }, 200);
-                // }}
-                // onMouseUp={() => {
-                //   setIsMouseDown(false);
-                //   clearInterval(timer);
-                // }}
-                // onMouseLeave={() => {
-                //   setIsMouseDown(false);
-                //   clearInterval(timer);
-                // }}
+                onMouseDown={() => {
+                  setTimer(
+                    setInterval(() => {
+                      increesValue();
+                    }, 150)
+                  );
+                }}
+                onMouseUp={() => {
+                  clearInterval(timer);
+                }}
+                onMouseLeave={() => {
+                  clearInterval(timer);
+                }}
               >
                 <AiFillCaretUp />
               </button>
               <span className="frame-value">{frame[1]}</span>
-              <button className="btn down-btn" onClick={decreesValue}>
+              <button
+                className="btn down-btn"
+                onClick={decreesValue}
+                onMouseDown={() => {
+                  setTimer(
+                    setInterval(() => {
+                      decreesValue();
+                    }, 150)
+                  );
+                }}
+                onMouseUp={() => {
+                  clearInterval(timer);
+                }}
+                onMouseLeave={() => {
+                  clearInterval(timer);
+                }}
+              >
                 <AiFillCaretDown />
               </button>
             </>

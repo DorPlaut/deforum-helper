@@ -102,11 +102,11 @@ const Scene = () => {
         populateBoxes();
       }
       // control camera movment speed
-      cameraRef.current.position.x += positionX / 47;
-      cameraRef.current.position.y += positionY / 47;
-      cameraRef.current.position.z -= positionZ / 47;
-      cameraRef.current.rotation.x += rotationX / 300;
-      cameraRef.current.rotation.y -= rotationY / 300;
+      cameraRef.current.position.x += positionX / 53;
+      cameraRef.current.position.y += positionY / 53;
+      cameraRef.current.position.z -= positionZ / 48;
+      cameraRef.current.rotation.x += rotationX / 250;
+      cameraRef.current.rotation.y -= rotationY / 250;
       cameraRef.current.rotation.z -= rotationZ / 300;
 
       //  set frame movment value from global state

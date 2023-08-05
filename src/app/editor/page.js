@@ -9,11 +9,6 @@ const page = () => {
     <div>
       <Form />
       <Editor />
-      <div className="btn-container">
-        <Link className="btn block-btn " href={'/livedemo'}>
-          experimental live view with 3d
-        </Link>
-      </div>
     </div>
   );
 };

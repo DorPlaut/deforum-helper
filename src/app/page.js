@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import Loading from './loading';
 
 export default function Home() {
   return (

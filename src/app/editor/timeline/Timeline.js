@@ -4,6 +4,7 @@ import framesToTime from '@/utils/framesToTime';
 import React, { useEffect, useState } from 'react';
 import Frame from './Frame';
 import Rullers from './Rullers';
+import Loading from '@/app/loading';
 
 const Timeline = ({
   selected,
@@ -161,34 +162,42 @@ const Timeline = ({
 
   return (
     <>
-      {first && <Rullers zoom={zoom} frames={frames} />}
-
-      <div
-        onClick={() => setSelectedChannel(channelName)}
-        className="timeline"
-        style={{
-          height: selected ? heightOpen : heightClose,
-          background: selected ? color1 : color2,
-        }}
-      >
-        {frames.map((frame, index) => {
-          const isAnchor = frame.length === 3;
-          if (frameCount > index)
-            return (
-              <Frame
-                key={index}
-                index={index}
-                frame={frame}
-                frames={frames}
-                setFrames={setFrames}
-                zoom={zoom}
-                isAnchor={isAnchor}
-                selected={selected}
-                getFrameHeight={getFrameHeight}
-              />
-            );
-        })}
-      </div>
+      {first && (
+        <>
+          <Rullers zoom={zoom} frames={frames} />
+          {frames.length <= 1 && <Loading />}
+        </>
+      )}
+      {frames.length > 1 && (
+        <>
+          <div
+            onClick={() => setSelectedChannel(channelName)}
+            className="timeline"
+            style={{
+              height: selected ? heightOpen : heightClose,
+              background: selected ? color1 : color2,
+            }}
+          >
+            {frames.map((frame, index) => {
+              const isAnchor = frame.length === 3;
+              if (frameCount > index)
+                return (
+                  <Frame
+                    key={index}
+                    index={index}
+                    frame={frame}
+                    frames={frames}
+                    setFrames={setFrames}
+                    zoom={zoom}
+                    isAnchor={isAnchor}
+                    selected={selected}
+                    getFrameHeight={getFrameHeight}
+                  />
+                );
+            })}
+          </div>
+        </>
+      )}
     </>
   );
 };

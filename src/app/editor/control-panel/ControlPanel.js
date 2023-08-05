@@ -6,9 +6,11 @@ import {
   AiOutlineDownload,
   AiOutlineUpload,
 } from 'react-icons/ai';
+import { BiCube } from 'react-icons/bi';
 import axios from 'axios';
 import formatArrayToString from '@/utils/formatArrayToString';
 import formatStringToArray from '@/utils/formatStringToArray';
+import Link from 'next/link';
 
 const ControlPanel = ({ zoom, setZoom }) => {
   // data
@@ -117,10 +119,22 @@ const ControlPanel = ({ zoom, setZoom }) => {
   //
   return (
     <div className="editor-control-panel">
-      <ZoomFader zoom={zoom} setZoom={setZoom} />
+      <div className="control-buttons">
+        <ZoomFader zoom={zoom} setZoom={setZoom} />
+        <Link
+          className="btn block-btn btn-3d "
+          href={'/livedemo'}
+          title="Live view your timeline animation"
+        >
+          <span>3D</span>
+          <BiCube />
+        </Link>
+      </div>
+
       <div className="control-buttons">
         <button
           className="btn block-btn"
+          title="Upload settings from .txt. must match stable defusion deforum setting file format"
           onClick={async () => {
             handleUpload();
           }}
@@ -129,6 +143,7 @@ const ControlPanel = ({ zoom, setZoom }) => {
         </button>
         <button
           className="btn block-btn"
+          title="Download settings as .txt file. can bu loaded to stable defusion deforum through  Automatic1111"
           onClick={async () => {
             handleDownload();
           }}
@@ -137,6 +152,7 @@ const ControlPanel = ({ zoom, setZoom }) => {
         </button>
         <button
           className="btn block-btn"
+          title="Copy settings to clipboard. can be pasted to stable defusion deforum settings file"
           onClick={() => {
             navigator.clipboard.writeText(`{
                 fps: ${fps},

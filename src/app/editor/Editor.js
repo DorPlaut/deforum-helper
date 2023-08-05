@@ -1,9 +1,10 @@
 'use client';
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import Timeline from './timeline/Timeline';
 import ControlPanel from './control-panel/ControlPanel';
 import Channel from './Channel';
 import Link from 'next/link';
+import Loading from '../loading';
 
 const Editor = () => {
   // ## CHANNELS ##
@@ -37,6 +38,7 @@ const Editor = () => {
           </div>
 
           {/* channels */}
+
           {channels.map((channelName, index) => {
             return (
               <Channel
@@ -51,19 +53,21 @@ const Editor = () => {
 
         {/* timelines */}
         <div className="frames">
-          {channels.map((channelName, index) => {
-            return (
-              <div key={index}>
-                <Timeline
-                  selected={channelName === selectedChannel}
-                  setSelectedChannel={setSelectedChannel}
-                  channelName={channelName}
-                  first={index === 0}
-                  zoom={zoom}
-                />
-              </div>
-            );
-          })}
+          <Suspense fallback={<Loading />}>
+            {channels.map((channelName, index) => {
+              return (
+                <div key={index}>
+                  <Timeline
+                    selected={channelName === selectedChannel}
+                    setSelectedChannel={setSelectedChannel}
+                    channelName={channelName}
+                    first={index === 0}
+                    zoom={zoom}
+                  />
+                </div>
+              );
+            })}
+          </Suspense>
         </div>
       </div>
     </div>
