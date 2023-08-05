@@ -44,6 +44,7 @@ export default function Home() {
             - Control panel with copy and download buttons to get the full
             settings ready to go with Deforum.
           </li>
+          <li>- Live 3D visualzetion to your animation</li>
         </ul>
         <br />
         <Link className="btn block-btn editor-link" href={'/editor'}>
