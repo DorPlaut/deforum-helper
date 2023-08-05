@@ -386,7 +386,8 @@ main {
   background: var(--editorColor1);
 }
 /* BUTTONS - 3d buttom in editor */
-.btn-3d {
+.btn-3d,
+.reset-btn {
   font-size: 2rem;
   padding: 0.1rem;
   border-radius: 50%;
@@ -404,6 +405,7 @@ main {
   transition: 0.2s;
   scale: 1.5;
 }
+/*  */
 .btn-3d:hover svg {
   animation: spin 3s infinite linear alternate-reverse;
   opacity: 1;

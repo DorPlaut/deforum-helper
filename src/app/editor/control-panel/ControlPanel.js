@@ -6,11 +6,12 @@ import {
   AiOutlineDownload,
   AiOutlineUpload,
 } from 'react-icons/ai';
-import { BiCube } from 'react-icons/bi';
+import { BiCube, BiRefresh } from 'react-icons/bi';
 import axios from 'axios';
 import formatArrayToString from '@/utils/formatArrayToString';
 import formatStringToArray from '@/utils/formatStringToArray';
 import Link from 'next/link';
+import { BsFillTrash3Fill } from 'react-icons/bs';
 
 const ControlPanel = ({ zoom, setZoom }) => {
   // data
@@ -129,6 +130,15 @@ const ControlPanel = ({ zoom, setZoom }) => {
           <span>3D</span>
           <BiCube />
         </Link>
+        <button
+          title="Start over"
+          className="btn block-btn reset-btn"
+          onClick={() => {
+            window.location.reload(false);
+          }}
+        >
+          <BiRefresh />
+        </button>
       </div>
 
       <div className="control-buttons">
