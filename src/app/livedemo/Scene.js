@@ -106,12 +106,14 @@ const Scene = () => {
       const direction = new THREE.Vector3();
       cameraRef.current.getWorldDirection(direction);
       // position
+
+      const up = new THREE.Vector3(0, 1, 0);
+      up.applyQuaternion(cameraRef.current.quaternion);
+
       const right = new THREE.Vector3();
-      right.crossVectors(direction, state.camera.up);
+      right.crossVectors(direction, up);
 
-      const up = new THREE.Vector3();
-      up.crossVectors(right, direction);
-
+      //
       const moveX = right.multiplyScalar(-(positionX / 50));
       const moveY = up.multiplyScalar(positionY / 50);
       const moveZ = direction.multiplyScalar(-(positionZ / 50));
@@ -123,11 +125,6 @@ const Scene = () => {
       cameraRef.current.rotation.x += rotationX / 250;
       cameraRef.current.rotation.y -= rotationY / 250;
       cameraRef.current.rotation.z -= rotationZ / 300;
-
-      // update boxes
-      // boxesRef.current.rotation.x += rotationX / 250;
-      // boxesRef.current.rotation.y -= rotationY / 250;
-      // boxesRef.current.rotation.z -= rotationZ / 300;
 
       //  set frame movment value from global state
       animationSettings.translationX.map((timeStemp, index) => {
