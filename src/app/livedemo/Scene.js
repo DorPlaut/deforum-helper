@@ -3,7 +3,7 @@ import { useFramesStore } from '@/store/framesStore';
 import framesToAnimation from '@/utils/framesToAnimation';
 import { PerspectiveCamera } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import useTimeline from '../../../hooks/useTimeline';
 import * as THREE from 'three';
 import Timeline from '../editor/timeline/Timeline';
@@ -33,6 +33,7 @@ const Scene = () => {
 
   // BOXES
   // create boxes
+  const boxesRef = useRef();
   const [boxes, setBoxes] = useState([]);
 
   const boxSpacing = 15;
@@ -102,12 +103,31 @@ const Scene = () => {
         populateBoxes();
       }
       // control camera movment speed
-      cameraRef.current.position.x += positionX / 53;
-      cameraRef.current.position.y += positionY / 53;
-      cameraRef.current.position.z -= positionZ / 48;
+      const direction = new THREE.Vector3();
+      cameraRef.current.getWorldDirection(direction);
+      // position
+      const right = new THREE.Vector3();
+      right.crossVectors(direction, state.camera.up);
+
+      const up = new THREE.Vector3();
+      up.crossVectors(right, direction);
+
+      const moveX = right.multiplyScalar(-(positionX / 53));
+      const moveY = up.multiplyScalar(-(positionY / 53));
+      const moveZ = direction.multiplyScalar(-(positionZ / 48));
+
+      cameraRef.current.position.add(moveX);
+      cameraRef.current.position.add(moveY);
+      cameraRef.current.position.add(moveZ);
+      //
       cameraRef.current.rotation.x += rotationX / 250;
       cameraRef.current.rotation.y -= rotationY / 250;
       cameraRef.current.rotation.z -= rotationZ / 300;
+
+      // update boxes
+      // boxesRef.current.rotation.x += rotationX / 250;
+      // boxesRef.current.rotation.y -= rotationY / 250;
+      // boxesRef.current.rotation.z -= rotationZ / 300;
 
       //  set frame movment value from global state
       animationSettings.translationX.map((timeStemp, index) => {
@@ -153,7 +173,7 @@ const Scene = () => {
         <fog attach="fog" color={'black'} near={0} far={87} />
       </>
       {/* elements */}
-      {...boxes}
+      <mesh ref={boxesRef}>{...boxes}</mesh>
     </>
   );
 };
