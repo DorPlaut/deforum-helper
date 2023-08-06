@@ -359,7 +359,8 @@ main {
 }
 /* BUTTONS - in channel controls */
 .copy-btn,
-.minimize-btn {
+.minimize-btn,
+.paste-btn {
   position: absolute;
   color: var(--editorColor1);
   background: none;
@@ -375,13 +376,19 @@ main {
   left: 0.5rem;
   font-size: 1.5rem;
 }
+.paste-btn {
+  top: 2rem;
+  left: 2.5rem;
+  font-size: 1.5rem;
+}
 .minimize-btn {
   bottom: 0.5rem;
   right: 0.5rem;
   font-size: 1rem;
 }
 .minimize-btn:hover,
-.copy-btn:hover {
+.copy-btn:hover,
+.paste-btn:hover {
   color: var(--editorColor5);
   background: var(--editorColor1);
 }

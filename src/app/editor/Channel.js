@@ -1,14 +1,29 @@
 'use client';
 import { useFramesStore } from '@/store/framesStore';
 import formatArrayToString from '@/utils/formatArrayToString';
+import formatStringToArray from '@/utils/formatStringToArray';
 import React, { useEffect, useState } from 'react';
 import { AiFillCaretDown, AiFillCaretUp, AiOutlineCopy } from 'react-icons/ai';
+import { ImPaste } from 'react-icons/im';
+import { LiaCopy, LiaPasteSolid } from 'react-icons/lia';
 
 const Channel = ({ channelName, selectedChannel, setSelectedChannel }) => {
   // data
-  const { transX, transY, transZ, rotX, rotY, rotZ } = useFramesStore(
-    (state) => state
-  );
+  const {
+    frameCount,
+    transX,
+    transY,
+    transZ,
+    rotX,
+    rotY,
+    rotZ,
+    setTransX,
+    setTransY,
+    setTransZ,
+    setRotX,
+    setRotY,
+    setRotZ,
+  } = useFramesStore((state) => state);
 
   // dynamic css
   const [heightOpen, setHeightOpen] = useState('15rem');
@@ -28,6 +43,11 @@ const Channel = ({ channelName, selectedChannel, setSelectedChannel }) => {
       );
     }
   }, []);
+
+  // regex
+
+  const regexPattern = /^(\d+:\(-?\d+(\.\d+)?\),\s*)*\d+:\(-?\d+(\.\d+)?\)$/;
+
   return (
     <div
       className="channel"
@@ -57,7 +77,35 @@ const Channel = ({ channelName, selectedChannel, setSelectedChannel }) => {
                 navigator.clipboard.writeText(formatArrayToString(rotZ));
             }}
           >
-            <AiOutlineCopy />
+            <LiaCopy />
+          </button>
+          <button
+            title="Paste from clipboard"
+            className="btn paste-btn"
+            onClick={() => {
+              navigator.clipboard.readText().then((text) => {
+                if (!regexPattern.test(text)) {
+                  alert('Invalid value');
+                  return;
+                }
+
+                //
+                if (channelName === 'Translation X')
+                  setTransX(formatStringToArray(text, frameCount));
+                if (channelName === 'Translation Y')
+                  setTransY(formatStringToArray(text, frameCount));
+                if (channelName === 'Translation Z')
+                  setTransZ(formatStringToArray(text, frameCount));
+                if (channelName === 'Rotation X')
+                  setRotX(formatStringToArray(text, frameCount));
+                if (channelName === 'Rotation Y')
+                  setRotY(formatStringToArray(text, frameCount));
+                if (channelName === 'Rotation Z')
+                  setRotZ(formatStringToArray(text, frameCount));
+              });
+            }}
+          >
+            <LiaPasteSolid />
           </button>
           <button
             title="Minimize"
