@@ -112,9 +112,9 @@ const Scene = () => {
       const up = new THREE.Vector3();
       up.crossVectors(right, direction);
 
-      const moveX = right.multiplyScalar(-(positionX / 53));
-      const moveY = up.multiplyScalar(-(positionY / 53));
-      const moveZ = direction.multiplyScalar(-(positionZ / 48));
+      const moveX = right.multiplyScalar(-(positionX / 50));
+      const moveY = up.multiplyScalar(positionY / 50);
+      const moveZ = direction.multiplyScalar(-(positionZ / 50));
 
       cameraRef.current.position.add(moveX);
       cameraRef.current.position.add(moveY);
