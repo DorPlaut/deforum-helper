@@ -37,11 +37,11 @@ const Frame = ({
 
   //
   // handle increes value
-  const increesValue = () => {
+  const increesValue = (increment) => {
     // update frame value
     const newFrames = [...frames];
-    if (frame[1] + 0.5 <= max) {
-      newFrames[index][1] = frame[1] + 0.5;
+    if (frame[1] + increment <= max) {
+      newFrames[index][1] = frame[1] + increment;
       if (newFrames[index].length === 2) {
         newFrames[index].push(true);
       }
@@ -50,11 +50,11 @@ const Frame = ({
     }
   };
   // handle decrees value
-  const decreesValue = () => {
+  const decreesValue = (decrement) => {
     // update frame value
     const newFrames = [...frames];
-    if (frame[1] - 0.5 >= min) {
-      newFrames[index][1] = frame[1] - 0.5;
+    if (frame[1] - decrement >= min) {
+      newFrames[index][1] = frame[1] - decrement;
       if (newFrames[index].length === 2) {
         newFrames[index].push(true);
       }
@@ -100,11 +100,11 @@ const Frame = ({
             <>
               <button
                 className="btn up-btn"
-                onClick={increesValue}
+                onClick={() => increesValue(0.01)}
                 onMouseDown={() => {
                   setTimer(
                     setInterval(() => {
-                      increesValue();
+                      increesValue(0.5);
                     }, 150)
                   );
                 }}
@@ -117,14 +117,14 @@ const Frame = ({
               >
                 <AiFillCaretUp />
               </button>
-              <span className="frame-value">{frame[1]}</span>
+              <span className="frame-value">{frame[1].toFixed(2)}</span>
               <button
                 className="btn down-btn"
-                onClick={decreesValue}
+                onClick={() => decreesValue(0.01)}
                 onMouseDown={() => {
                   setTimer(
                     setInterval(() => {
-                      decreesValue();
+                      decreesValue(0.5);
                     }, 150)
                   );
                 }}
