@@ -443,6 +443,21 @@ footer {
 canvas {
 }
 
+.back-to-editor-btn {
+  position: absolute;
+  top: -3rem;
+  left: 5rem;
+  z-index: 5;
+}
+
+.btn-container {
+  /* background: red; */
+  height: 7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* MEDIA QUERIES */
 
 @media screen and (max-width: 1400px) {
@@ -450,6 +465,9 @@ canvas {
     flex-direction: column-reverse;
     height: 8rem;
     margin-top: 4rem;
+  }
+  .back-to-editor-btn {
+    transform: translateY(4rem) translateX(-4rem);
   }
 }
 @media screen and (max-width: 1000px) {
@@ -466,22 +484,6 @@ canvas {
   .editor {
     margin: 1rem 1rem;
   }
-}
-
-/* TEMPORERY! */
-.back-to-editor-btn {
-  position: absolute;
-  top: -3rem;
-  left: 5rem;
-  z-index: 5;
-}
-
-.btn-container {
-  /* background: red; */
-  height: 7rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /*  */
