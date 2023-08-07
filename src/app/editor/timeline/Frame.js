@@ -108,10 +108,23 @@ const Frame = ({
                     }, 150)
                   );
                 }}
+                onTouchStart={() => {
+                  setTimer(
+                    setInterval(() => {
+                      increesValue(0.5);
+                    }, 150)
+                  );
+                }}
                 onMouseUp={() => {
                   clearInterval(timer);
                 }}
                 onMouseLeave={() => {
+                  clearInterval(timer);
+                }}
+                onTouchEnd={() => {
+                  clearInterval(timer);
+                }}
+                onTouchMove={() => {
                   clearInterval(timer);
                 }}
               >
@@ -128,10 +141,23 @@ const Frame = ({
                     }, 150)
                   );
                 }}
+                onTouchStart={() => {
+                  setTimer(
+                    setInterval(() => {
+                      decreesValue(0.5);
+                    }, 150)
+                  );
+                }}
                 onMouseUp={() => {
                   clearInterval(timer);
                 }}
                 onMouseLeave={() => {
+                  clearInterval(timer);
+                }}
+                onTouchEnd={() => {
+                  clearInterval(timer);
+                }}
+                onTouchMove={() => {
                   clearInterval(timer);
                 }}
               >
