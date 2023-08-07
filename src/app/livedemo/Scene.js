@@ -2,7 +2,7 @@
 import { useFramesStore } from '@/store/framesStore';
 import framesToAnimation from '@/utils/framesToAnimation';
 import { PerspectiveCamera } from '@react-three/drei';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import React, { use, useEffect, useRef, useState } from 'react';
 import useTimeline from '../../../hooks/useTimeline';
 import * as THREE from 'three';
@@ -14,6 +14,8 @@ const Scene = () => {
     useFramesStore((state) => state);
   // camera settings
   const cameraRef = useRef();
+  const { camera } = useThree();
+
   const [cameraPosition, setCameraPosition] = useState([0, 0, 0]);
   // round camera position
   const roundToNearest = (num, multiple) =>
@@ -33,7 +35,6 @@ const Scene = () => {
 
   // BOXES
   // create boxes
-  const boxesRef = useRef();
   const [boxes, setBoxes] = useState([]);
 
   const boxSpacing = 15;
@@ -102,29 +103,33 @@ const Scene = () => {
         ]);
         populateBoxes();
       }
-      // control camera movment speed
+      // control camera movment
+      // POSITION
+      // get ref position
       const direction = new THREE.Vector3();
       cameraRef.current.getWorldDirection(direction);
-      // position
-
       const up = new THREE.Vector3(0, 1, 0);
       up.applyQuaternion(cameraRef.current.quaternion);
-
       const right = new THREE.Vector3();
       right.crossVectors(direction, up);
-
-      //
+      // set animation speed
       const moveX = right.multiplyScalar(-(positionX / 50));
       const moveY = up.multiplyScalar(positionY / 50);
       const moveZ = direction.multiplyScalar(-(positionZ / 50));
-
+      // add the values to the ref to animate
       cameraRef.current.position.add(moveX);
       cameraRef.current.position.add(moveY);
       cameraRef.current.position.add(moveZ);
-      //
-      cameraRef.current.rotation.x += rotationX / 250;
-      cameraRef.current.rotation.y -= rotationY / 250;
-      cameraRef.current.rotation.z -= rotationZ / 300;
+
+      //  ROTATION
+
+      const rotateX = rotationX / 250;
+      const rotateY = rotationY / 250;
+      const rotateZ = rotationZ / 250;
+
+      cameraRef.current.rotateX(rotateX);
+      cameraRef.current.rotateY(-rotateY);
+      cameraRef.current.rotateZ(-rotateZ);
 
       //  set frame movment value from global state
       animationSettings.translationX.map((timeStemp, index) => {
@@ -157,8 +162,13 @@ const Scene = () => {
     <>
       {/* cameras */}
       <mesh ref={cameraRef}>
+        {/* <mesh position={[0, 0.9, -2]} scale={0.2}>
+          <boxGeometry args={[1, 1, 1]} />
+          <meshBasicMaterial color={'red'} />
+        </mesh> */}
         <PerspectiveCamera makeDefault />
       </mesh>
+
       {/* light */}
       <ambientLight intensity={2} />
       {/* fog */}
@@ -170,7 +180,7 @@ const Scene = () => {
         <fog attach="fog" color={'black'} near={0} far={87} />
       </>
       {/* elements */}
-      <mesh ref={boxesRef}>{...boxes}</mesh>
+      <mesh>{...boxes}</mesh>
     </>
   );
 };
