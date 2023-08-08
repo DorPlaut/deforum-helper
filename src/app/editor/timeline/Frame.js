@@ -6,6 +6,7 @@ import {
   AiFillCaretUp,
   AiOutlinePoweroff,
 } from 'react-icons/ai';
+import FrameFader from './FrameFader';
 
 const Frame = ({
   zoom,
@@ -80,6 +81,9 @@ const Frame = ({
   // is editing valeu
   const [isEditMode, setIsEditMode] = useState(false);
   const [temporeryValue, setTemporeryValue] = useState(frame[1]);
+  const stopTimer = () => {
+    clearInterval(timer);
+  };
 
   return (
     <div
@@ -132,39 +136,39 @@ const Frame = ({
                     }, 150)
                   );
                 }}
-                onMouseUp={() => {
-                  clearInterval(timer);
-                }}
-                onMouseLeave={() => {
-                  clearInterval(timer);
-                }}
-                onTouchEnd={() => {
-                  clearInterval(timer);
-                }}
-                onTouchMove={() => {
-                  clearInterval(timer);
-                }}
+                onMouseUp={stopTimer}
+                onMouseLeave={stopTimer}
+                onTouchEnd={stopTimer}
+                onTouchMove={stopTimer}
               >
                 <AiFillCaretUp />
               </button>
               {/* frame value */}
+              <div>
+                <FrameFader value={frame[1]} setValue={setValue} />
+              </div>
               <div className="frame-value">
                 {isEditMode ? (
-                  <input
-                    onBlur={(e) => {
-                      setValue(e.target.value);
-                      setIsEditMode(false);
-                    }}
-                    type="number"
-                    value={temporeryValue}
-                    onChange={(e) => {
-                      setTemporeryValue(e.target.value);
-                    }}
-                    max={max}
-                    min={min}
-                  />
+                  <form>
+                    <input
+                      onBlur={(e) => {
+                        e.preventDefault();
+                        setValue(e.target.value);
+                        setIsEditMode(false);
+                      }}
+                      type="number"
+                      value={temporeryValue}
+                      onChange={(e) => {
+                        setTemporeryValue(e.target.value);
+                      }}
+                      max={max}
+                      min={min}
+                    />
+                  </form>
                 ) : (
-                  <span onClick={() => setIsEditMode(true)}>{frame[1]}</span>
+                  <span onDoubleClick={() => setIsEditMode(true)}>
+                    {frame[1]}
+                  </span>
                 )}
               </div>
 
@@ -185,18 +189,10 @@ const Frame = ({
                     }, 150)
                   );
                 }}
-                onMouseUp={() => {
-                  clearInterval(timer);
-                }}
-                onMouseLeave={() => {
-                  clearInterval(timer);
-                }}
-                onTouchEnd={() => {
-                  clearInterval(timer);
-                }}
-                onTouchMove={() => {
-                  clearInterval(timer);
-                }}
+                onMouseUp={stopTimer}
+                onMouseLeave={stopTimer}
+                onTouchEnd={stopTimer}
+                onTouchMove={stopTimer}
               >
                 <AiFillCaretDown />
               </button>

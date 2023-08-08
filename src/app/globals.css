@@ -288,6 +288,40 @@ main {
   margin: 0;
 }
 
+/* Frame fader controller  */
+.frame-fader-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  right: 0;
+  top: 0;
+}
+
+.frame-fader-inner {
+  height: 100%;
+  width: 100%;
+  /* rotate: 180deg; */
+}
+.frame-fader {
+  height: 100%;
+  width: 100%;
+}
+.frame-fader-handle {
+  background: var(--editorColor6);
+  opacity: 0.5;
+  width: 100%;
+  height: 1rem;
+  position: relative;
+  z-index: 10;
+}
+.frame-fader-handle:hover {
+  background: var(--editorColor3);
+}
+.frame-fader-handle:active {
+  border-top: solid 1px var(--editorColor2);
+  border-bottom: solid 1px var(--editorColor2);
+}
+
 /*  */
 .frame-inner-up {
   position: absolute;
@@ -370,6 +404,7 @@ main {
 /* BUTTONS - in frame value control */
 .up-btn,
 .down-btn {
+  z-index: 2;
   background: none;
   font-size: 1.2rem;
   display: flex;
