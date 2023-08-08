@@ -73,7 +73,7 @@ const Timeline = ({
     while (frames.length > frameCount) {
       frames.pop();
     }
-  }, [fps, frameCount, frames]);
+  }, [fps, frameCount]);
 
   // ##
   // set inner div height to represent tranistions

@@ -83,11 +83,6 @@ main {
   margin-bottom: 0.5rem;
 }
 
-.editor-link {
-  /* text-decoration: none; */
-  /* padding: 0.7rem; */
-}
-
 /* FORM */
 .form-container {
   display: flex;
@@ -443,6 +438,65 @@ footer {
 canvas {
 }
 
+/* 3d live menu */
+.live-menu-container {
+  /* background: red; */
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+.live-menu {
+  background: var(--editorColor5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 2rem;
+  border-radius: 0 0 20px 20px;
+  border-bottom: solid 1px var(--editorColor3);
+  border-right: solid 1px var(--editorColor3);
+  border-left: solid 1px var(--editorColor3);
+  width: calc(100vw - 1rem);
+  max-width: 30rem;
+}
+/* .live-menu div,
+.live-menu button {
+  margin: 0 0.2rem;
+} */
+.live-time-display {
+  border-radius: 20px;
+  background: var(--editorColor2);
+  transition: 0.2s;
+  font-size: 1rem;
+  color: var(--editorColor5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  width: 5.5rem;
+}
+.live-time-display svg {
+  margin-right: 0.2rem;
+}
+.live-btn {
+  border-radius: 50%;
+  margin: 0;
+}
+.live-btn svg {
+  scale: 1.5;
+}
+.pause-btn {
+  background: var(--red);
+  color: var(--editorColor2);
+}
+.play-btn {
+  background: var(--green);
+  color: var(--editorColor2);
+}
+
+/*  */
+/*  */
 .back-to-editor-btn {
   position: absolute;
   top: -3rem;
@@ -467,7 +521,7 @@ canvas {
     margin-top: 4rem;
   }
   .back-to-editor-btn {
-    transform: translateY(4rem) translateX(-4rem);
+    transform: translateY(calc(100vh - 8rem)) translateX(-4rem);
   }
 }
 @media screen and (max-width: 1000px) {

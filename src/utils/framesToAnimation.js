@@ -10,13 +10,6 @@ const framesToAnimation = (
   rotY,
   rotZ
 ) => {
-  // filter arrays to get only active frams
-  // let translationX = transX.filter((frame, index) => frame.length === 3);
-  // let translationY = transY.filter((frame, index) => frame.length === 3);
-  // let translationZ = transZ.filter((frame, index) => frame.length === 3);
-  // let rotationX = rotX.filter((frame, index) => frame.length === 3);
-  // let rotationY = rotY.filter((frame, index) => frame.length === 3);
-  // let rotationZ = rotZ.filter((frame, index) => frame.length === 3);
   let translationX = transX;
   let translationY = transY;
   let translationZ = transZ;
@@ -75,18 +68,6 @@ const framesToAnimation = (
     return interpolatedValue;
   };
 
-  //
-  //
-
-  // converts inner arreys
-  // const convertArray = (arr) => {
-  //   const newArr = arr.map((inner, index) => {
-  //     const frameTime = timeToTenthSeconds(framesToTime(fps, inner[0]));
-  //     return [frameTime, inner[1]];
-  //   });
-  //   return newArr;
-  // };
-
   // find next anchor frame
   const findAnchor = (index, direction, frames) => {
     let newIndex;
@@ -107,7 +88,7 @@ const framesToAnimation = (
       const frameTime = timeToTenthSeconds(framesToTime(fps, frame[0]));
       const isAnchor = frame.length === 3;
       if (isAnchor) {
-        return [frameTime, frame[1]];
+        return [frameTime, frame[1], frame[0], isAnchor];
       } else {
         const nextAnchorFrame = findAnchor(index, 'next', arr);
         const previousAnchorFrame = findAnchor(index, 'prev', arr);
@@ -115,11 +96,13 @@ const framesToAnimation = (
           return [
             frameTime,
             interpolateValue(previousAnchorFrame, frame, nextAnchorFrame),
+            frame[0],
+            isAnchor,
           ];
         } else if (previousAnchorFrame && frame && !nextAnchorFrame) {
-          return [frameTime, previousAnchorFrame[1]];
+          return [frameTime, previousAnchorFrame[1], frame[0], isAnchor];
         } else {
-          return [frameTime, 0];
+          return [frameTime, 0, frame[0], isAnchor];
         }
       }
     });
@@ -136,19 +119,6 @@ const framesToAnimation = (
     rotationY: populateNonAnchorFrames(rotationY),
     rotationZ: populateNonAnchorFrames(rotationZ),
   };
-  // const animationSettings = {
-  //   fps: fps,
-  //   frameCount: frameCount,
-  //   animationLength: length,
-  //   translationX: convertArray(translationX),
-  //   translationY: convertArray(translationY),
-  //   translationZ: convertArray(translationZ),
-  //   rotationX: convertArray(rotationX),
-  //   rotationY: convertArray(rotationY),
-  //   rotationZ: convertArray(rotationZ),
-  // };
-  // console.log(animationSettings);
-
   return animationSettings;
 };
 export default framesToAnimation;

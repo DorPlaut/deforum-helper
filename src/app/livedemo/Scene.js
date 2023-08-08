@@ -1,12 +1,13 @@
 'use client';
 import { useFramesStore } from '@/store/framesStore';
 import framesToAnimation from '@/utils/framesToAnimation';
-import { PerspectiveCamera } from '@react-three/drei';
+import { Center, Html, PerspectiveCamera } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import React, { use, useEffect, useRef, useState } from 'react';
 import useTimeline from '../../../hooks/useTimeline';
 import * as THREE from 'three';
 import Timeline from '../editor/timeline/Timeline';
+import LiveMenu from './LiveMenu';
 
 const Scene = () => {
   // data
@@ -79,7 +80,7 @@ const Scene = () => {
 
   // ANIMATION
   // animation timeline
-  const [timeLine, setTimeLine] = useState(-0.5);
+  const [timeLine, setTimeLine] = useState(0);
   const [isRunning, setIsRunning] = useState(true);
   useTimeline(isRunning, setTimeLine);
   // camera animation values
@@ -151,7 +152,7 @@ const Scene = () => {
         if (timeLine === timeStemp[0]) setRotationZ(timeStemp[1]);
       });
       // end animation when reachd animation length
-      if (timeLine > animationSettings.animationLength) setIsRunning(false);
+      if (timeLine >= animationSettings.animationLength) setIsRunning(false);
 
       //
     }
@@ -162,10 +163,17 @@ const Scene = () => {
     <>
       {/* cameras */}
       <mesh ref={cameraRef}>
-        {/* <mesh position={[0, 0.9, -2]} scale={0.2}>
-          <boxGeometry args={[1, 1, 1]} />
-          <meshBasicMaterial color={'red'} />
-        </mesh> */}
+        <Center>
+          <Html>
+            <LiveMenu
+              timeLine={timeLine}
+              setTimeLine={setTimeLine}
+              isRunning={isRunning}
+              setIsRunning={setIsRunning}
+              animationSettings={animationSettings}
+            />
+          </Html>
+        </Center>
         <PerspectiveCamera makeDefault />
       </mesh>
 

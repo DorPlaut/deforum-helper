@@ -101,12 +101,20 @@ const ControlPanel = ({ zoom, setZoom }) => {
           // update the global state with the extracted data
           setFps(fps);
           setFrameCount(max_frames);
-          setTransX(formatStringToArray(translation_x, frameCount));
-          setTransY(formatStringToArray(translation_y, frameCount));
-          setTransZ(formatStringToArray(translation_z, frameCount));
-          setRotX(formatStringToArray(rotation_3d_x, frameCount));
-          setRotY(formatStringToArray(rotation_3d_y, frameCount));
-          setRotZ(formatStringToArray(rotation_3d_z, frameCount));
+          // updated translation and rotation values only after fps and framecount updated
+          const transXArray = formatStringToArray(translation_x, max_frames);
+          const transYArray = formatStringToArray(translation_y, max_frames);
+          const transZArray = formatStringToArray(translation_z, max_frames);
+          const rotXArray = formatStringToArray(rotation_3d_x, max_frames);
+          const rotYArray = formatStringToArray(rotation_3d_y, max_frames);
+          const rotZArray = formatStringToArray(rotation_3d_z, max_frames);
+
+          setTransX(transXArray);
+          setTransY(transYArray);
+          setTransZ(transZArray);
+          setRotX(rotXArray);
+          setRotY(rotYArray);
+          setRotZ(rotZArray);
         };
         // Read the contents of the file as a text string
         reader.readAsText(file);

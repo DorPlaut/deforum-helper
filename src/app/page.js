@@ -13,7 +13,7 @@ export default function Home() {
           timeline settings files for Stabe Diffusion Deforum.
         </p>
         <br />
-        <h4>What is this app do?</h4>
+        <h4>What dose this app do?</h4>
         <ul>
           <li>
             - Create a visual timeline with 6 channels: Translation X,
