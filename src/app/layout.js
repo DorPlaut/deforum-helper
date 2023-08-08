@@ -33,6 +33,12 @@ export default function RootLayout({ children }) {
           </span>
         </footer>
       </body>
+      {/* <Script
+        src="https://example.com/script.js"
+        id="example-script"
+        nonce="XUENAJFW"
+        data-test="script"
+      /> */}
     </html>
   );
 }

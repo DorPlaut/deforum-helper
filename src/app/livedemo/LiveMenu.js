@@ -23,12 +23,18 @@ const LiveMenu = ({
   const { fps, frameCount } = useFramesStore((state) => state);
   // find current frame
   const findFrame = () => {
+    const tolerance = 0.001; // You can adjust this tolerance value as needed
     let currentFrame;
-    animationSettings.translationX.map((timeStemp, index) => {
-      if (timeStemp[0] === timeLine) currentFrame = timeStemp[2];
+    animationSettings.translationX.forEach((timeStemp, index) => {
+      if (Math.abs(timeStemp[0] - timeLine) < tolerance) {
+        currentFrame = timeStemp[2];
+      }
     });
-    if (currentFrame) return currentFrame;
-    else return frameCount - 1;
+    if (currentFrame !== undefined) {
+      return currentFrame;
+    } else {
+      return frameCount - 1;
+    }
   };
   const [frame, setFrame] = useState(0);
   // update current frame
@@ -41,16 +47,15 @@ const LiveMenu = ({
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
     // const tenths = Math.floor((seconds - Math.floor(seconds)) * 10);
-
     const formattedMinutes = minutes.toString().padStart(2, '0');
     const formattedSeconds = remainingSeconds.toString().padStart(2, '0');
-
     return `${formattedMinutes}:${formattedSeconds}`;
   };
 
   //   move forward/backward buttons
   //   timer
   const [timer, setTimer] = useState();
+  const step = 0.5;
 
   const animationLengthInSec =
     animationSettings.translationX[
@@ -59,13 +64,15 @@ const LiveMenu = ({
   // move forward in timeline
   const startIncrease = () => {
     setTimeLine((prevTimeLine) => {
-      if (prevTimeLine + 1 < animationLengthInSec) return prevTimeLine + 1;
+      if (prevTimeLine + step < animationLengthInSec)
+        return prevTimeLine + step;
       else return animationLengthInSec;
     });
     setTimer(
       setInterval(() => {
         setTimeLine((prevTimeLine) => {
-          if (prevTimeLine + 1 < animationLengthInSec) return prevTimeLine + 1;
+          if (prevTimeLine + step < animationLengthInSec)
+            return prevTimeLine + step;
           else return animationLengthInSec;
         });
       }, 150)
@@ -73,10 +80,14 @@ const LiveMenu = ({
   };
   // move backword in timeline
   const startDecrease = () => {
+    setTimeLine((prevTimeLine) => {
+      if (prevTimeLine - step > 0) return prevTimeLine - step;
+      else return 0;
+    });
     setTimer(
       setInterval(() => {
         setTimeLine((prevTimeLine) => {
-          if (prevTimeLine - 1 > 0) return prevTimeLine - 1;
+          if (prevTimeLine - step > 0) return prevTimeLine - step;
           else return 0;
         });
       }, 150)
@@ -113,7 +124,11 @@ const LiveMenu = ({
         <button
           className="btn live-btn block-btn"
           onMouseDown={startDecrease}
+          onTouchStart={startDecrease}
           onMouseUp={handleReleseBtn}
+          onMouseLeave={handleReleseBtn}
+          onTouchEnd={handleReleseBtn}
+          onTouchMove={handleReleseBtn}
         >
           <BsFillRewindFill />
         </button>
@@ -143,7 +158,11 @@ const LiveMenu = ({
         <button
           className="btn live-btn block-btn"
           onMouseDown={startIncrease}
+          onTouchStart={startIncrease}
           onMouseUp={handleReleseBtn}
+          onMouseLeave={handleReleseBtn}
+          onTouchEnd={handleReleseBtn}
+          onTouchMove={handleReleseBtn}
         >
           <BsFillFastForwardFill />
         </button>

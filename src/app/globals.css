@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 :root {
   /* page settings */
   font-size: 16px;
@@ -21,6 +23,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
 }
 /* GLOBAL CSS */
 a {
@@ -245,12 +248,14 @@ main {
   width: fit-content;
   transition: var(--editorTransitions);
 }
+
 .frame,
 .channel {
   transition: var(--editorTransitions);
   border-right: solid 1px var(--editorColor3);
   border-bottom: solid 1px var(--editorColor3);
 }
+/* individual frame */
 .frame {
   position: relative;
   display: flex;
@@ -261,6 +266,29 @@ main {
 .frame-value {
   z-index: 1;
 }
+.frame-value span {
+  cursor: pointer;
+}
+.frame-value input {
+  color: var(--editorColor1);
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  width: 100%;
+  text-align: center;
+  border: none;
+  background: 0;
+  background: var(--editorColor5);
+}
+.frame-value input:focus {
+  outline: none;
+}
+.frame-value input::-webkit-outer-spin-button,
+.frame-value input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/*  */
 .frame-inner-up {
   position: absolute;
   bottom: 50%;
@@ -347,6 +375,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 1rem 0;
 }
 .up-btn:hover,
 .down-btn:hover {

@@ -41,7 +41,7 @@ const Frame = ({
     // update frame value
     const newFrames = [...frames];
     if (frame[1] + increment <= max) {
-      newFrames[index][1] = frame[1] + increment;
+      newFrames[index][1] = parseFloat((frame[1] + increment).toFixed(2));
       if (newFrames[index].length === 2) {
         newFrames[index].push(true);
       }
@@ -54,16 +54,33 @@ const Frame = ({
     // update frame value
     const newFrames = [...frames];
     if (frame[1] - decrement >= min) {
-      newFrames[index][1] = frame[1] - decrement;
+      newFrames[index][1] = parseFloat((frame[1] - decrement).toFixed(2));
       if (newFrames[index].length === 2) {
         newFrames[index].push(true);
       }
       setFrames(newFrames);
     }
   };
+  // set value with input
+  const setValue = (value) => {
+    const numericValue = parseFloat(value);
+    // update frame value
+    const newFrames = [...frames];
+    if (value <= max && value >= min) {
+      newFrames[index][1] = parseFloat(numericValue.toFixed(2));
+      if (newFrames[index].length === 2) {
+        newFrames[index].push(true);
+      }
+      setFrames(newFrames);
+    }
+  };
+  // timer for on mouse down / touch down
   const [timer, setTimer] = useState(null);
 
-  const [isMouseDown, setIsMouseDown] = useState(false);
+  // is editing valeu
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [temporeryValue, setTemporeryValue] = useState(frame[1]);
+
   return (
     <div
       title={`frame:${frame[0]} time:${framesToTime(fps, frame[0])}`}
@@ -130,7 +147,27 @@ const Frame = ({
               >
                 <AiFillCaretUp />
               </button>
-              <span className="frame-value">{frame[1].toFixed(2)}</span>
+              {/* frame value */}
+              <div className="frame-value">
+                {isEditMode ? (
+                  <input
+                    onBlur={(e) => {
+                      setValue(e.target.value);
+                      setIsEditMode(false);
+                    }}
+                    type="number"
+                    value={temporeryValue}
+                    onChange={(e) => {
+                      setTemporeryValue(e.target.value);
+                    }}
+                    max={max}
+                    min={min}
+                  />
+                ) : (
+                  <span onClick={() => setIsEditMode(true)}>{frame[1]}</span>
+                )}
+              </div>
+
               <button
                 className="btn down-btn"
                 onClick={() => decreesValue(0.01)}
