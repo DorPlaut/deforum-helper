@@ -18,7 +18,7 @@ const Frame = ({
   setFrames,
   index,
 }) => {
-  const { fps } = useFramesStore((state) => state);
+  const { fps, transitionMode } = useFramesStore((state) => state);
   // COLORS
   const [green, setGreen] = useState('');
   const [red, setRed] = useState('');

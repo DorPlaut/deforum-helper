@@ -453,7 +453,8 @@ main {
 }
 /* BUTTONS - 3d buttom in editor */
 .btn-3d,
-.reset-btn {
+.reset-btn,
+.transitions-btn {
   font-size: 2rem;
   padding: 0.1rem;
   border-radius: 50%;
@@ -480,6 +481,11 @@ main {
 .btn-3d:hover span {
   opacity: 0.3;
 }
+.transitions-btn svg {
+  scale: 0.8;
+}
+
+/* footer */
 
 footer {
   position: absolute;
@@ -576,6 +582,21 @@ canvas {
   justify-content: center;
 }
 
+/* transitions picker */
+.transitions-picker-container {
+  position: relative;
+}
+.transitions-picker {
+  position: absolute;
+  top: -0.5rem;
+  left: 0rem;
+  display: flex;
+}
+
+.transition {
+  margin: 0.5rem;
+}
+
 /* MEDIA QUERIES */
 
 @media screen and (max-width: 1400px) {
@@ -601,6 +622,10 @@ canvas {
   }
   .editor {
     margin: 1rem 1rem;
+  }
+  .transitions-picker {
+    display: flex;
+    flex-direction: column;
   }
 }
 

@@ -11,7 +11,9 @@ import axios from 'axios';
 import formatArrayToString from '@/utils/formatArrayToString';
 import formatStringToArray from '@/utils/formatStringToArray';
 import Link from 'next/link';
+import { TbEaseIn } from 'react-icons/tb';
 import { BsFillTrash3Fill } from 'react-icons/bs';
+import TransitionsPicker from './TransitionsPicker';
 
 const ControlPanel = ({ zoom, setZoom }) => {
   // data
@@ -129,7 +131,9 @@ const ControlPanel = ({ zoom, setZoom }) => {
   return (
     <div className="editor-control-panel">
       <div className="control-buttons">
+        {/* zoom fader */}
         <ZoomFader zoom={zoom} setZoom={setZoom} />
+        {/* 3d live mode btn */}
         <Link
           className="btn block-btn btn-3d "
           href={'/livedemo'}
@@ -138,6 +142,7 @@ const ControlPanel = ({ zoom, setZoom }) => {
           <span>3D</span>
           <BiCube />
         </Link>
+        {/* reset btn  */}
         <button
           title="Start over"
           className="btn block-btn reset-btn"
@@ -147,9 +152,13 @@ const ControlPanel = ({ zoom, setZoom }) => {
         >
           <BiRefresh />
         </button>
+        {/* transition mode button */}
+        <TransitionsPicker />
       </div>
-
+      {/* settings btns */}
       <div className="control-buttons">
+        {/* upload settings btn */}
+
         <button
           className="btn block-btn"
           title="Upload settings from .txt. must match stable defusion deforum setting file format"
@@ -159,6 +168,8 @@ const ControlPanel = ({ zoom, setZoom }) => {
         >
           <AiOutlineUpload /> Upload settings
         </button>
+        {/* dowbload settings btn */}
+
         <button
           className="btn block-btn"
           title="Download settings as .txt file. can bu loaded to stable defusion deforum through  Automatic1111"
@@ -168,6 +179,7 @@ const ControlPanel = ({ zoom, setZoom }) => {
         >
           <AiOutlineDownload /> Download settings
         </button>
+        {/* copy settings btn */}
         <button
           className="btn block-btn"
           title="Copy settings to clipboard. can be pasted to stable defusion deforum settings file"

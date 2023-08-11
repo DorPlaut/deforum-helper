@@ -18,4 +18,7 @@ export const useFramesStore = create((set) => ({
   setRotY: (rotY) => set(() => ({ rotY })),
   rotZ: [[0, 0, true]],
   setRotZ: (rotZ) => set(() => ({ rotZ })),
+
+  transitionMode: 'linear',
+  setTrantisonMode: (transitionMode) => set(() => ({ transitionMode })),
 }));
