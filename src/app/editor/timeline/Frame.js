@@ -33,8 +33,8 @@ const Frame = ({
       );
     }
   }, []);
-  const max = 10;
-  const min = -10;
+  const max = 15;
+  const min = -15;
 
   //
   // handle increes value
@@ -145,7 +145,12 @@ const Frame = ({
               </button>
               {/* frame value */}
               <div>
-                <FrameFader value={frame[1]} setValue={setValue} />
+                <FrameFader
+                  min={min}
+                  max={max}
+                  value={frame[1]}
+                  setValue={setValue}
+                />
               </div>
               <div className="frame-value">
                 {isEditMode ? (
@@ -204,7 +209,7 @@ const Frame = ({
       <div
         className="frame-inner-up"
         style={{
-          height: `${getFrameHeight(frame) * (max / 2)}%`,
+          height: `${getFrameHeight(frame) * (max / 4.5)}%`,
           background: isAnchor
             ? 'rgba(93, 255, 247, 0.5)'
             : 'rgb(168, 19, 19, 0.5)',
@@ -214,7 +219,7 @@ const Frame = ({
       <div
         className="frame-inner-down"
         style={{
-          height: `${-getFrameHeight(frame) * (max / 2)}%`,
+          height: `${-getFrameHeight(frame) * (max / 4.5)}%`,
           background: isAnchor
             ? 'rgba(93, 255, 247, 0.5)'
             : 'rgb(168, 19, 19, 0.5)',

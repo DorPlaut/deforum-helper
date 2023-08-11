@@ -3,11 +3,7 @@ import React, { useState } from 'react';
 import { AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
 import ReactSlider from 'react-slider';
 
-const FrameFader = ({ value, setValue }) => {
-  //   handle drag
-  const min = -10;
-  const max = 10;
-
+const FrameFader = ({ value, setValue, min, max }) => {
   return (
     <div className="frame-fader-container">
       <div className="frame-fader-inner">
