@@ -497,9 +497,10 @@ main {
   margin: 0 0.5rem;
   text-align: center;
   font-size: 1rem;
+  font-weight: bold;
 }
-.max-value-input input:active {
-  stroke: none;
+.max-value-input input:focus {
+  outline: none;
 }
 
 /* footer */

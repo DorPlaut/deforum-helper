@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { TbEaseIn } from 'react-icons/tb';
 import { BsFillTrash3Fill } from 'react-icons/bs';
 import TransitionsPicker from './TransitionsPicker';
+import getHigestValue from '@/utils/getHigestValue';
 
 const ControlPanel = ({ zoom, setZoom }) => {
   // data
@@ -119,6 +120,18 @@ const ControlPanel = ({ zoom, setZoom }) => {
           setRotX(rotXArray);
           setRotY(rotYArray);
           setRotZ(rotZArray);
+
+          //
+          setMaxValue(
+            getHigestValue(
+              transXArray,
+              transYArray,
+              transZArray,
+              rotXArray,
+              rotYArray,
+              rotZArray
+            )
+          );
         };
         // Read the contents of the file as a text string
         reader.readAsText(file);
