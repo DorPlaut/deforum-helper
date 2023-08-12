@@ -34,6 +34,8 @@ const ControlPanel = ({ zoom, setZoom }) => {
     setRotY,
     rotZ,
     setRotZ,
+    maxValue,
+    setMaxValue,
   } = useFramesStore((state) => state);
   // download settings
   const handleDownload = async () => {
