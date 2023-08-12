@@ -283,7 +283,9 @@ main {
   outline: none;
 }
 .frame-value input::-webkit-outer-spin-button,
-.frame-value input::-webkit-inner-spin-button {
+.frame-value input::-webkit-inner-spin-button,
+.max-value-input input::-webkit-inner-spin-button,
+.max-value-input input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
@@ -483,6 +485,21 @@ main {
 }
 .transitions-btn svg {
   scale: 0.8;
+}
+
+/* max value input */
+.max-value-input input {
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: var(--editorColor2);
+  border: none;
+  margin: 0 0.5rem;
+  text-align: center;
+  font-size: 1rem;
+}
+.max-value-input input:active {
+  stroke: none;
 }
 
 /* footer */

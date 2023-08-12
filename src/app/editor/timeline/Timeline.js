@@ -29,6 +29,7 @@ const Timeline = ({
     rotX,
     rotY,
     rotZ,
+    maxValue,
   } = useFramesStore((state) => state);
   // select to correct channel
   const findFrames = () => {

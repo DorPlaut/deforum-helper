@@ -21,10 +21,7 @@ export const useFramesStore = create((set) => ({
 
   transitionMode: 'linear',
   setTrantisonMode: (transitionMode) => set(() => ({ transitionMode })),
-<<<<<<< Updated upstream
-=======
 
   maxValue: 10,
   setMaxValue: (maxValue) => set(() => ({ maxValue })),
->>>>>>> Stashed changes
 }));

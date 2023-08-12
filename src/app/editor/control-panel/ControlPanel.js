@@ -156,7 +156,18 @@ const ControlPanel = ({ zoom, setZoom }) => {
         </button>
         {/* transition mode button */}
         <TransitionsPicker />
+        {/* max value input */}
+        <div className="max-value-input">
+          <input
+            type="number"
+            max={30}
+            min={1}
+            value={maxValue}
+            onChange={(e) => setMaxValue(e.target.value)}
+          />
+        </div>
       </div>
+
       {/* settings btns */}
       <div className="control-buttons">
         {/* upload settings btn */}

@@ -18,7 +18,9 @@ const Frame = ({
   setFrames,
   index,
 }) => {
-  const { fps, transitionMode } = useFramesStore((state) => state);
+  const { fps, transitionMode, maxValue, setMaxValue } = useFramesStore(
+    (state) => state
+  );
   // COLORS
   const [green, setGreen] = useState('');
   const [red, setRed] = useState('');
@@ -33,8 +35,8 @@ const Frame = ({
       );
     }
   }, []);
-  const max = 15;
-  const min = -15;
+  const max = maxValue;
+  const min = -maxValue;
 
   //
   // handle increes value
@@ -209,7 +211,7 @@ const Frame = ({
       <div
         className="frame-inner-up"
         style={{
-          height: `${getFrameHeight(frame) * (max / 4.5)}%`,
+          height: `${(getFrameHeight(frame) / max) * 50}%`,
           background: isAnchor
             ? 'rgba(93, 255, 247, 0.5)'
             : 'rgb(168, 19, 19, 0.5)',
@@ -219,7 +221,7 @@ const Frame = ({
       <div
         className="frame-inner-down"
         style={{
-          height: `${-getFrameHeight(frame) * (max / 4.5)}%`,
+          height: `${(getFrameHeight(frame) / min) * 50}%`,
           background: isAnchor
             ? 'rgba(93, 255, 247, 0.5)'
             : 'rgb(168, 19, 19, 0.5)',
