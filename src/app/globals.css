@@ -540,7 +540,7 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 1rem;
   border-radius: 0 0 20px 20px;
   border-bottom: solid 1px var(--editorColor3);
   border-right: solid 1px var(--editorColor3);

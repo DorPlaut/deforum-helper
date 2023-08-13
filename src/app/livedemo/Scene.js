@@ -1,7 +1,12 @@
 'use client';
 import { useFramesStore } from '@/store/framesStore';
 import framesToAnimation from '@/utils/framesToAnimation';
-import { Center, Html, PerspectiveCamera } from '@react-three/drei';
+import {
+  Center,
+  Html,
+  OrbitControls,
+  PerspectiveCamera,
+} from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import React, { use, useEffect, useRef, useState } from 'react';
 import useTimeline from '../../../hooks/useTimeline';
@@ -10,7 +15,7 @@ import Timeline from '../editor/timeline/Timeline';
 import LiveMenu from './LiveMenu';
 
 const Scene = () => {
-  // data
+  // global state
   const { fps, frameCount, transX, transY, transZ, rotX, rotY, rotZ } =
     useFramesStore((state) => state);
   // camera settings
@@ -158,6 +163,9 @@ const Scene = () => {
     }
   });
 
+  // anchor box
+  const [isAnchorOn, setIsAnchorOn] = useState(false);
+
   //
   return (
     <>
@@ -166,6 +174,8 @@ const Scene = () => {
         <Center>
           <Html>
             <LiveMenu
+              setIsAnchorOn={setIsAnchorOn}
+              isAnchorOn={isAnchorOn}
               timeLine={timeLine}
               setTimeLine={setTimeLine}
               isRunning={isRunning}
@@ -181,11 +191,21 @@ const Scene = () => {
       <ambientLight intensity={2} />
       {/* fog */}
       <>
+        {/* anchor box */}
+        {isAnchorOn && (
+          <mesh position={[0, 0, -15]} scale={1.1}>
+            <boxGeometry args={[1, 1, 1]} />
+            <meshBasicMaterial color={'red'} />
+          </mesh>
+        )}
+
+        {/* background */}
         <mesh position={cameraPosition} scale={10}>
           <boxGeometry args={[200, 200, 200]} />
           <meshBasicMaterial color={'black'} side={THREE.DoubleSide} />
         </mesh>
         <fog attach="fog" color={'black'} near={0} far={87} />
+        {/* <OrbitControls makeDefault /> */}
       </>
       {/* elements */}
       <mesh>{...boxes}</mesh>

@@ -50,6 +50,17 @@ export default function Home() {
         <Link className="btn block-btn editor-link" href={'/editor'}>
           lets create a timeline
         </Link>
+        {/* youtube */}
+        <br />
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/sskloFZXCLM"
+          title="YouTube video player"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+        ></iframe>
       </div>
     </>
   );

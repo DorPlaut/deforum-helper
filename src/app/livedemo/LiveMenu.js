@@ -1,6 +1,6 @@
 import { useFramesStore } from '@/store/framesStore';
 import React, { useEffect, useState } from 'react';
-import { BiTime } from 'react-icons/bi';
+import { BiCube, BiTime } from 'react-icons/bi';
 import {
   BsFillFastForwardFill,
   BsFillPauseFill,
@@ -18,6 +18,8 @@ const LiveMenu = ({
   isRunning,
   setIsRunning,
   animationSettings,
+  setIsAnchorOn,
+  isAnchorOn,
 }) => {
   // global state data
   const { fps, frameCount } = useFramesStore((state) => state);
@@ -99,99 +101,113 @@ const LiveMenu = ({
   };
 
   return (
-    <div className="live-menu-container">
-      <div className="live-menu">
-        <div className="live-time-display">
-          <BiTime /> <span> {formatTime(timeLine)}</span>
-        </div>
-        <div className="live-time-display">
-          <BsLayers />
-          <span>{frame}</span>
-        </div>
-        {/* buttons */}
-
-        {/* to start button */}
-        <button
-          className="btn live-btn block-btn"
-          onClick={() => {
-            setTimeLine(0);
-          }}
-        >
-          <BsSkipStartFill />
-        </button>
-
-        {/* move backward button */}
-        <button
-          className="btn live-btn block-btn"
-          onMouseDown={startDecrease}
-          onTouchStart={startDecrease}
-          onMouseUp={handleReleseBtn}
-          onMouseLeave={handleReleseBtn}
-          onTouchEnd={handleReleseBtn}
-          onTouchMove={handleReleseBtn}
-        >
-          <BsFillRewindFill />
-        </button>
-
-        {/* play/pause button */}
-        {isRunning ? (
+    <>
+      <div className="live-menu-container">
+        <div className="live-menu">
+          {/* anchor btn */}
           <button
-            className="btn live-btn block-btn pause-btn"
+            style={{ background: isAnchorOn && 'white' }}
+            title="anchor box"
+            className="btn live-btn block-btn"
+            onClick={() => {
+              setIsAnchorOn(!isAnchorOn);
+            }}
+          >
+            <BiCube />
+          </button>
+          {/* dispalys */}
+          <div className="live-time-display">
+            <BiTime /> <span> {formatTime(timeLine)}</span>
+          </div>
+          <div className="live-time-display">
+            <BsLayers />
+            <span>{frame}</span>
+          </div>
+          {/* buttons */}
+
+          {/* to start button */}
+          <button
+            className="btn live-btn block-btn"
+            onClick={() => {
+              setTimeLine(0);
+            }}
+          >
+            <BsSkipStartFill />
+          </button>
+
+          {/* move backward button */}
+          <button
+            className="btn live-btn block-btn"
+            onMouseDown={startDecrease}
+            onTouchStart={startDecrease}
+            onMouseUp={handleReleseBtn}
+            onMouseLeave={handleReleseBtn}
+            onTouchEnd={handleReleseBtn}
+            onTouchMove={handleReleseBtn}
+          >
+            <BsFillRewindFill />
+          </button>
+
+          {/* play/pause button */}
+          {isRunning ? (
+            <button
+              className="btn live-btn block-btn pause-btn"
+              onClick={() => {
+                setIsRunning(false);
+              }}
+            >
+              <BsFillPauseFill />
+            </button>
+          ) : (
+            <button
+              className="btn live-btn block-btn play-btn"
+              onClick={() => {
+                setIsRunning(true);
+              }}
+            >
+              <BsFillPlayFill />
+            </button>
+          )}
+
+          {/* move forward button*/}
+          <button
+            className="btn live-btn block-btn"
+            onMouseDown={startIncrease}
+            onTouchStart={startIncrease}
+            onMouseUp={handleReleseBtn}
+            onMouseLeave={handleReleseBtn}
+            onTouchEnd={handleReleseBtn}
+            onTouchMove={handleReleseBtn}
+          >
+            <BsFillFastForwardFill />
+          </button>
+
+          {/* to end button */}
+          <button
+            className="btn live-btn block-btn"
+            onClick={() => {
+              setTimeLine(animationLengthInSec);
+            }}
+          >
+            <BsSkipEndFill />
+          </button>
+
+          {/* stop button */}
+          <button
+            className="btn live-btn block-btn"
             onClick={() => {
               setIsRunning(false);
+              setTimeLine(0);
+              setTimeout(() => {
+                setFrame(0);
+              }, 100);
             }}
           >
-            <BsFillPauseFill />
+            <BsFillStopFill />
           </button>
-        ) : (
-          <button
-            className="btn live-btn block-btn play-btn"
-            onClick={() => {
-              setIsRunning(true);
-            }}
-          >
-            <BsFillPlayFill />
-          </button>
-        )}
-
-        {/* move forward button*/}
-        <button
-          className="btn live-btn block-btn"
-          onMouseDown={startIncrease}
-          onTouchStart={startIncrease}
-          onMouseUp={handleReleseBtn}
-          onMouseLeave={handleReleseBtn}
-          onTouchEnd={handleReleseBtn}
-          onTouchMove={handleReleseBtn}
-        >
-          <BsFillFastForwardFill />
-        </button>
-
-        {/* to end button */}
-        <button
-          className="btn live-btn block-btn"
-          onClick={() => {
-            setTimeLine(animationLengthInSec);
-          }}
-        >
-          <BsSkipEndFill />
-        </button>
-
-        {/* stop button */}
-        <button
-          className="btn live-btn block-btn"
-          onClick={() => {
-            setIsRunning(false);
-            setTimeLine(0);
-            setTimeout(() => {
-              setFrame(0);
-            }, 100);
-          }}
-        >
-          <BsFillStopFill />
-        </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
