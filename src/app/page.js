@@ -24,10 +24,7 @@ export default function Home() {
             - Hover over the upper ruler to see the timestamp in minutes,
             seconds, and thousandths of a second (00:00:000).
           </li>
-          <li>
-            {' '}
-            - Click on a channel to expand the timeline for that channel.
-          </li>
+          <li>- Click on a channel to expand the timeline for that channel.</li>
           <li>
             - Activate/deactivate specific frames with on/off buttons inside
             each frame.

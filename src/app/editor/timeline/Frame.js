@@ -18,27 +18,27 @@ const Frame = ({
   setFrames,
   index,
 }) => {
-  const { fps, transitionMode, maxValue, setMaxValue } = useFramesStore(
-    (state) => state
-  );
-  // COLORS
-  const [green, setGreen] = useState('');
-  const [red, setRed] = useState('');
-  // get css var value
-  useEffect(() => {
-    if (document) {
-      setGreen(
-        getComputedStyle(document.documentElement).getPropertyValue('--green')
-      );
-      setRed(
-        getComputedStyle(document.documentElement).getPropertyValue('--red')
-      );
-    }
-  }, []);
+  // global state
+  const { fps, maxValue } = useFramesStore((state) => state);
+
+  // set maximun and minimum possible values
   const max = maxValue;
   const min = -maxValue;
 
-  //
+  // turn a frame on and off
+  const handleFrameActivation = () => {
+    const newFrames = [...frames];
+    if (newFrames[index].length === 2) {
+      newFrames[index].push(true);
+    } else if (newFrames[index].length === 3) {
+      newFrames[index].pop();
+      newFrames[index][1] = 0;
+    }
+    setFrames(newFrames);
+    getFrameHeight(frame);
+  };
+
+  // HANDLE FRAME VALUE CHANGES
   // handle increes value
   const increesValue = (increment) => {
     // update frame value
@@ -64,7 +64,7 @@ const Frame = ({
       setFrames(newFrames);
     }
   };
-  // set value with input
+  // set value from argument
   const setValue = (value) => {
     const numericValue = parseFloat(value);
     // update frame value
@@ -77,16 +77,35 @@ const Frame = ({
       setFrames(newFrames);
     }
   };
-  // timer for on mouse down / touch down
-  const [timer, setTimer] = useState(null);
 
-  // is editing valeu
+  // local states to handle value input functinality
   const [isEditMode, setIsEditMode] = useState(false);
   const [temporeryValue, setTemporeryValue] = useState(frame[1]);
   const stopTimer = () => {
     clearInterval(timer);
   };
+  // timer for on mouse down / touch down
+  const [timer, setTimer] = useState(null);
 
+  // COLORS AND VISUAL SETTINGS
+  // set local state for colors and heights
+  const [green, setGreen] = useState('');
+  const [red, setRed] = useState('');
+
+  // Use Effect on page load
+  useEffect(() => {
+    // get css variabls and set local state
+    if (document) {
+      setGreen(
+        getComputedStyle(document.documentElement).getPropertyValue('--green')
+      );
+      setRed(
+        getComputedStyle(document.documentElement).getPropertyValue('--red')
+      );
+    }
+  }, []);
+
+  // JSX
   return (
     <div
       title={`frame:${frame[0]} time:${framesToTime(fps, frame[0])}`}
@@ -95,6 +114,7 @@ const Frame = ({
     >
       {selected && (
         <>
+          {/* on/off button */}
           {index > 0 && (
             <button
               className="btn on-off-btn"
@@ -103,24 +123,15 @@ const Frame = ({
 
                 opacity: isAnchor && 1,
               }}
-              onClick={() => {
-                const newFrames = [...frames];
-                if (newFrames[index].length === 2) {
-                  newFrames[index].push(true);
-                } else if (newFrames[index].length === 3) {
-                  newFrames[index].pop();
-                  newFrames[index][1] = 0;
-                }
-                setFrames(newFrames);
-                getFrameHeight(frame);
-              }}
+              onClick={handleFrameActivation}
             >
               <AiOutlinePoweroff />
             </button>
           )}
-
+          {/* Control frame value */}
           {isAnchor && (
             <>
+              {/* increes value button */}
               <button
                 className="btn up-btn"
                 onClick={() => increesValue(0.01)}
@@ -145,7 +156,8 @@ const Frame = ({
               >
                 <AiFillCaretUp />
               </button>
-              {/* frame value */}
+
+              {/* frame fader button value */}
               <div>
                 <FrameFader
                   min={min}
@@ -154,9 +166,17 @@ const Frame = ({
                   setValue={setValue}
                 />
               </div>
+              {/* show frame value */}
               <div className="frame-value">
                 {isEditMode ? (
-                  <form>
+                  // edit frame value from a menual form
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      setValue(temporeryValue);
+                      setIsEditMode(false);
+                    }}
+                  >
                     <input
                       onBlur={(e) => {
                         e.preventDefault();
@@ -178,7 +198,7 @@ const Frame = ({
                   </span>
                 )}
               </div>
-
+              {/* decrees value button */}
               <button
                 className="btn down-btn"
                 onClick={() => decreesValue(0.01)}
@@ -207,7 +227,7 @@ const Frame = ({
           )}
         </>
       )}
-      {/* visual representation of frame animation */}
+      {/* visual indicetion of frame animation */}
       <div
         className="frame-inner-up"
         style={{

@@ -13,7 +13,7 @@ const Timeline = ({
   channelName,
   setSelectedChannel,
 }) => {
-  // data
+  // Global state
   const {
     fps,
     frameCount,
@@ -31,7 +31,8 @@ const Timeline = ({
     rotZ,
     maxValue,
   } = useFramesStore((state) => state);
-  // select to correct channel
+  // SELECT TIMELINE CHANNEL
+  // find current channel by channel name and set it to frames
   const findFrames = () => {
     if (channelName === 'Translation X') return transX;
     if (channelName === 'Translation Y') return transY;
@@ -41,6 +42,8 @@ const Timeline = ({
     if (channelName === 'Rotation Z') return rotZ;
   };
   const frames = findFrames();
+
+  // find the setState function for the channel and set set it to setFrames
   const findSetFrames = () => {
     if (channelName === 'Translation X') return setTransX;
     if (channelName === 'Translation Y') return setTransY;
@@ -51,33 +54,24 @@ const Timeline = ({
   };
   const setFrames = findSetFrames();
 
-  const handleFramesonPageLoad = () => {
-    if (frames.length === 1) {
-      setFrames(createNumberArray());
-    }
-  };
-
-  const createNumberArray = () => {
-    const numberArray = [];
-    for (var i = 0; i <= frameCount; i++) {
-      if (i === 0) numberArray.push([i, 0, true]);
-      else numberArray.push([i, 0]);
-    }
-    return numberArray;
-  };
-
-  //
-  useEffect(() => {
+  // HANDLE TIMELINE LENGTH
+  // fill array to match frameCount
+  const fillFrames = () => {
     while (frames.length < frameCount) {
       frames.push([frames.length, 0]);
     }
     while (frames.length > frameCount) {
       frames.pop();
     }
+  };
+
+  // make sure frames length match frameCount on settings update
+  useEffect(() => {
+    fillFrames();
   }, [fps, frameCount]);
 
-  // ##
-  // set inner div height to represent tranistions
+  // HANDLE VISUAL VALUE INDICATORS
+  // set inner div height to represent camera tranistions
   const getFrameHeight = (frame) => {
     const index = frame[0];
     const value = frame[1];
@@ -97,7 +91,7 @@ const Timeline = ({
       }
     }
   };
-  // find next anchor frame
+  // find next active anchor frame
   const findAnchor = (index, direction) => {
     let newIndex;
     if (direction === 'next') newIndex = index + 1;
@@ -124,19 +118,19 @@ const Timeline = ({
     const interpolatedValue = prevValue + (nextValue - prevValue) * progress;
     return interpolatedValue;
   };
-  // ##
 
-  // COLORS
+  // COLORS AND VISUAL SETTINGS
+  // set local state for colors and heights
   const [color1, setColor1] = useState('');
   const [color2, setColor2] = useState('');
   const [heightOpen, setHeightOpen] = useState('15rem');
   const [heightClose, setHeightClose] = useState('5rem');
 
-  // get css variabls and set page on first load
+  // Use Effect on page load
   useEffect(() => {
-    // set frames
-    handleFramesonPageLoad();
-    // css
+    // make sure frames length match frameCount
+    fillFrames();
+    // get css variabls and set local state
     if (document) {
       setColor1(
         getComputedStyle(document.documentElement).getPropertyValue(
@@ -160,15 +154,17 @@ const Timeline = ({
       );
     }
   }, []);
-
+  // JSX
   return (
     <>
+      {/* a timeline ruller. only render on top of the first channel */}
       {first && (
         <>
           <Rullers zoom={zoom} frames={frames} />
           {frames.length <= 1 && <Loading />}
         </>
       )}
+      {/* a timeline channel contain frames  */}
       {frames.length > 1 && (
         <>
           <div

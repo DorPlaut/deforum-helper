@@ -6,7 +6,7 @@ import framesToTime from '@/utils/framesToTime';
 import Loading from '../loading';
 
 const Form = () => {
-  // data
+  // globals state from state store
   const {
     fps,
     frameCount,
