@@ -6,6 +6,9 @@ export const useFramesStore = create((set) => ({
   setFps: (fps) => set(() => ({ fps })),
   setFrameCount: (frameCount) => set(() => ({ frameCount })),
 
+  hoverdFrame: [0, 0, true],
+  setHoverdFrame: (hoverdFrame) => set(() => ({ hoverdFrame })),
+
   transX: [[0, 0, true]],
   setTransX: (transX) => set(() => ({ transX })),
   transY: [[0, 0, true]],

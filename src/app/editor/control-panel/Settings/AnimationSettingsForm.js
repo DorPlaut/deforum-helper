@@ -3,9 +3,11 @@ import { useFramesStore } from '@/store/framesStore';
 import React, { Suspense, useEffect, useState } from 'react';
 import { BsArrowRepeat } from 'react-icons/bs';
 import framesToTime from '@/utils/framesToTime';
-import Loading from '../loading';
+import Loading from '../../../loading';
+import { BiTime } from 'react-icons/bi';
+import { AiOutlineUpload } from 'react-icons/ai';
 
-const Form = () => {
+const AnimationSettingsForm = () => {
   // globals state from state store
   const {
     fps,
@@ -48,7 +50,7 @@ const Form = () => {
   };
 
   return (
-    <div className="form-container">
+    <div>
       <Suspense fallback={<Loading />}>
         <form
           className="timeline-settings-form"
@@ -59,7 +61,7 @@ const Form = () => {
               <label htmlFor="fps">Frame rate(fps)</label>
               <input
                 max={120}
-                min={1}
+                min={10}
                 type="number"
                 value={tempFps}
                 onChange={(e) => setTempFps(parseInt(e.target.value))}
@@ -69,25 +71,29 @@ const Form = () => {
               <label htmlFor="leangh">Length (in frames)</label>
               <input
                 max={5000}
-                min={1}
+                min={2}
                 type="number"
                 value={tempFrameCount}
                 onChange={(e) => setTempFrameCount(parseInt(e.target.value))}
               />
             </div>
-          </div>
-          <div className="total-time">
-            <span>Length (min:sec) : </span>
-            <span>{time.slice(0, 5)}</span>
-          </div>
+            {/* upload settings btn */}
 
-          <button className="btn block-btn" type="submit">
-            Update Timeline Settings
-          </button>
+            {/*  */}
+          </div>
+          <div className="settings-btn-container">
+            <span>
+              <BiTime /> : {time.slice(0, 5)}
+            </span>
+
+            <button className="btn settings-btn " type="submit">
+              Update Settings
+            </button>
+          </div>
         </form>
       </Suspense>
     </div>
   );
 };
 
-export default Form;
+export default AnimationSettingsForm;

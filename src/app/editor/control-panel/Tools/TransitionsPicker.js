@@ -16,7 +16,7 @@ const TransitionsPicker = () => {
     <div className="transitions-picker-container">
       <button
         title="Transition mode"
-        className="btn block-btn transitions-btn"
+        className="btn block-btn transitions-btn unclickable-btn"
         onClick={() => {
           setIsSelecting(!isSelecting);
         }}

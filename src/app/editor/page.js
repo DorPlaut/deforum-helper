@@ -1,13 +1,12 @@
 'use client';
 import React from 'react';
 import Editor from './Editor';
-import Form from './Form';
-import Link from 'next/link';
+import SettingsPanel from './control-panel/Settings/SettingsPanel';
 
 const page = () => {
   return (
     <div>
-      <Form />
+      <SettingsPanel />
       <Editor />
     </div>
   );

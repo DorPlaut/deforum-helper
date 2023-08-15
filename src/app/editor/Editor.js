@@ -1,7 +1,7 @@
 'use client';
 import React, { Suspense, useState } from 'react';
 import Timeline from './timeline/Timeline';
-import ControlPanel from './control-panel/ControlPanel';
+import ControlPanel from './control-panel/Tools/ToolsPanel';
 import Channel from './Channel';
 import Link from 'next/link';
 import Loading from '../loading';

@@ -56,6 +56,12 @@ main {
 .header {
   padding: 1rem;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 ::-webkit-scrollbar {
   background: var(--editorColor6);
   width: 1rem;
@@ -87,20 +93,11 @@ main {
 }
 
 /* FORM */
-.form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.timeline-settings-form {
-  border: solid 1px var(--editorColor3);
-  border-radius: 20px;
-  background: var(--editorColor5);
+
+.timeline-settings-form,
+.settings-buttons {
   color: var(--editorColor6);
-  margin: 1rem;
-  padding: 1rem;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: fit-content;
@@ -108,69 +105,104 @@ main {
 .inputs-container {
   display: flex;
 }
-.total-time {
-  color: var(--editorColor2);
-  margin-bottom: 0.5rem;
-}
+
 /* FORM - inputs */
 .fps-input,
-.frames-input {
+.frames-input,
+.settings-btn-container {
+  color: var(--editorColor2);
+  position: relative;
   display: flex;
   flex-direction: column;
+  margin: 0 0.5rem;
+  transition: 0.2s;
+}
+.fps-input label,
+.frames-input label,
+.settings-btn-container span {
+  display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--editorColor2);
-  border-radius: 20px;
-  padding: 0.5rem;
-  margin: 0 0.5rem 0.5rem 0.5rem;
+  position: relative;
+  margin-bottom: 0.2rem;
 }
-.inputs-container input {
+.settings-buttons .settings-btn-container {
+  cursor: pointer;
+}
+.settings-buttons .settings-btn-container:hover {
+  color: var(--editorColor1);
+}
+.inputs-container input,
+.settings-btn {
   border: 0;
-  border-radius: 20px;
+  text-align: center;
+  border-radius: 0 0 20px 20px;
   padding: 0.5rem;
-  margin: 0.5rem;
   outline: none;
-  background: var(--editorColor5);
-  color: var(--editorColor2);
-  width: 10rem;
+  background: var(--editorColor2);
+  color: var(--editorColor5);
+  width: 100%;
+  font-weight: bold;
+  /* font-size: 1rem; */
   transition: 0.2s;
+}
+
+.settings-btn:hover,
+.inputs-container input:hover,
+.settings-btn-container:hover .settings-btn {
+  background: var(--editorColor1);
 }
 .inputs-container input:focus {
   color: var(--editorColor5);
-  background: var(--editorColor2);
+  background: var(--editorColor1);
+}
+.settings-btn svg {
+  scale: 1.6;
 }
 
 /* EDITOR */
-.editor {
+.editor,
+.settings-panel {
   border-radius: 20px;
   background: var(--editorColor5);
-  margin: 1rem 5rem;
+  margin: 1.5rem 5rem;
   border: solid 1px var(--editorColor3);
   position: relative;
 }
-/* EDITOR - control panel */
-.editor-control-panel {
-  padding: 1rem;
+.panel-title {
+  position: absolute;
+  top: -1rem;
+  left: 1rem;
+}
+/* settings panel */
+.settings-panel {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
 }
 .control-buttons {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 1rem;
 }
+
+/* tools panel */
+/* EDITOR - control panel */
+.editor-control-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1rem 1rem 1rem;
+}
+
 /* EDITOR - control panel - time display */
 .time-display {
-  position: absolute;
-  top: 1rem;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
   width: 20rem;
   border-radius: 20px;
   background: var(--editorColor2);
+  color: var(--editorColor5);
   transition: 0.2s;
   z-index: 2;
   font-size: 2rem;
@@ -281,13 +313,6 @@ main {
 }
 .frame-value input:focus {
   outline: none;
-}
-.frame-value input::-webkit-outer-spin-button,
-.frame-value input::-webkit-inner-spin-button,
-.max-value-input input::-webkit-inner-spin-button,
-.max-value-input input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
 }
 
 /* Frame fader controller  */
@@ -456,13 +481,15 @@ main {
 /* BUTTONS - 3d buttom in editor */
 .btn-3d,
 .reset-btn,
-.transitions-btn {
+.transitions-btn,
+.presets-btn {
   font-size: 2rem;
   padding: 0.1rem;
   border-radius: 50%;
   position: relative;
   overflow: hidden;
 }
+
 .btn-3d span {
   position: absolute;
   font-size: 1.2rem;
@@ -483,7 +510,8 @@ main {
 .btn-3d:hover span {
   opacity: 0.3;
 }
-.transitions-btn svg {
+.transitions-btn svg,
+.presets-btn svg {
   scale: 0.8;
 }
 
@@ -601,27 +629,64 @@ canvas {
 }
 
 /* transitions picker */
-.transitions-picker-container {
+.transitions-picker-container,
+.presets-btn-container {
   position: relative;
+  z-index: 2;
 }
 .transitions-picker {
   position: absolute;
   top: -0.5rem;
   left: 0rem;
   display: flex;
+  flex-direction: column;
 }
 
 .transition {
   margin: 0.5rem;
 }
 
+/* unclickable button */
+
+.unclickable-btn {
+  display: none;
+}
+/* presets picker */
+.presets-btn-container {
+}
+.presets-picker {
+  position: absolute;
+  list-style: none;
+  top: 3.2rem;
+  left: 0.5rem;
+  /* background: var(--editorColor2); */
+  width: max-content;
+}
+.preset {
+}
+.preset-btn {
+  width: 100%;
+  text-align: left;
+  background: var(--editorColor2);
+  padding: 0.2rem;
+}
+.preset-btn:hover {
+  background: var(--editorColor5);
+  color: var(--editorColor2);
+}
+
 /* MEDIA QUERIES */
 
 @media screen and (max-width: 1400px) {
+  .settings-panel {
+    flex-direction: column;
+    justify-content: center;
+  }
+  .settings-panel .block-btn {
+    height: auto;
+  }
   .editor-control-panel {
     flex-direction: column-reverse;
-    height: 8rem;
-    margin-top: 4rem;
   }
   .back-to-editor-btn {
     transform: translateY(calc(100vh - 8rem)) translateX(-4rem);
@@ -638,7 +703,8 @@ canvas {
   .header h2 {
     font-size: 3.5vw;
   }
-  .editor {
+  .editor,
+  .settings-panel {
     margin: 1rem 1rem;
   }
   .transitions-picker {

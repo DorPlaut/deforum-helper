@@ -1,23 +1,18 @@
 import React from 'react';
-import ZoomFader from './ZoomFader';
-import { useFramesStore } from '@/store/framesStore';
+import AnimationSettingsForm from './AnimationSettingsForm';
 import {
   AiOutlineCopy,
   AiOutlineDownload,
   AiOutlineUpload,
 } from 'react-icons/ai';
-import { BiCube, BiRefresh } from 'react-icons/bi';
-import axios from 'axios';
 import formatArrayToString from '@/utils/formatArrayToString';
-import formatStringToArray from '@/utils/formatStringToArray';
-import Link from 'next/link';
-import { TbEaseIn } from 'react-icons/tb';
-import { BsFillTrash3Fill } from 'react-icons/bs';
-import TransitionsPicker from './TransitionsPicker';
+import axios from 'axios';
+import { useFramesStore } from '@/store/framesStore';
 import getHigestValue from '@/utils/getHigestValue';
+import formatStringToArray from '@/utils/formatStringToArray';
 
-const ControlPanel = ({ zoom, setZoom }) => {
-  // data
+const SettingsPanel = () => {
+  // global state
   const {
     fps,
     frameCount,
@@ -37,6 +32,7 @@ const ControlPanel = ({ zoom, setZoom }) => {
     setRotZ,
     maxValue,
     setMaxValue,
+    hoverdFrame,
   } = useFramesStore((state) => state);
   // download settings
   const handleDownload = async () => {
@@ -144,71 +140,63 @@ const ControlPanel = ({ zoom, setZoom }) => {
   };
   //
   return (
-    <div className="editor-control-panel">
-      <div className="control-buttons">
-        {/* zoom fader */}
-        <ZoomFader zoom={zoom} setZoom={setZoom} />
-        {/* 3d live mode btn */}
-        <Link
-          className="btn block-btn btn-3d "
-          href={'/livedemo'}
-          title="Live view your timeline animation"
-        >
-          <span>3D</span>
-          <BiCube />
-        </Link>
-        {/* reset btn  */}
-        <button
-          title="Start over"
-          className="btn block-btn reset-btn"
-          onClick={() => {
-            window.location.reload(false);
-          }}
-        >
-          <BiRefresh />
-        </button>
-        {/* transition mode button */}
-        <TransitionsPicker />
-        {/* max value input */}
-        <div className="max-value-input">
+    <div className="settings-panel inputs-container">
+      <h3 className="panel-title">Settings</h3>
+      {/* left */}
+      <AnimationSettingsForm />
+      <br />
+      {/* middle */}
+      <div className="settings-buttons">
+        {/* update max value */}
+        <div className="fps-input">
+          <label htmlFor="fps">Max value</label>
           <input
-            type="number"
             max={30}
             min={1}
+            type="number"
             value={maxValue}
             onChange={(e) => setMaxValue(e.target.value)}
           />
         </div>
       </div>
 
+      {/* right */}
+      <br />
       {/* settings btns */}
-      <div className="control-buttons">
+      <div className="settings-buttons">
         {/* upload settings btn */}
-
-        <button
-          className="btn block-btn"
-          title="Upload settings from .txt. must match stable defusion deforum setting file format"
+        <div
+          className="settings-btn-container"
           onClick={async () => {
             handleUpload();
           }}
         >
-          <AiOutlineUpload /> Upload settings
-        </button>
+          <span>Upload settings</span>
+          <button
+            className="btn settings-btn"
+            title="Upload settings from .txt. must match stsable defusion deforum setting file format"
+          >
+            <AiOutlineUpload />
+          </button>
+        </div>
         {/* dowbload settings btn */}
-
-        <button
-          className="btn block-btn"
-          title="Download settings as .txt file. can bu loaded to stable defusion deforum through  Automatic1111"
+        <div
+          className="settings-btn-container"
           onClick={async () => {
             handleDownload();
           }}
         >
-          <AiOutlineDownload /> Download settings
-        </button>
+          <span>Download settings</span>
+          <button
+            className="btn settings-btn"
+            title="Download settings as .txt file. can bu loaded to stable defusion deforum through  Automatic1111"
+          >
+            <AiOutlineDownload />
+          </button>
+        </div>
         {/* copy settings btn */}
-        <button
-          className="btn block-btn"
-          title="Copy settings to clipboard. can be pasted to stable defusion deforum settings file"
+        <div
+          className="settings-btn-container"
           onClick={() => {
             navigator.clipboard.writeText(`{
                 fps: ${fps},
@@ -224,11 +212,17 @@ const ControlPanel = ({ zoom, setZoom }) => {
               }`);
           }}
         >
-          <AiOutlineCopy /> Copy settings
-        </button>
+          <span>Copy settings</span>
+          <button
+            className="btn settings-btn"
+            title="Copy settings to clipboard. can be pasted to stable defusion deforum settings file"
+          >
+            <AiOutlineCopy />
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default ControlPanel;
+export default SettingsPanel;
