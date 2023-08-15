@@ -105,6 +105,12 @@ const Frame = ({
     }
   }, []);
 
+  // // Handle frame height changes
+  // const [frameHeight, setFrameHeight] = useState(0);
+  // useEffect(() => {
+  //   setFrameHeight(getFrameHeight(frame));
+  // }, [frame]);
+
   // JSX
   return (
     <div
@@ -231,22 +237,26 @@ const Frame = ({
       <div
         className="frame-inner-up"
         style={{
-          height: `${(getFrameHeight(frame) / max) * 50}%`,
+          height:
+            getFrameHeight(frame) > 0
+              ? `${(getFrameHeight(frame) / max) * 50}%`
+              : '0%',
           background: isAnchor
             ? 'rgba(93, 255, 247, 0.5)'
             : 'rgb(168, 19, 19, 0.5)',
         }}
-        onClick={() => {}}
       />
       <div
         className="frame-inner-down"
         style={{
-          height: `${(getFrameHeight(frame) / min) * 50}%`,
+          height:
+            getFrameHeight(frame) < 0
+              ? `${(getFrameHeight(frame) / min) * 50}%`
+              : '0%',
           background: isAnchor
             ? 'rgba(93, 255, 247, 0.5)'
             : 'rgb(168, 19, 19, 0.5)',
         }}
-        onClick={() => {}}
       />
     </div>
   );
