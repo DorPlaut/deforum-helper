@@ -1,63 +1,68 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 import Loading from './loading';
+import { Canvas } from '@react-three/fiber';
+import Scene from './livedemo/Scene';
+import Background from './background/Background';
 
 export default function Home() {
   return (
     <>
-      <div className="welcome-page">
-        <br />
-        <h3>welcome!</h3>
-        <p>
-          Deforum Timeline Helper is a tool for creating and visualizing
-          timeline settings files for Stabe Diffusion Deforum.
-        </p>
-        <br />
-        <h4>What dose this app do?</h4>
-        <ul>
-          <li>
-            - Create a visual timeline with 6 channels: Translation X,
-            Translation Y, Translation Z, Rotation X, Rotation Y, and Rotation
-            Z.
-          </li>
-          <li>
-            - Hover over the upper ruler to see the timestamp in minutes,
-            seconds, and thousandths of a second (00:00:000).
-          </li>
-          <li>- Click on a channel to expand the timeline for that channel.</li>
-          <li>
-            - Activate/deactivate specific frames with on/off buttons inside
-            each frame.
-          </li>
-          <li>
-            - Adjust frame values using the up-down buttons inside the frame.
-          </li>
-          <li>
-            - Copy button for each channel to easily copy the channel values,
-            ready to paste into Deforum settings file or
-            AUTOMATIC1111/stable-diffusion-webui interface input.
-          </li>
-          <li>
-            - Control panel with copy and download buttons to get the full
-            settings ready to go with Deforum.
-          </li>
-          <li>- Live 3D visualzetion to your animation</li>
-        </ul>
-        <br />
-        <Link className="btn block-btn editor-link" href={'/editor'}>
-          lets create a timeline
-        </Link>
-        {/* youtube */}
-        <br />
-        <iframe
-          width="560"
-          height="315"
-          src="https://www.youtube.com/embed/sskloFZXCLM"
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-        ></iframe>
+      <Background />
+      <div className="page">
+        <Image className="background-img" src="/background.jpg" fill />
+        <div className="welcome-page">
+          <br />
+          <h3>welcome!</h3>
+          <p>
+            Deforum Timeline Helper is a tool designed to streamline the
+            creation and visualization of animations settings for Stable
+            Diffusion Deforum..
+          </p>
+          <br />
+          <br />
+          {/* feature list */}
+          <div className="features-list">
+            <h4>What can this app do?</h4>
+            <ul>
+              <li>- Generate visual timelines for your Deforum animations.</li>
+              <li>
+                - Set and calculate the duration and FPS of your Deforum
+                project.
+              </li>
+              <li>
+                - Effortlessly edit animated values using a dynamic editor.
+              </li>
+              <li>
+                - Experience instant, real-time 3D visualization of your
+                animations.
+              </li>
+              <li>- Utilize presets and other unique features.</li>
+              <br />
+              <li>
+                <h5>On youtube:</h5>
+              </li>
+              <li>
+                <iframe
+                  width="100%"
+                  height="auto"
+                  src="https://www.youtube.com/embed/sskloFZXCLM"
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                ></iframe>
+              </li>
+            </ul>
+          </div>
+          <br />
+          <br />
+          <Link className="btn block-btn editor-link" href={'/editor'}>
+            To The Editor
+          </Link>
+          <br />
+        </div>
       </div>
     </>
   );
