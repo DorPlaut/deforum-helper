@@ -4,6 +4,7 @@ import { AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai';
 import ReactSlider from 'react-slider';
 
 const FrameFader = ({ value, setValue, min, max }) => {
+  const number = value;
   return (
     <div className="frame-fader-container">
       <div className="frame-fader-inner">
@@ -15,7 +16,7 @@ const FrameFader = ({ value, setValue, min, max }) => {
           className="frame-fader"
           thumbClassName="btn frame-fader-handle"
           onChange={(v) => setValue(v)}
-          value={value}
+          value={number}
           min={min}
           max={max}
           renderThumb={(props, state) => {

@@ -18,8 +18,11 @@ const TransitionsPicker = () => {
         title="Transition mode"
         className="btn block-btn transitions-btn unclickable-btn"
         onClick={() => {
-          setIsSelecting(!isSelecting);
+          alert('Transition modes are not available yet. Check again soon');
         }}
+        // onClick={() => {
+        //   setIsSelecting(!isSelecting);
+        // }}
       >
         {transitionMode === 'linear' && (
           <TbMinusVertical style={{ rotate: '45deg', scale: '1.15' }} />

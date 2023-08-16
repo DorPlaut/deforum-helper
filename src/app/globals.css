@@ -702,7 +702,12 @@ canvas {
 /* unclickable button */
 
 .unclickable-btn {
-  display: none;
+  background: var(--editorColor4);
+  color: var(--editorColor3);
+}
+.unclickable-btn:hover {
+  background: var(--editorColor4);
+  color: var(--editorColor3);
 }
 /* presets picker */
 .presets-btn-container {
@@ -780,6 +785,9 @@ canvas {
   }
   .features-list {
     width: 90%;
+  }
+  .background {
+    display: none;
   }
 }
 
