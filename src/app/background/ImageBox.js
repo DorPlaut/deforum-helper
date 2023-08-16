@@ -11,7 +11,7 @@ const ImageBox = (props) => {
   useFrame((state, delta) => {
     if (boxRef.current) {
       boxRef.current.rotation.y += 0.002;
-      boxRef.current.rotation.x += 0.002;
+      boxRef.current.rotation.x += 0.001;
     }
   });
 
