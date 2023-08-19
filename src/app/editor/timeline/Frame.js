@@ -1,6 +1,6 @@
 import { useFramesStore } from '@/store/framesStore';
 import framesToTime from '@/utils/framesToTime';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   AiFillCaretDown,
   AiFillCaretUp,
@@ -17,6 +17,7 @@ const Frame = ({
   frames,
   setFrames,
   index,
+  editroRef,
 }) => {
   // global state
   const { fps, maxValue } = useFramesStore((state) => state);
@@ -35,7 +36,6 @@ const Frame = ({
       newFrames[index][1] = 0;
     }
     setFrames(newFrames);
-    getFrameHeight(frame);
   };
 
   // HANDLE FRAME VALUE CHANGES
@@ -49,7 +49,6 @@ const Frame = ({
         newFrames[index].push(true);
       }
       setFrames(newFrames);
-      getFrameHeight(frame);
     }
   };
   // handle decrees value
@@ -66,14 +65,14 @@ const Frame = ({
   };
   // set value from argument
   const setValue = (value) => {
-    const numericValue = parseFloat(value);
     // update frame value
     const newFrames = [...frames];
     if (value <= max && value >= min) {
-      newFrames[index][1] = parseFloat(numericValue.toFixed(2));
+      newFrames[index][1] = parseFloat(value.toFixed(2));
       if (newFrames[index].length === 2) {
         newFrames[index].push(true);
       }
+      console.log(newFrames.length);
       setFrames(newFrames);
     }
   };
@@ -111,153 +110,199 @@ const Frame = ({
   //   setFrameHeight(getFrameHeight(frame));
   // }, [frame]);
 
+  // FRAME BUFFER - render the cntent of a frame only if the frame is on screen
+  const frameRef = useRef();
+  const [isInnerVisible, setIsInnerVisible] = useState(false);
+  //
+
+  const checkVisibility = () => {
+    const outerElement = editroRef.current;
+    const innerElement = frameRef.current;
+
+    if (outerElement && innerElement) {
+      const outerRect = outerElement.getBoundingClientRect();
+      const innerRect = innerElement.getBoundingClientRect();
+      const outerX = outerRect.x;
+      const outerWidth = outerRect.width;
+      const innerX = innerRect.x;
+      // if inner frame is on screen. return true
+      if (innerX + 500 >= outerX && innerX - 500 <= outerWidth + outerX) {
+        setIsInnerVisible(true);
+      } else {
+        setIsInnerVisible(false);
+      }
+    }
+  };
+  useEffect(() => {
+    checkVisibility(); // Initial check
+    const handleScroll = () => {
+      checkVisibility();
+    };
+
+    const outerElement = editroRef.current;
+    outerElement.addEventListener('scroll', handleScroll);
+    return () => {
+      outerElement.removeEventListener('scroll', handleScroll);
+    };
+  }, [zoom]);
+
   // JSX
   return (
     <div
+      ref={frameRef}
       title={`frame:${frame[0]} time:${framesToTime(fps, frame[0])}`}
-      className="frame"
-      style={{ width: `${zoom}px`, border: zoom < 15 && 'none' }}
+      className={'frame'}
+      style={{
+        width: `${zoom}px`,
+        border: zoom < 15 && 'none',
+      }}
     >
-      {selected && (
+      {isInnerVisible && (
         <>
-          {/* on/off button */}
-          {index > 0 && (
-            <button
-              className="btn on-off-btn"
-              style={{
-                background: isAnchor ? green : red,
-
-                opacity: isAnchor && 1,
-              }}
-              onClick={handleFrameActivation}
-            >
-              <AiOutlinePoweroff />
-            </button>
-          )}
-          {/* Control frame value */}
-          {isAnchor && (
+          {/*  */}
+          {selected && zoom > 15 && (
             <>
-              {/* increes value button */}
-              <button
-                className="btn up-btn"
-                onClick={() => increesValue(0.01)}
-                onMouseDown={() => {
-                  setTimer(
-                    setInterval(() => {
-                      increesValue(0.5);
-                    }, 150)
-                  );
-                }}
-                onTouchStart={() => {
-                  setTimer(
-                    setInterval(() => {
-                      increesValue(0.5);
-                    }, 150)
-                  );
-                }}
-                onMouseUp={stopTimer}
-                onMouseLeave={stopTimer}
-                onTouchEnd={stopTimer}
-                onTouchMove={stopTimer}
-              >
-                <AiFillCaretUp />
-              </button>
+              {/* on/off button */}
+              {index > 0 && (
+                <button
+                  className="btn on-off-btn"
+                  style={{
+                    background: isAnchor ? green : red,
 
-              {/* frame fader button value */}
-              <div>
-                <FrameFader
-                  min={min}
-                  max={max}
-                  value={frame[1]}
-                  setValue={setValue}
-                />
-              </div>
-              {/* show frame value */}
-              <div className="frame-value">
-                {isEditMode ? (
-                  // edit frame value from a menual form
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      setValue(temporeryValue);
-                      setIsEditMode(false);
+                    opacity: isAnchor && 1,
+                  }}
+                  onClick={handleFrameActivation}
+                >
+                  <AiOutlinePoweroff />
+                </button>
+              )}
+              {/* Control frame value */}
+              {isAnchor && (
+                <>
+                  {/* increes value button */}
+                  <button
+                    className="btn up-btn"
+                    onClick={() => increesValue(0.01)}
+                    onMouseDown={() => {
+                      setTimer(
+                        setInterval(() => {
+                          increesValue(0.5);
+                        }, 150)
+                      );
                     }}
+                    onTouchStart={() => {
+                      setTimer(
+                        setInterval(() => {
+                          increesValue(0.5);
+                        }, 150)
+                      );
+                    }}
+                    onMouseUp={stopTimer}
+                    onMouseLeave={stopTimer}
+                    onTouchEnd={stopTimer}
+                    onTouchMove={stopTimer}
                   >
-                    <input
-                      onBlur={(e) => {
-                        e.preventDefault();
-                        setValue(e.target.value);
-                        setIsEditMode(false);
-                      }}
-                      type="number"
-                      value={temporeryValue}
-                      onChange={(e) => {
-                        setTemporeryValue(e.target.value);
-                      }}
-                      max={max}
+                    <AiFillCaretUp />
+                  </button>
+
+                  {/* frame fader button value */}
+                  <div>
+                    <FrameFader
                       min={min}
+                      max={max}
+                      value={frame[1]}
+                      setValue={setValue}
                     />
-                  </form>
-                ) : (
-                  <span onDoubleClick={() => setIsEditMode(true)}>
-                    {frame[1]}
-                  </span>
-                )}
-              </div>
-              {/* decrees value button */}
-              <button
-                className="btn down-btn"
-                onClick={() => decreesValue(0.01)}
-                onMouseDown={() => {
-                  setTimer(
-                    setInterval(() => {
-                      decreesValue(0.5);
-                    }, 150)
-                  );
-                }}
-                onTouchStart={() => {
-                  setTimer(
-                    setInterval(() => {
-                      decreesValue(0.5);
-                    }, 150)
-                  );
-                }}
-                onMouseUp={stopTimer}
-                onMouseLeave={stopTimer}
-                onTouchEnd={stopTimer}
-                onTouchMove={stopTimer}
-              >
-                <AiFillCaretDown />
-              </button>
+                  </div>
+                  {/* show frame value */}
+                  <div className="frame-value">
+                    {isEditMode ? (
+                      // edit frame value from a menual form
+                      <form
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          setValue(temporeryValue);
+                          setIsEditMode(false);
+                        }}
+                      >
+                        <input
+                          onBlur={(e) => {
+                            e.preventDefault();
+                            setValue(e.target.value);
+                            setIsEditMode(false);
+                          }}
+                          type="number"
+                          value={temporeryValue}
+                          onChange={(e) => {
+                            setTemporeryValue(e.target.value);
+                          }}
+                          max={max}
+                          min={min}
+                        />
+                      </form>
+                    ) : (
+                      <span onDoubleClick={() => setIsEditMode(true)}>
+                        {frame[1]}
+                      </span>
+                    )}
+                  </div>
+                  {/* decrees value button */}
+                  <button
+                    className="btn down-btn"
+                    onClick={() => decreesValue(0.01)}
+                    onMouseDown={() => {
+                      setTimer(
+                        setInterval(() => {
+                          decreesValue(0.5);
+                        }, 150)
+                      );
+                    }}
+                    onTouchStart={() => {
+                      setTimer(
+                        setInterval(() => {
+                          decreesValue(0.5);
+                        }, 150)
+                      );
+                    }}
+                    onMouseUp={stopTimer}
+                    onMouseLeave={stopTimer}
+                    onTouchEnd={stopTimer}
+                    onTouchMove={stopTimer}
+                  >
+                    <AiFillCaretDown />
+                  </button>
+                </>
+              )}
             </>
           )}
+          {/* visual indicetion of frame animation */}
+          <div
+            className="frame-inner-up"
+            style={{
+              height:
+                getFrameHeight(frame) > 0
+                  ? `${(getFrameHeight(frame) / max) * 50}%`
+                  : '0%',
+              background: isAnchor
+                ? 'rgba(93, 255, 247, 0.5)'
+                : 'rgb(168, 19, 19, 0.5)',
+            }}
+          />
+          <div
+            className="frame-inner-down"
+            style={{
+              height:
+                getFrameHeight(frame) < 0
+                  ? `${(getFrameHeight(frame) / min) * 50}%`
+                  : '0%',
+              background: isAnchor
+                ? 'rgba(93, 255, 247, 0.5)'
+                : 'rgb(168, 19, 19, 0.5)',
+            }}
+          />
+          {/*  */}
         </>
       )}
-      {/* visual indicetion of frame animation */}
-      <div
-        className="frame-inner-up"
-        style={{
-          height:
-            getFrameHeight(frame) > 0
-              ? `${(getFrameHeight(frame) / max) * 50}%`
-              : '0%',
-          background: isAnchor
-            ? 'rgba(93, 255, 247, 0.5)'
-            : 'rgb(168, 19, 19, 0.5)',
-        }}
-      />
-      <div
-        className="frame-inner-down"
-        style={{
-          height:
-            getFrameHeight(frame) < 0
-              ? `${(getFrameHeight(frame) / min) * 50}%`
-              : '0%',
-          background: isAnchor
-            ? 'rgba(93, 255, 247, 0.5)'
-            : 'rgb(168, 19, 19, 0.5)',
-        }}
-      />
     </div>
   );
 };

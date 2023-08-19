@@ -5,11 +5,14 @@ import Loading from './loading';
 import { Canvas } from '@react-three/fiber';
 import Scene from './livedemo/Scene';
 import Background from './background/Background';
+import { Suspense } from 'react';
 
 export default function Home() {
   return (
     <>
-      <Background />
+      <Suspense fallback={<Loading />}>
+        <Background />
+      </Suspense>
       <div className="page">
         <Image className="background-img" src="/background.jpg" fill />
         <div className="welcome-page">

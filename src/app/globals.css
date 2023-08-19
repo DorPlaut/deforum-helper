@@ -56,6 +56,9 @@ main {
 .header {
   padding: 1rem;
 }
+/* .invisible {
+  display: none;
+} */
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -499,7 +502,8 @@ h4 {
 /* BUTTONS - in channel controls */
 .copy-btn,
 .minimize-btn,
-.paste-btn {
+.paste-btn,
+.formula-btn {
   position: absolute;
   color: var(--editorColor1);
   background: none;
@@ -520,6 +524,11 @@ h4 {
   left: 2.5rem;
   font-size: 1.5rem;
 }
+.formula-btn {
+  top: 2rem;
+  left: 4.5rem;
+  font-size: 1.5rem;
+}
 .minimize-btn {
   bottom: 0.5rem;
   right: 0.5rem;
@@ -527,7 +536,8 @@ h4 {
 }
 .minimize-btn:hover,
 .copy-btn:hover,
-.paste-btn:hover {
+.paste-btn:hover,
+.formula-btn:hover {
   color: var(--editorColor5);
   background: var(--editorColor1);
 }

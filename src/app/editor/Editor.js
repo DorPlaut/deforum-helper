@@ -1,5 +1,5 @@
 'use client';
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useRef, useState } from 'react';
 import Timeline from './timeline/Timeline';
 import ControlPanel from './control-panel/Tools/ToolsPanel';
 import Channel from './Channel';
@@ -20,6 +20,9 @@ const Editor = () => {
   //   local state for ui
   const [selectedChannel, setSelectedChannel] = useState('');
   const [zoom, setZoom] = useState(50);
+
+  // virualization
+  const editroRef = useRef();
 
   return (
     <div className="editor">
@@ -52,12 +55,13 @@ const Editor = () => {
         </div>
 
         {/* timelines */}
-        <div className="frames">
+        <div className="frames" ref={editroRef}>
           <Suspense fallback={<Loading />}>
             {channels.map((channelName, index) => {
               return (
                 <div key={index}>
                   <Timeline
+                    editroRef={editroRef}
                     selected={channelName === selectedChannel}
                     setSelectedChannel={setSelectedChannel}
                     channelName={channelName}

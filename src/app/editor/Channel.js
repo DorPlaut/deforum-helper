@@ -3,7 +3,12 @@ import { useFramesStore } from '@/store/framesStore';
 import formatArrayToString from '@/utils/formatArrayToString';
 import formatStringToArray from '@/utils/formatStringToArray';
 import React, { useEffect, useState } from 'react';
-import { AiFillCaretDown, AiFillCaretUp, AiOutlineCopy } from 'react-icons/ai';
+import {
+  AiFillCaretDown,
+  AiFillCaretUp,
+  AiOutlineCopy,
+  AiOutlineFunction,
+} from 'react-icons/ai';
 import { ImPaste } from 'react-icons/im';
 import { LiaCopy, LiaPasteSolid } from 'react-icons/lia';
 
@@ -48,6 +53,46 @@ const Channel = ({ channelName, selectedChannel, setSelectedChannel }) => {
 
   const regexPattern = /^(\d+:\(-?\d+(\.\d+)?\),\s*)*\d+:\(-?\d+(\.\d+)?\)$/;
 
+  // handle reading math formulas:
+
+  // formating string:
+  function formatString(inputString) {
+    const formatedString = inputString.replace(/\s+/g, ' ').trim();
+    const formattedNumbers = formatedString.replace(
+      /(-?\d+\.\d{2})/g,
+      (match) => {
+        const number = parseFloat(match);
+        return number;
+      }
+    );
+
+    return formattedNumbers;
+  }
+
+  //  calculating
+
+  function evaluateFormula(formula) {
+    let result = {};
+    for (let i = 0; i <= frameCount; i++) {
+      let value = eval(
+        formula
+          .replace(/t/g, i)
+          .replace(/sin/g, 'Math.sin')
+          .replace(/cos/g, 'Math.cos')
+          .replace(/pi/g, 'Math.PI')
+      );
+
+      result[i] = value.toFixed(2);
+    }
+
+    let output = '';
+    for (const key in result) {
+      output += `${key}:(${result[key]}), `;
+    }
+
+    return output.slice(0, -2);
+  }
+
   return (
     <div
       className="channel"
@@ -80,32 +125,59 @@ const Channel = ({ channelName, selectedChannel, setSelectedChannel }) => {
             <LiaCopy />
           </button>
           <button
-            title="Paste from clipboard"
+            title="Paste frames values - values should be structured as Deforum values. example: 0:(0), 30:(9.6), 55:(8.6), 100:(7), 105:(-5), 120:(2.59)"
             className="btn paste-btn"
             onClick={() => {
               navigator.clipboard.readText().then((text) => {
-                if (!regexPattern.test(text)) {
+                const formatedString = formatString(text);
+                if (!regexPattern.test(formatedString)) {
                   alert('Invalid value');
                   return;
                 }
 
-                //
                 if (channelName === 'Translation X')
-                  setTransX(formatStringToArray(text, frameCount));
+                  setTransX(formatStringToArray(formatedString, frameCount));
                 if (channelName === 'Translation Y')
-                  setTransY(formatStringToArray(text, frameCount));
+                  setTransY(formatStringToArray(formatedString, frameCount));
                 if (channelName === 'Translation Z')
-                  setTransZ(formatStringToArray(text, frameCount));
+                  setTransZ(formatStringToArray(formatedString, frameCount));
                 if (channelName === 'Rotation X')
-                  setRotX(formatStringToArray(text, frameCount));
+                  setRotX(formatStringToArray(formatedString, frameCount));
                 if (channelName === 'Rotation Y')
-                  setRotY(formatStringToArray(text, frameCount));
+                  setRotY(formatStringToArray(formatedString, frameCount));
                 if (channelName === 'Rotation Z')
-                  setRotZ(formatStringToArray(text, frameCount));
+                  setRotZ(formatStringToArray(formatedString, frameCount));
               });
             }}
           >
             <LiaPasteSolid />
+          </button>
+          {/* formula! */}
+          <button
+            title="Paste math formula - Math should be entered without frame count. For example: ((10 * cos((120 / 60 * 3.141 * (t + 0) / 24))**1 + 0.00))"
+            className="btn formula-btn"
+            onClick={() => {
+              navigator.clipboard.readText().then((text) => {
+                const stringValues = evaluateFormula(text);
+
+                if (channelName === 'Translation X')
+                  setTransX(formatStringToArray(stringValues, frameCount));
+                if (channelName === 'Translation Y')
+                  setTransY(formatStringToArray(stringValues, frameCount));
+                if (channelName === 'Translation Z')
+                  setTransZ(formatStringToArray(stringValues, frameCount));
+                if (channelName === 'Rotation X')
+                  setRotX(formatStringToArray(stringValues, frameCount));
+                if (channelName === 'Rotation Y')
+                  setRotY(formatStringToArray(stringValues, frameCount));
+                if (channelName === 'Rotation Z')
+                  setRotZ(formatStringToArray(stringValues, frameCount));
+
+                //
+              });
+            }}
+          >
+            <AiOutlineFunction />
           </button>
           <button
             title="Minimize"

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Frame from './Frame';
 import Rullers from './Rullers';
 import Loading from '@/app/loading';
+import { useRef } from 'react';
 
 const Timeline = ({
   selected,
@@ -12,6 +13,7 @@ const Timeline = ({
   first,
   channelName,
   setSelectedChannel,
+  editroRef,
 }) => {
   // Global state
   const {
@@ -155,6 +157,18 @@ const Timeline = ({
     }
   }, []);
   // JSX
+
+  // useEffect(() => {
+  //   if (editroRef.current) {
+  //     console.log(editroRef);
+  //     console.log(editroRef.current.clientHeight);
+  //     console.log(editroRef.current.offsetWidth);
+  //     console.log(editroRef.current.offsetTop);
+  //     console.log(editroRef.current.offsetHeight);
+  //     console.log(editroRef.current.offsetLeft);
+  //     console.log(editroRef.current.clientWidth);
+  //   }
+  // }, [frames]);
   return (
     <>
       {/* a timeline ruller. only render on top of the first channel */}
@@ -180,6 +194,7 @@ const Timeline = ({
               if (frameCount > index)
                 return (
                   <Frame
+                    editroRef={editroRef}
                     key={index}
                     index={index}
                     frame={frame}
