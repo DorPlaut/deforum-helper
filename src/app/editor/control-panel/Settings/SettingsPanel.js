@@ -42,6 +42,10 @@ const SettingsPanel = () => {
     setFov,
     strength,
     setStrength,
+    fov_schedule,
+    strength_schedule,
+    near_schedule,
+    far_schedule,
   } = useFramesStore((state) => state);
   // download settings
   const handleDownload = async () => {
@@ -59,6 +63,10 @@ const SettingsPanel = () => {
           rotation_3d_x: formatArrayToString(rotX),
           rotation_3d_y: formatArrayToString(rotY),
           rotation_3d_z: formatArrayToString(rotZ),
+          fov_schedule: formatArrayToString(fov_schedule),
+          strength_schedule: formatArrayToString(strength_schedule),
+          near_schedule: formatArrayToString(near_schedule),
+          far_schedule: formatArrayToString(far_schedule),
         },
         {
           responseType: 'blob', // This ensures that the response is treated as a file
