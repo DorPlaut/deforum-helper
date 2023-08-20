@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useFramesStore } from '@/store/framesStore';
 import getHigestValue from '@/utils/getHigestValue';
 import formatStringToArray from '@/utils/formatStringToArray';
+import Middle from './Middle';
 
 const SettingsPanel = () => {
   // global state
@@ -33,6 +34,14 @@ const SettingsPanel = () => {
     maxValue,
     setMaxValue,
     hoverdFrame,
+    near,
+    setNear,
+    far,
+    setFar,
+    fov,
+    setFov,
+    strength,
+    setStrength,
   } = useFramesStore((state) => state);
   // download settings
   const handleDownload = async () => {
@@ -146,20 +155,7 @@ const SettingsPanel = () => {
       <AnimationSettingsForm />
       <br />
       {/* middle */}
-      <div className="settings-buttons">
-        {/* update max value */}
-        <div className="fps-input">
-          <label htmlFor="fps">Max value</label>
-          <input
-            max={30}
-            min={1}
-            type="number"
-            value={maxValue}
-            onChange={(e) => setMaxValue(e.target.value)}
-          />
-        </div>
-      </div>
-
+      <Middle />
       {/* right */}
       <br />
       {/* settings btns */}

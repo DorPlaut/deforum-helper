@@ -28,6 +28,22 @@ const Channel = ({ channelName, selectedChannel, setSelectedChannel }) => {
     setRotX,
     setRotY,
     setRotZ,
+    fov,
+    setFov,
+    strength,
+    setStrength,
+    near,
+    setNear,
+    far,
+    setFar,
+    fov_schedule,
+    setFov_schedule,
+    strength_schedule,
+    setStrength_schedule,
+    near_schedule,
+    setNear_schedule,
+    far_schedule,
+    setFar_schedule,
   } = useFramesStore((state) => state);
 
   // dynamic css
@@ -79,6 +95,10 @@ const Channel = ({ channelName, selectedChannel, setSelectedChannel }) => {
           .replace(/t/g, i)
           .replace(/sin/g, 'Math.sin')
           .replace(/cos/g, 'Math.cos')
+          .replace(/tan/g, 'Math.tan')
+          .replace(/arcsin/g, 'Math.asin')
+          .replace(/arccos/g, 'Math.acos')
+          .replace(/arctan/g, 'Math.atan')
           .replace(/pi/g, 'Math.PI')
       );
 
@@ -108,18 +128,35 @@ const Channel = ({ channelName, selectedChannel, setSelectedChannel }) => {
             title="Copy to clipboard"
             className="btn copy-btn"
             onClick={() => {
-              if (channelName === 'Translation X')
+              if (channelName === 'translation_x')
                 navigator.clipboard.writeText(formatArrayToString(transX));
-              if (channelName === 'Translation Y')
+              if (channelName === 'translation_y')
                 navigator.clipboard.writeText(formatArrayToString(transY));
-              if (channelName === 'Translation Z')
+              if (channelName === 'translation_z')
                 navigator.clipboard.writeText(formatArrayToString(transZ));
-              if (channelName === 'Rotation X')
+              if (channelName === 'rotation_3d_x')
                 navigator.clipboard.writeText(formatArrayToString(rotX));
-              if (channelName === 'Rotation Y')
+              if (channelName === 'rotation_3d_y')
                 navigator.clipboard.writeText(formatArrayToString(rotY));
-              if (channelName === 'Rotation Z')
+              if (channelName === 'rotation_3d_z')
                 navigator.clipboard.writeText(formatArrayToString(rotZ));
+              //
+              if (channelName === 'fov_schedule')
+                navigator.clipboard.writeText(
+                  formatArrayToString(fov_schedule)
+                );
+              if (channelName === 'strength_schedule')
+                navigator.clipboard.writeText(
+                  formatArrayToString(strength_schedule)
+                );
+              if (channelName === 'near_schedule')
+                navigator.clipboard.writeText(
+                  formatArrayToString(near_schedule)
+                );
+              if (channelName === 'far_schedule')
+                navigator.clipboard.writeText(
+                  formatArrayToString(far_schedule)
+                );
             }}
           >
             <LiaCopy />
@@ -135,18 +172,36 @@ const Channel = ({ channelName, selectedChannel, setSelectedChannel }) => {
                   return;
                 }
 
-                if (channelName === 'Translation X')
+                if (channelName === 'translation_x')
                   setTransX(formatStringToArray(formatedString, frameCount));
-                if (channelName === 'Translation Y')
+                if (channelName === 'translation_y')
                   setTransY(formatStringToArray(formatedString, frameCount));
-                if (channelName === 'Translation Z')
+                if (channelName === 'translation_z')
                   setTransZ(formatStringToArray(formatedString, frameCount));
-                if (channelName === 'Rotation X')
+                if (channelName === 'rotation_3d_x')
                   setRotX(formatStringToArray(formatedString, frameCount));
-                if (channelName === 'Rotation Y')
+                if (channelName === 'rotation_3d_y')
                   setRotY(formatStringToArray(formatedString, frameCount));
-                if (channelName === 'Rotation Z')
+                if (channelName === 'rotation_3d_z')
                   setRotZ(formatStringToArray(formatedString, frameCount));
+                //
+                if (channelName === 'fov_schedule')
+                  setFov_schedule(
+                    formatStringToArray(formatedString, frameCount)
+                  );
+                if (channelName === 'strength_schedule')
+                  setStrength_schedule(
+                    formatStringToArray(formatedString, frameCount)
+                  );
+                if (channelName === 'near_schedule')
+                  setNear_schedule(
+                    formatStringToArray(formatedString, frameCount)
+                  );
+                if (channelName === 'far_schedule')
+                  setFar_schedule(
+                    formatStringToArray(formatedString, frameCount)
+                  );
+                //
               });
             }}
           >
@@ -160,17 +215,17 @@ const Channel = ({ channelName, selectedChannel, setSelectedChannel }) => {
               navigator.clipboard.readText().then((text) => {
                 const stringValues = evaluateFormula(text);
 
-                if (channelName === 'Translation X')
+                if (channelName === 'translation_x')
                   setTransX(formatStringToArray(stringValues, frameCount));
-                if (channelName === 'Translation Y')
+                if (channelName === 'translation_y')
                   setTransY(formatStringToArray(stringValues, frameCount));
-                if (channelName === 'Translation Z')
+                if (channelName === 'translation_z')
                   setTransZ(formatStringToArray(stringValues, frameCount));
-                if (channelName === 'Rotation X')
+                if (channelName === 'rotation_3d_x')
                   setRotX(formatStringToArray(stringValues, frameCount));
-                if (channelName === 'Rotation Y')
+                if (channelName === 'rotation_3d_y')
                   setRotY(formatStringToArray(stringValues, frameCount));
-                if (channelName === 'Rotation Z')
+                if (channelName === 'rotation_3d_z')
                   setRotZ(formatStringToArray(stringValues, frameCount));
 
                 //

@@ -1,0 +1,165 @@
+import { useFramesStore } from '@/store/framesStore';
+import React, { useEffect } from 'react';
+import { BiTime } from 'react-icons/bi';
+import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
+
+const Middle = () => {
+  // global state
+  const {
+    maxValue,
+    setMaxValue,
+    near,
+    setNear,
+    far,
+    setFar,
+    fov,
+    setFov,
+    strength,
+    setStrength,
+    channels,
+    addChannel,
+    removeChannel,
+    fov_schedule,
+    setFov_schedule,
+    strength_schedule,
+    setStrength_schedule,
+    near_schedule,
+    setNear_schedule,
+    far_schedule,
+    setFar_schedule,
+  } = useFramesStore((state) => state);
+  // handle adding/removing channels
+  const handleChannels = (channelName) => {
+    if (channelName === 'fov_schedule') setFov_schedule([[0, fov, true]]);
+    if (channelName === 'strength_schedule')
+      setStrength_schedule([[0, strength, true]]);
+    if (channelName === 'near_schedule') setNear_schedule([[0, near, true]]);
+    if (channelName === 'far_schedule') setFar_schedule([[0, far, true]]);
+    if (channels.includes(channelName)) removeChannel(channelName);
+    else addChannel(channelName);
+  };
+
+  // useEffect(() => {}, [channels]);
+  return (
+    <div className="settings-buttons">
+      {/* FOV */}
+      <div className="fps-input">
+        <button
+          style={{
+            background: channels.includes('fov_schedule') && 'black',
+          }}
+          className="add-channel-btn btn"
+          onClick={() => {
+            handleChannels('fov_schedule');
+          }}
+        >
+          FOV
+        </button>
+        <input
+          max={1000}
+          min={1}
+          readOnly={channels.includes('fov_schedule')}
+          type={channels.includes('fov_schedule') ? 'number' : 'number'}
+          value={channels.includes('fov_schedule') ? '' : fov}
+          onChange={(e) => {
+            setFov(e.target.value);
+            setFov_schedule([[0, e.target.value, true]]);
+          }}
+        />
+      </div>
+      {/* strength */}
+      <div className="fps-input">
+        <button
+          style={{
+            background: channels.includes('strength_schedule') && 'black',
+          }}
+          className="add-channel-btn btn"
+          onClick={() => {
+            handleChannels('strength_schedule');
+          }}
+        >
+          Strength
+        </button>
+        <input
+          max={1}
+          min={0}
+          readOnly={channels.includes('strength_schedule')}
+          type={channels.includes('strength_schedule') ? 'number' : 'number'}
+          value={channels.includes('strength_schedule') ? '' : strength}
+          onChange={(e) => {
+            setStrength(e.target.value);
+            setStrength_schedule([[0, e.target.value, true]]);
+          }}
+        />
+      </div>
+      {/* near*/}
+      <div className="fps-input">
+        <button
+          style={{ background: channels.includes('near_schedule') && 'black' }}
+          className="add-channel-btn btn"
+          onClick={() => {
+            handleChannels('near_schedule');
+          }}
+        >
+          Near
+        </button>
+        <input
+          max={99999}
+          min={1}
+          readOnly={channels.includes('near_schedule')}
+          type={channels.includes('near_schedule') ? 'number' : 'number'}
+          value={channels.includes('near_schedule') ? '' : near}
+          onChange={(e) => {
+            setNear(e.target.value);
+            setNear_schedule([[0, e.target.value, true]]);
+          }}
+        />
+      </div>
+      {/* far*/}
+      <div className="fps-input">
+        <button
+          style={{ background: channels.includes('far_schedule') && 'black' }}
+          className="add-channel-btn btn"
+          onClick={() => {
+            handleChannels('far_schedule');
+          }}
+        >
+          Far
+        </button>
+
+        <input
+          max={99999}
+          min={1}
+          readOnly={channels.includes('far_schedule')}
+          type={channels.includes('far_schedule') ? 'number' : 'number'}
+          value={channels.includes('far_schedule') ? '' : far}
+          onChange={(e) => {
+            setFar(e.target.value);
+            setFar_schedule([[0, e.target.value, true]]);
+          }}
+        />
+      </div>
+      <div className="add-channel-icon">
+        <span title="Click on a parameter to add add a channel">
+          <HiOutlineArrowNarrowLeft />
+          <BiTime />
+        </span>
+      </div>
+      {/* update max value */}
+      <div className="fps-input">
+        <label className="add-channel-btn btn unclickable" htmlFor="fps">
+          Max value
+        </label>
+        <input
+          max={40}
+          min={1}
+          type="number"
+          value={maxValue}
+          onChange={(e) => setMaxValue(e.target.value)}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default Middle;

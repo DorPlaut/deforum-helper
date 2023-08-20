@@ -60,6 +60,10 @@ main {
   display: none;
 } */
 
+.unclickable {
+  pointer-events: none;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -172,8 +176,11 @@ h4 {
   flex-direction: column;
   margin: 0 0.5rem;
   transition: 0.2s;
+  max-width: 9rem;
+
+  width: fit-content;
 }
-.fps-input label,
+
 .frames-input label,
 .settings-btn-container span {
   display: flex;
@@ -197,10 +204,10 @@ h4 {
   outline: none;
   background: var(--editorColor2);
   color: var(--editorColor5);
-  width: 100%;
   font-weight: bold;
-  /* font-size: 1rem; */
   transition: 0.2s;
+  width: 100%;
+  max-width: 100%;
 }
 
 .settings-btn:hover,
@@ -214,6 +221,29 @@ h4 {
 }
 .settings-btn svg {
   scale: 1.6;
+}
+
+.add-channel-icon {
+  color: var(--editorColor2);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transform: translateY(-0.8rem);
+}
+.add-channel-icon svg {
+  font-size: 1.2rem;
+}
+.add-channel-btn {
+  border-radius: 20px 20px 0 0;
+  padding: 0.3rem 0.5rem;
+  outline: none;
+
+  background: none;
+  color: var(--editorColor2);
+  font-size: 1rem;
+}
+.add-channel-btn:hover {
+  background: var(--editorColor6);
 }
 
 /* EDITOR */
@@ -615,6 +645,7 @@ footer {
   height: calc(100vh - 8rem);
 }
 canvas {
+  background: black;
 }
 
 /* 3d live menu */

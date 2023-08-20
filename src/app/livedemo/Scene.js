@@ -13,13 +13,31 @@ import useTimeline from '../../../hooks/useTimeline';
 import * as THREE from 'three';
 import Timeline from '../editor/timeline/Timeline';
 import LiveMenu from './LiveMenu';
+import { config, useSpring, animated } from '@react-spring/three';
 
 const Scene = () => {
   // global state
-  const { fps, frameCount, transX, transY, transZ, rotX, rotY, rotZ } =
-    useFramesStore((state) => state);
+  const {
+    fps,
+    frameCount,
+    transX,
+    transY,
+    transZ,
+    rotX,
+    rotY,
+    rotZ,
+    fov_schedule,
+    setFov_schedule,
+    strength_schedule,
+    setStrength_schedule,
+    near_schedule,
+    setNear_schedule,
+    far_schedule,
+    setFar_schedule,
+  } = useFramesStore((state) => state);
   // camera settings
   const cameraRef = useRef();
+  const innerCameraRef = useRef();
   const { camera } = useThree();
 
   const [cameraPosition, setCameraPosition] = useState([0, 0, 0]);
@@ -28,16 +46,40 @@ const Scene = () => {
     Math.round(num / multiple) * multiple;
 
   // animation settings
-  const animationSettings = framesToAnimation(
-    fps,
-    frameCount,
-    transX,
-    transY,
-    transZ,
-    rotX,
-    rotY,
-    rotZ
+  const [animationSettings, setAnimationSettings] = useState(() =>
+    framesToAnimation(
+      fps,
+      frameCount,
+      transX,
+      transY,
+      transZ,
+      rotX,
+      rotY,
+      rotZ,
+      fov_schedule,
+      strength_schedule,
+      near_schedule,
+      far_schedule
+    )
   );
+  useEffect(() => {
+    setAnimationSettings(
+      framesToAnimation(
+        fps,
+        frameCount,
+        transX,
+        transY,
+        transZ,
+        rotX,
+        rotY,
+        rotZ,
+        fov_schedule,
+        strength_schedule,
+        near_schedule,
+        far_schedule
+      )
+    );
+  }, []);
 
   // BOXES
   // create boxes
@@ -95,11 +137,28 @@ const Scene = () => {
   const [rotationX, setRotationX] = useState(0);
   const [rotationY, setRotationY] = useState(0);
   const [rotationZ, setRotationZ] = useState(0);
+  //
+  const [cameraFov, setCameraFov] = useState(70);
+  const [cameraNear, setCameraNear] = useState(200);
+  const [cameraFar, setCameraFar] = useState(1000);
+  const [cameraStrength, setCameraStrength] = useState(0.65);
+  //
+  // const { fov, near, far } = useSpring({
+  //   fov: cameraFov,
+  //   near: cameraNear,
+  //   far: cameraFar,
+  //   config: config.default,
+
+  //   onStart: () => setIsCameraMoving(true),
+  //   onRest: () => setIsCameraMoving(false),
+  // });
+  //
+  const [maxValue, setMaxValue] = useState(10);
 
   // camera animation!
   useFrame((state, delta) => {
     // chack if camera exist
-    if (cameraRef.current && isRunning) {
+    if (cameraRef.current && isRunning && animationSettings) {
       // update boxes positon
       if (timeLine % 2 === 0) {
         setCameraPosition([
@@ -128,7 +187,6 @@ const Scene = () => {
       cameraRef.current.position.add(moveZ);
 
       //  ROTATION
-
       const rotateX = rotationX / 250;
       const rotateY = rotationY / 250;
       const rotateZ = rotationZ / 250;
@@ -136,6 +194,17 @@ const Scene = () => {
       cameraRef.current.rotateX(rotateX);
       cameraRef.current.rotateY(-rotateY);
       cameraRef.current.rotateZ(-rotateZ);
+
+      // FOV
+      innerCameraRef.current.fov = cameraFov;
+      // // Near
+      innerCameraRef.current.near = cameraNear / 2000;
+      // // Far
+      innerCameraRef.current.far = cameraFar / 5;
+
+      // const currentNear = innerCameraRef.current.near;
+      // const currentFar = innerCameraRef.current.far;
+      // console.log(currentNear, currentFar);
 
       //  set frame movment value from global state
       animationSettings.translationX.map((timeStemp, index) => {
@@ -156,6 +225,20 @@ const Scene = () => {
       animationSettings.rotationZ.map((timeStemp, index) => {
         if (timeLine === timeStemp[0]) setRotationZ(timeStemp[1]);
       });
+      // other settings
+      animationSettings.fov.map((timeStemp, index) => {
+        if (timeLine === timeStemp[0]) setCameraFov(timeStemp[1]);
+      });
+      animationSettings.near.map((timeStemp, index) => {
+        if (timeLine === timeStemp[0]) setCameraNear(timeStemp[1]);
+      });
+      animationSettings.far.map((timeStemp, index) => {
+        if (timeLine === timeStemp[0]) setCameraFar(timeStemp[1]);
+      });
+      animationSettings.strength.map((timeStemp, index) => {
+        if (timeLine === timeStemp[0]) setCameraStrength(timeStemp[1]);
+      });
+
       // end animation when reachd animation length
       if (timeLine >= animationSettings.animationLength) setIsRunning(false);
 
@@ -184,7 +267,16 @@ const Scene = () => {
             />
           </Html>
         </Center>
-        <PerspectiveCamera makeDefault />
+        <PerspectiveCamera
+          makeDefault
+          ref={innerCameraRef}
+          fov={fov_schedule[0][1]}
+          near={near_schedule[0][1] / 2000}
+          far={far_schedule[0][1] / 5}
+          aspect={0.2}
+          // far={10000}
+          // near={2}
+        />
       </mesh>
 
       {/* light */}
@@ -201,7 +293,7 @@ const Scene = () => {
 
         {/* background */}
         <mesh position={cameraPosition} scale={10}>
-          <boxGeometry args={[200, 200, 200]} />
+          <boxGeometry args={[150, 150, 150]} />
           <meshBasicMaterial color={'black'} side={THREE.DoubleSide} />
         </mesh>
         <fog attach="fog" color={'black'} near={0} far={87} />

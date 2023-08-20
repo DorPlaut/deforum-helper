@@ -8,7 +8,11 @@ const framesToAnimation = (
   transZ,
   rotX,
   rotY,
-  rotZ
+  rotZ,
+  fov_schedule,
+  strength_schedule,
+  near_schedule,
+  far_schedule
 ) => {
   let translationX = transX;
   let translationY = transY;
@@ -16,6 +20,10 @@ const framesToAnimation = (
   let rotationX = rotX;
   let rotationY = rotY;
   let rotationZ = rotZ;
+  let fov = fov_schedule;
+  let strength = strength_schedule;
+  let near = near_schedule;
+  let far = far_schedule;
 
   // Find the maximum length among all the arrays
   const maxLength = Math.max(
@@ -24,7 +32,11 @@ const framesToAnimation = (
     translationZ.length,
     rotationX.length,
     rotationY.length,
-    rotationZ.length
+    rotationZ.length,
+    fov.length,
+    strength.length,
+    near.length,
+    far.length
   );
 
   // Function to pad an array with the last value until it reaches the desired length
@@ -42,6 +54,10 @@ const framesToAnimation = (
   rotationX = padArray(rotationX, maxLength);
   rotationY = padArray(rotationY, maxLength);
   rotationZ = padArray(rotationZ, maxLength);
+  fov = padArray(fov, maxLength);
+  strength = padArray(strength, maxLength);
+  near = padArray(near, maxLength);
+  far = padArray(far, maxLength);
 
   // convert time to integer
   const timeToTenthSeconds = (timeStamp) => {
@@ -118,6 +134,10 @@ const framesToAnimation = (
     rotationX: populateNonAnchorFrames(rotationX),
     rotationY: populateNonAnchorFrames(rotationY),
     rotationZ: populateNonAnchorFrames(rotationZ),
+    fov: populateNonAnchorFrames(fov),
+    strength: populateNonAnchorFrames(strength),
+    near: populateNonAnchorFrames(near),
+    far: populateNonAnchorFrames(far),
   };
   return animationSettings;
 };

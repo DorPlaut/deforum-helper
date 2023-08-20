@@ -32,27 +32,43 @@ const Timeline = ({
     rotY,
     rotZ,
     maxValue,
+    fov_schedule,
+    setFov_schedule,
+    strength_schedule,
+    setStrength_schedule,
+    near_schedule,
+    setNear_schedule,
+    far_schedule,
+    setFar_schedule,
   } = useFramesStore((state) => state);
   // SELECT TIMELINE CHANNEL
   // find current channel by channel name and set it to frames
   const findFrames = () => {
-    if (channelName === 'Translation X') return transX;
-    if (channelName === 'Translation Y') return transY;
-    if (channelName === 'Translation Z') return transZ;
-    if (channelName === 'Rotation X') return rotX;
-    if (channelName === 'Rotation Y') return rotY;
-    if (channelName === 'Rotation Z') return rotZ;
+    if (channelName === 'translation_x') return transX;
+    if (channelName === 'translation_y') return transY;
+    if (channelName === 'translation_z') return transZ;
+    if (channelName === 'rotation_3d_x') return rotX;
+    if (channelName === 'rotation_3d_y') return rotY;
+    if (channelName === 'rotation_3d_z') return rotZ;
+    if (channelName === 'fov_schedule') return fov_schedule;
+    if (channelName === 'strength_schedule') return strength_schedule;
+    if (channelName === 'near_schedule') return near_schedule;
+    if (channelName === 'far_schedule') return far_schedule;
   };
   const frames = findFrames();
 
   // find the setState function for the channel and set set it to setFrames
   const findSetFrames = () => {
-    if (channelName === 'Translation X') return setTransX;
-    if (channelName === 'Translation Y') return setTransY;
-    if (channelName === 'Translation Z') return setTransZ;
-    if (channelName === 'Rotation X') return setRotX;
-    if (channelName === 'Rotation Y') return setRotY;
-    if (channelName === 'Rotation Z') return setRotZ;
+    if (channelName === 'translation_x') return setTransX;
+    if (channelName === 'translation_y') return setTransY;
+    if (channelName === 'translation_z') return setTransZ;
+    if (channelName === 'rotation_3d_x') return setRotX;
+    if (channelName === 'rotation_3d_y') return setRotY;
+    if (channelName === 'rotation_3d_z') return setRotZ;
+    if (channelName === 'fov_schedule') return setFov_schedule;
+    if (channelName === 'strength_schedule') return setStrength_schedule;
+    if (channelName === 'near_schedule') return setNear_schedule;
+    if (channelName === 'far_schedule') return setFar_schedule;
   };
   const setFrames = findSetFrames();
 
@@ -194,6 +210,7 @@ const Timeline = ({
               if (frameCount > index)
                 return (
                   <Frame
+                    channelName={channelName}
                     editroRef={editroRef}
                     key={index}
                     index={index}

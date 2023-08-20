@@ -40,18 +40,18 @@
   "positive_prompts": "buildings, text, ground, shadows, light, photorealistic",
   "negative_prompts": "nsfw, nude",
   "animation_mode": "3D",
-  "max_frames": 100,
+  "max_frames": 100, V
   "border": "wrap",
   "angle": "0:(0)",
   "zoom": "0:(1.0025+0.002*sin(1.25*3.14*t/30))",
-  "translation_x": "0:(0)",
-  "translation_y": "0:(0)",
-  "translation_z": "0:(5)",
+  "translation_x": "0:(0)", V
+  "translation_y": "0:(0)", V
+  "translation_z": "0:(5)", V
   "transform_center_x": "0:(0.5)",
   "transform_center_y": "0:(0.5)",
-  "rotation_3d_x": "0:(0)",
-  "rotation_3d_y": "0:(0)",
-  "rotation_3d_z": "0:(0)",
+  "rotation_3d_x": "0:(0)", V
+  "rotation_3d_y": "0:(0)", V
+  "rotation_3d_z": "0:(0)", V
   "enable_perspective_flip": false,
   "enable_ddim_eta_scheduling": false,
   "ddim_eta_schedule": "0:(0)",

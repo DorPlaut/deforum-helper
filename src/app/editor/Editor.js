@@ -5,23 +5,17 @@ import ControlPanel from './control-panel/Tools/ToolsPanel';
 import Channel from './Channel';
 import Link from 'next/link';
 import Loading from '../loading';
+import { useFramesStore } from '@/store/framesStore';
 
 const Editor = () => {
-  // ## CHANNELS ##
-  // set the channels you want to edit
-  const channels = [
-    'Translation X',
-    'Translation Y',
-    'Translation Z',
-    'Rotation X',
-    'Rotation Y',
-    'Rotation Z',
-  ];
+  // global state
+  const { channels } = useFramesStore((state) => state);
+
   //   local state for ui
   const [selectedChannel, setSelectedChannel] = useState('');
   const [zoom, setZoom] = useState(50);
 
-  // virualization
+  // buffer - elemts ref to chack if they are on screen at any given time
   const editroRef = useRef();
 
   return (

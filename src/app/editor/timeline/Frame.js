@@ -18,22 +18,45 @@ const Frame = ({
   setFrames,
   index,
   editroRef,
+  channelName,
 }) => {
   // global state
-  const { fps, maxValue } = useFramesStore((state) => state);
+  const { fps, maxValue, far, near } = useFramesStore((state) => state);
 
   // set maximun and minimum possible values
-  const max = maxValue;
-  const min = -maxValue;
+  let max = maxValue;
+  let min = -maxValue;
+  let includesOnlyPositiveValues = false;
+  if (channelName === 'fov_schedule') {
+    max = 100;
+    min = 1;
+    includesOnlyPositiveValues = true;
+  }
+  if (channelName === 'strength_schedule') {
+    max = 1;
+    min = 0;
+    includesOnlyPositiveValues = true;
+  }
+  if (channelName === 'near_schedule') {
+    max = far;
+    min = 0;
+    includesOnlyPositiveValues = true;
+  }
+  if (channelName === 'far_schedule') {
+    max = 10000;
+    min = near;
+    includesOnlyPositiveValues = true;
+  }
 
   // turn a frame on and off
   const handleFrameActivation = () => {
     const newFrames = [...frames];
     if (newFrames[index].length === 2) {
       newFrames[index].push(true);
+      newFrames[index][1] = includesOnlyPositiveValues ? min : 0;
     } else if (newFrames[index].length === 3) {
       newFrames[index].pop();
-      newFrames[index][1] = 0;
+      newFrames[index][1] = includesOnlyPositiveValues ? min : 0;
     }
     setFrames(newFrames);
   };
@@ -68,11 +91,10 @@ const Frame = ({
     // update frame value
     const newFrames = [...frames];
     if (value <= max && value >= min) {
-      newFrames[index][1] = parseFloat(value.toFixed(2));
+      newFrames[index][1] = parseFloat(value);
       if (newFrames[index].length === 2) {
         newFrames[index].push(true);
       }
-      console.log(newFrames.length);
       setFrames(newFrames);
     }
   };
@@ -281,25 +303,31 @@ const Frame = ({
             style={{
               height:
                 getFrameHeight(frame) > 0
-                  ? `${(getFrameHeight(frame) / max) * 50}%`
+                  ? includesOnlyPositiveValues
+                    ? `${(getFrameHeight(frame) / max) * 100}%`
+                    : `${(getFrameHeight(frame) / max) * 50}%`
                   : '0%',
+              bottom: includesOnlyPositiveValues ? '0%' : '50%',
               background: isAnchor
                 ? 'rgba(93, 255, 247, 0.5)'
                 : 'rgb(168, 19, 19, 0.5)',
             }}
           />
-          <div
-            className="frame-inner-down"
-            style={{
-              height:
-                getFrameHeight(frame) < 0
-                  ? `${(getFrameHeight(frame) / min) * 50}%`
-                  : '0%',
-              background: isAnchor
-                ? 'rgba(93, 255, 247, 0.5)'
-                : 'rgb(168, 19, 19, 0.5)',
-            }}
-          />
+          {includesOnlyPositiveValues || (
+            <div
+              className="frame-inner-down"
+              style={{
+                height:
+                  getFrameHeight(frame) < 0
+                    ? `${(getFrameHeight(frame) / min) * 50}%`
+                    : '0%',
+                background: isAnchor
+                  ? 'rgba(93, 255, 247, 0.5)'
+                  : 'rgb(168, 19, 19, 0.5)',
+              }}
+            />
+          )}
+
           {/*  */}
         </>
       )}
