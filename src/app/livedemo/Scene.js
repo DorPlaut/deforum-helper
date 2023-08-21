@@ -14,6 +14,7 @@ import * as THREE from 'three';
 import Timeline from '../editor/timeline/Timeline';
 import LiveMenu from './LiveMenu';
 import { config, useSpring, animated } from '@react-spring/three';
+import ValueIndicators from './ValueIndicators';
 
 const Scene = () => {
   // global state
@@ -143,17 +144,6 @@ const Scene = () => {
   const [cameraFar, setCameraFar] = useState(1000);
   const [cameraStrength, setCameraStrength] = useState(0.65);
   //
-  // const { fov, near, far } = useSpring({
-  //   fov: cameraFov,
-  //   near: cameraNear,
-  //   far: cameraFar,
-  //   config: config.default,
-
-  //   onStart: () => setIsCameraMoving(true),
-  //   onRest: () => setIsCameraMoving(false),
-  // });
-  //
-  const [maxValue, setMaxValue] = useState(10);
 
   // camera animation!
   useFrame((state, delta) => {
@@ -264,6 +254,20 @@ const Scene = () => {
               isRunning={isRunning}
               setIsRunning={setIsRunning}
               animationSettings={animationSettings}
+            />
+          </Html>
+          <Html>
+            <ValueIndicators
+              strength={cameraStrength}
+              fov={cameraFov}
+              near={cameraNear}
+              far={cameraFar}
+              positionX={positionX}
+              positionY={positionY}
+              positionZ={positionZ}
+              rotationX={rotationX}
+              rotationY={rotationY}
+              rotationZ={rotationZ}
             />
           </Html>
         </Center>

@@ -632,6 +632,10 @@ footer {
   width: 100%;
   text-align: center;
   margin-bottom: 0.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1rem;
 }
 .footer-spacer {
   width: 100%;
@@ -646,6 +650,7 @@ footer {
 }
 canvas {
   background: black;
+  position: relative;
 }
 
 /* 3d live menu */
@@ -705,7 +710,61 @@ canvas {
   color: var(--editorColor2);
 }
 
+/* live 3d view indicator */
 /*  */
+.value-indicators-container {
+  position: fixed;
+  bottom: 1.78rem;
+  right: 0rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  transition: 0.5s;
+}
+.indicators-btn {
+  margin: 0.5rem;
+  font-size: 1.2rem;
+}
+.value-indicators {
+  pointer-events: none;
+  background: var(--editorColor5);
+  border-radius: 20px 0 0 0;
+  padding: 0.5rem;
+  display: flex;
+  border-top: solid 1px var(--editorColor2);
+  border-left: solid 1px var(--editorColor2);
+}
+.first-indicator {
+  border-radius: 20px 0 0 0;
+}
+.value-indicator-container {
+  height: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.2rem;
+  position: relative;
+}
+.value-indicator {
+  width: 3rem;
+  background: var(--editorColor6);
+  transition: 0.1s;
+}
+.indicator-Value {
+  position: absolute;
+  bottom: 8rem;
+}
+.indicator {
+  margin: 0.3rem;
+  padding-top: 0.2rem;
+  background: var(--editorColor4);
+}
+.indicator-name {
+  margin: 0 0.2rem;
+  font-size: 0.8rem;
+}
+
 /*  */
 .back-to-editor-btn {
   position: absolute;

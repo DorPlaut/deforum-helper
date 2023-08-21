@@ -14,27 +14,41 @@ import {
 const PresetsBtn = () => {
   // global state
   const {
-    transitionMode,
-    setTrantisonMode,
     fps,
     frameCount,
     setFps,
     setFrameCount,
-    setTransX,
-    setTransY,
-    setTransZ,
-    setRotX,
-    setRotY,
-    setRotZ,
     transX,
+    setTransX,
     transY,
+    setTransY,
     transZ,
+    setTransZ,
     rotX,
+    setRotX,
     rotY,
+    setRotY,
     rotZ,
+    setRotZ,
     maxValue,
     setMaxValue,
     hoverdFrame,
+    near,
+    setNear,
+    far,
+    setFar,
+    fov,
+    setFov,
+    strength,
+    setStrength,
+    fov_schedule,
+    strength_schedule,
+    near_schedule,
+    far_schedule,
+    setFov_schedule,
+    setStrength_schedule,
+    setNear_schedule,
+    setFar_schedule,
   } = useFramesStore((state) => state);
   // local state
   const [isSelecting, setIsSelecting] = useState(false);
@@ -69,6 +83,13 @@ const PresetsBtn = () => {
       const rotXArray = formatStringToArray(rotation_3d_x, max_frames);
       const rotYArray = formatStringToArray(rotation_3d_y, max_frames);
       const rotZArray = formatStringToArray(rotation_3d_z, max_frames);
+      const fovArray = formatStringToArray(jsonData.fov_schedule, max_frames);
+      const strengthArray = formatStringToArray(
+        jsonData.strength_schedule,
+        max_frames
+      );
+      const nearArray = formatStringToArray(jsonData.near_schedule, max_frames);
+      const farArray = formatStringToArray(jsonData.far_schedule, max_frames);
 
       setTransX(transXArray);
       setTransY(transYArray);
@@ -76,17 +97,27 @@ const PresetsBtn = () => {
       setRotX(rotXArray);
       setRotY(rotYArray);
       setRotZ(rotZArray);
+      setFov_schedule(fovArray);
+      setStrength_schedule(strengthArray);
+      setNear_schedule(nearArray);
+      setFar_schedule(farArray);
+
+      setFov(fovArray[0][1]);
+      setStrength(strengthArray[0][1]);
+      setFar(farArray[0][1]);
+      setNear(nearArray[0][1]);
 
       setMaxValue(
-        getHigestValue(
+        getHigestValue([
           transXArray,
           transYArray,
           transZArray,
           rotXArray,
           rotYArray,
-          rotZArray
-        )
+          rotZArray,
+        ])
       );
+
       setIsSelecting(false);
     } catch (error) {
       console.error(error);

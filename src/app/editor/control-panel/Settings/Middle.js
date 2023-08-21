@@ -39,6 +39,16 @@ const Middle = () => {
     else addChannel(channelName);
   };
 
+  // handle Change
+  const handlValuChange = (e, value, max, min) => {
+    if (value < min || value > max) {
+      alert(`Value must be between ${min} and ${max}`);
+    } else {
+      setNear(e.target.value);
+      setNear_schedule([[0, e.target.value, true]]);
+    }
+  };
+
   // useEffect(() => {}, [channels]);
   return (
     <div className="settings-buttons">
@@ -62,8 +72,7 @@ const Middle = () => {
           type={channels.includes('fov_schedule') ? 'number' : 'number'}
           value={channels.includes('fov_schedule') ? '' : fov}
           onChange={(e) => {
-            setFov(e.target.value);
-            setFov_schedule([[0, e.target.value, true]]);
+            handlValuChange(e, e.target.value, 1000, 1);
           }}
         />
       </div>
@@ -87,8 +96,7 @@ const Middle = () => {
           type={channels.includes('strength_schedule') ? 'number' : 'number'}
           value={channels.includes('strength_schedule') ? '' : strength}
           onChange={(e) => {
-            setStrength(e.target.value);
-            setStrength_schedule([[0, e.target.value, true]]);
+            handlValuChange(e, e.target.value, 1, 0);
           }}
         />
       </div>
@@ -110,8 +118,7 @@ const Middle = () => {
           type={channels.includes('near_schedule') ? 'number' : 'number'}
           value={channels.includes('near_schedule') ? '' : near}
           onChange={(e) => {
-            setNear(e.target.value);
-            setNear_schedule([[0, e.target.value, true]]);
+            handlValuChange(e, e.target.value, 99999, 1);
           }}
         />
       </div>
@@ -134,8 +141,7 @@ const Middle = () => {
           type={channels.includes('far_schedule') ? 'number' : 'number'}
           value={channels.includes('far_schedule') ? '' : far}
           onChange={(e) => {
-            setFar(e.target.value);
-            setFar_schedule([[0, e.target.value, true]]);
+            handlValuChange(e, e.target.value, 99999, 1);
           }}
         />
       </div>

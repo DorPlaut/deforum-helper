@@ -46,6 +46,10 @@ const SettingsPanel = () => {
     strength_schedule,
     near_schedule,
     far_schedule,
+    setFov_schedule,
+    setStrength_schedule,
+    setNear_schedule,
+    setFar_schedule,
   } = useFramesStore((state) => state);
   // download settings
   const handleDownload = async () => {
@@ -115,6 +119,10 @@ const SettingsPanel = () => {
             rotation_3d_x,
             rotation_3d_y,
             rotation_3d_z,
+            // fov_schedule,
+            // strength_schedule,
+            // near_schedule,
+            // far_schedule,
           } = jsonData;
           // update the global state with the extracted data
           setFps(fps);
@@ -126,6 +134,22 @@ const SettingsPanel = () => {
           const rotXArray = formatStringToArray(rotation_3d_x, max_frames);
           const rotYArray = formatStringToArray(rotation_3d_y, max_frames);
           const rotZArray = formatStringToArray(rotation_3d_z, max_frames);
+          const fovArray = formatStringToArray(
+            jsonData.fov_schedule,
+            max_frames
+          );
+          const strengthArray = formatStringToArray(
+            jsonData.strength_schedule,
+            max_frames
+          );
+          const nearArray = formatStringToArray(
+            jsonData.near_schedule,
+            max_frames
+          );
+          const farArray = formatStringToArray(
+            jsonData.far_schedule,
+            max_frames
+          );
 
           setTransX(transXArray);
           setTransY(transYArray);
@@ -133,17 +157,26 @@ const SettingsPanel = () => {
           setRotX(rotXArray);
           setRotY(rotYArray);
           setRotZ(rotZArray);
+          setFov_schedule(fovArray);
+          setStrength_schedule(strengthArray);
+          setNear_schedule(nearArray);
+          setFar_schedule(farArray);
+
+          setFov(fovArray[0][1]);
+          setStrength(strengthArray[0][1]);
+          setFar(farArray[0][1]);
+          setNear(nearArray[0][1]);
 
           //
           setMaxValue(
-            getHigestValue(
+            getHigestValue([
               transXArray,
               transYArray,
               transZArray,
               rotXArray,
               rotYArray,
-              rotZArray
-            )
+              rotZArray,
+            ])
           );
         };
         // Read the contents of the file as a text string
@@ -213,7 +246,12 @@ const SettingsPanel = () => {
                 rotation_3d_x: ${formatArrayToString(rotX)},
                 rotation_3d_y: ${formatArrayToString(rotY)},
                 rotation_3d_z: ${formatArrayToString(rotZ)},
-              }`);
+                fov_schedule: ${formatArrayToString(fov_schedule)},
+                strength_schedule: ${formatArrayToString(strength_schedule)},
+                near_schedule: ${formatArrayToString(near_schedule)},
+                far_schedule: ${formatArrayToString(far_schedule)}
+              }
+              `);
           }}
         >
           <span>Copy settings</span>
