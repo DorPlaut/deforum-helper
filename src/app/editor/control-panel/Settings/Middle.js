@@ -55,6 +55,7 @@ const Middle = () => {
       {/* FOV */}
       <div className="fps-input">
         <button
+          title="Fov is the field of view of the camera. Create a timeline channel to animate this value"
           style={{
             background: channels.includes('fov_schedule') && 'black',
           }}
@@ -79,6 +80,7 @@ const Middle = () => {
       {/* strength */}
       <div className="fps-input">
         <button
+          title="Strength is the amount of presence of previous frame to influence next frame. Create a timeline channel to animate this value"
           style={{
             background: channels.includes('strength_schedule') && 'black',
           }}
@@ -103,6 +105,7 @@ const Middle = () => {
       {/* near*/}
       <div className="fps-input">
         <button
+          title="Near value is the closest distance from the camera. Create a timeline channel to animate this value"
           style={{ background: channels.includes('near_schedule') && 'black' }}
           className="add-channel-btn btn"
           onClick={() => {
@@ -125,6 +128,7 @@ const Middle = () => {
       {/* far*/}
       <div className="fps-input">
         <button
+          title="Far value is the farthest distance from the camera. Create a timeline channel to animate this value"
           style={{ background: channels.includes('far_schedule') && 'black' }}
           className="add-channel-btn btn"
           onClick={() => {
