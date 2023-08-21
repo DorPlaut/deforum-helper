@@ -649,7 +649,6 @@ footer {
   height: calc(100vh - 8rem);
 }
 canvas {
-  background: black;
   position: relative;
 }
 
