@@ -647,6 +647,7 @@ footer {
   position: relative;
   width: 100%;
   height: calc(100vh - 8rem);
+  background: black;
 }
 canvas {
   position: relative;
