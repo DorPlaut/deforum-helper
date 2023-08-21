@@ -465,6 +465,7 @@ h4 {
 .ruller-frame {
   border-bottom: solid 1px var(--editorColor3);
   border-left: solid 1px var(--editorColor4);
+
   height: 2rem;
   transition: 0.2s;
   display: flex;
@@ -731,8 +732,8 @@ canvas {
   border-radius: 20px 0 0 0;
   padding: 0.5rem;
   display: flex;
-  border-top: solid 1px var(--editorColor2);
-  border-left: solid 1px var(--editorColor2);
+  border-top: solid 1px var(--editorColor3);
+  border-left: solid 1px var(--editorColor3);
 }
 .first-indicator {
   border-radius: 20px 0 0 0;
@@ -836,6 +837,7 @@ canvas {
 .read-only-input {
   filter: brightness(0.5);
 }
+
 /* MEDIA QUERIES */
 
 @media screen and (max-width: 1400px) {
