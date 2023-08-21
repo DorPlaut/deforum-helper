@@ -75,7 +75,9 @@ const Middle = () => {
           onChange={(e) => {
             handlValuChange(e, e.target.value, 1000, 1);
           }}
-          className={channels.includes('fov_schedule') && 'read-only-input'}
+          className={
+            channels.includes('fov_schedule') ? 'read-only-input' : undefined
+          }
         />
       </div>
       {/* strength */}
@@ -103,7 +105,9 @@ const Middle = () => {
               : strength
           }
           className={
-            channels.includes('strength_schedule') && 'read-only-input'
+            channels.includes('strength_schedule')
+              ? 'read-only-input'
+              : undefined
           }
           onChange={(e) => {
             handlValuChange(e, e.target.value, 1, 0);
@@ -130,7 +134,9 @@ const Middle = () => {
           value={
             channels.includes('near_schedule') ? near_schedule[0][1] : near
           }
-          className={channels.includes('near_schedule') && 'read-only-input'}
+          className={
+            channels.includes('near_schedule') ? 'read-only-input' : undefined
+          }
           onChange={(e) => {
             handlValuChange(e, e.target.value, 99999, 1);
           }}
@@ -155,7 +161,9 @@ const Middle = () => {
           readOnly={channels.includes('far_schedule')}
           type={'number'}
           value={channels.includes('far_schedule') ? far_schedule[0][1] : far}
-          className={channels.includes('far_schedule') && 'read-only-input'}
+          className={
+            channels.includes('far_schedule') ? 'read-only-input' : undefined
+          }
           onChange={(e) => {
             handlValuChange(e, e.target.value, 99999, 1);
           }}

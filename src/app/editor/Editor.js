@@ -6,10 +6,12 @@ import Channel from './Channel';
 import Link from 'next/link';
 import Loading from '../loading';
 import { useFramesStore } from '@/store/framesStore';
+import { usePageStore } from '@/store/pageStore';
 
 const Editor = () => {
   // global state
   const { channels } = useFramesStore((state) => state);
+  const { isLoading } = usePageStore((state) => state);
 
   //   local state for ui
   const [selectedChannel, setSelectedChannel] = useState('');
@@ -22,52 +24,56 @@ const Editor = () => {
     <div className="editor">
       {/* control panel */}
       <ControlPanel zoom={zoom} setZoom={setZoom} />
-      <div className="timeline-container">
-        <div className="channels">
-          {/* rullers */}
-          <div
-            className="channel"
-            style={{
-              height: '2rem',
-            }}
-          >
-            frame/time
-          </div>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <Suspense fallback={<Loading />}>
+          <div className="timeline-container">
+            <div className="channels">
+              {/* rullers */}
+              <div
+                className="channel"
+                style={{
+                  height: '2rem',
+                }}
+              >
+                frame/time
+              </div>
 
-          {/* channels */}
+              {/* channels */}
 
-          {channels.map((channelName, index) => {
-            return (
-              <Channel
-                key={index}
-                channelName={channelName}
-                selectedChannel={selectedChannel}
-                setSelectedChannel={setSelectedChannel}
-              />
-            );
-          })}
-        </div>
-
-        {/* timelines */}
-        <div className="frames" ref={editroRef}>
-          <Suspense fallback={<Loading />}>
-            {channels.map((channelName, index) => {
-              return (
-                <div key={index}>
-                  <Timeline
-                    editroRef={editroRef}
-                    selected={channelName === selectedChannel}
-                    setSelectedChannel={setSelectedChannel}
+              {channels.map((channelName, index) => {
+                return (
+                  <Channel
+                    key={index}
                     channelName={channelName}
-                    first={index === 0}
-                    zoom={zoom}
+                    selectedChannel={selectedChannel}
+                    setSelectedChannel={setSelectedChannel}
                   />
-                </div>
-              );
-            })}
-          </Suspense>
-        </div>
-      </div>
+                );
+              })}
+            </div>
+
+            {/* timelines */}
+            <div className="frames" ref={editroRef}>
+              {channels.map((channelName, index) => {
+                return (
+                  <div key={index}>
+                    <Timeline
+                      editroRef={editroRef}
+                      selected={channelName === selectedChannel}
+                      setSelectedChannel={setSelectedChannel}
+                      channelName={channelName}
+                      first={index === 0}
+                      zoom={zoom}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </Suspense>
+      )}
     </div>
   );
 };

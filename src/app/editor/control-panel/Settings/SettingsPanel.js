@@ -11,6 +11,7 @@ import { useFramesStore } from '@/store/framesStore';
 import getHigestValue from '@/utils/getHigestValue';
 import formatStringToArray from '@/utils/formatStringToArray';
 import Middle from './Middle';
+import { usePageStore } from '@/store/pageStore';
 
 const SettingsPanel = () => {
   // global state
@@ -51,6 +52,8 @@ const SettingsPanel = () => {
     setNear_schedule,
     setFar_schedule,
   } = useFramesStore((state) => state);
+  const { isLoading, setIsLoading } = usePageStore((state) => state);
+
   // download settings
   const handleDownload = async () => {
     try {
@@ -76,6 +79,7 @@ const SettingsPanel = () => {
           responseType: 'blob', // This ensures that the response is treated as a file
         }
       );
+
       // Create a Blob from the response data
       const blob = new Blob([response.data], { type: 'text/plain' });
       // Create a URL for the Blob
@@ -109,6 +113,7 @@ const SettingsPanel = () => {
         reader.onload = () => {
           const fileData = reader.result;
           const jsonData = JSON.parse(fileData);
+
           // frase needed data
           const {
             fps,
@@ -205,7 +210,9 @@ const SettingsPanel = () => {
         <div
           className="settings-btn-container"
           onClick={async () => {
-            handleUpload();
+            setIsLoading(true);
+            await handleUpload();
+            setIsLoading(false);
           }}
         >
           <span>Upload settings</span>

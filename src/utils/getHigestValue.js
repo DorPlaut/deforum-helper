@@ -7,7 +7,9 @@ const getHigestValue = (arrays) => {
       if (secondValue < 0) values.push(-secondValue);
     });
   });
-  return Math.ceil(values.reduce((max, current) => Math.max(max, current)));
+  if (values.length > 0)
+    return Math.ceil(values.reduce((max, current) => Math.max(max, current)));
+  else return 10;
 };
 
 export default getHigestValue;
