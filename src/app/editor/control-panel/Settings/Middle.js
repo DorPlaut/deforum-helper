@@ -70,11 +70,12 @@ const Middle = () => {
           max={1000}
           min={1}
           readOnly={channels.includes('fov_schedule')}
-          type={channels.includes('fov_schedule') ? 'number' : 'number'}
-          value={channels.includes('fov_schedule') ? '' : fov}
+          type={'number'}
+          value={channels.includes('fov_schedule') ? fov_schedule[0][1] : fov}
           onChange={(e) => {
             handlValuChange(e, e.target.value, 1000, 1);
           }}
+          className={channels.includes('fov_schedule') && 'read-only-input'}
         />
       </div>
       {/* strength */}
@@ -95,8 +96,15 @@ const Middle = () => {
           max={1}
           min={0}
           readOnly={channels.includes('strength_schedule')}
-          type={channels.includes('strength_schedule') ? 'number' : 'number'}
-          value={channels.includes('strength_schedule') ? '' : strength}
+          type={'number'}
+          value={
+            channels.includes('strength_schedule')
+              ? strength_schedule[0][1]
+              : strength
+          }
+          className={
+            channels.includes('strength_schedule') && 'read-only-input'
+          }
           onChange={(e) => {
             handlValuChange(e, e.target.value, 1, 0);
           }}
@@ -118,8 +126,11 @@ const Middle = () => {
           max={99999}
           min={1}
           readOnly={channels.includes('near_schedule')}
-          type={channels.includes('near_schedule') ? 'number' : 'number'}
-          value={channels.includes('near_schedule') ? '' : near}
+          type={'number'}
+          value={
+            channels.includes('near_schedule') ? near_schedule[0][1] : near
+          }
+          className={channels.includes('near_schedule') && 'read-only-input'}
           onChange={(e) => {
             handlValuChange(e, e.target.value, 99999, 1);
           }}
@@ -142,8 +153,9 @@ const Middle = () => {
           max={99999}
           min={1}
           readOnly={channels.includes('far_schedule')}
-          type={channels.includes('far_schedule') ? 'number' : 'number'}
-          value={channels.includes('far_schedule') ? '' : far}
+          type={'number'}
+          value={channels.includes('far_schedule') ? far_schedule[0][1] : far}
+          className={channels.includes('far_schedule') && 'read-only-input'}
           onChange={(e) => {
             handlValuChange(e, e.target.value, 99999, 1);
           }}
