@@ -13,7 +13,7 @@ export default function Home() {
       <Suspense fallback={<Loading />}>
         <Background />
       </Suspense>
-      <div className="page">
+      <div className="page animation-fade-in">
         <Image className="background-img" src="/background.jpg" fill />
         <div className="welcome-page">
           <br />

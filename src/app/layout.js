@@ -17,14 +17,14 @@ export default function RootLayout({ children }) {
         <Analytics />
 
         <main>
-          <div className="header">
+          <div className="header animation-fade-in">
             <h1>Deforum Timeline Helper</h1>
             <h2>Visualize your timeline for Stable Diffusion Deforum</h2>
           </div>
           {children}
         </main>
-        <div className="footer-spacer" />
-        <footer>
+        <div className="footer-spacer " />
+        <footer className="animation-fade-in">
           <span>
             Built by{' '}
             <a

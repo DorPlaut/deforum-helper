@@ -5,7 +5,7 @@ import SettingsPanel from './control-panel/Settings/SettingsPanel';
 
 const page = () => {
   return (
-    <div>
+    <div className="animation-fade-in">
       <SettingsPanel />
       <Editor />
     </div>

@@ -180,7 +180,7 @@ const Frame = ({
       }}
     >
       {isInnerVisible && (
-        <>
+        <div className="frame-inner animation-fade-in">
           {/*  */}
           {selected && zoom > 15 && (
             <>
@@ -329,7 +329,7 @@ const Frame = ({
           )}
 
           {/*  */}
-        </>
+        </div>
       )}
     </div>
   );

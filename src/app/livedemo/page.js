@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 const page = () => {
   return (
-    <div className="scene-container">
+    <div className="scene-container animation-fade-in">
       <Canvas>
         <Scene />
       </Canvas>
