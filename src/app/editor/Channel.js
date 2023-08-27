@@ -18,8 +18,7 @@ const Channel = ({
   channelName,
   selectedChannel,
   setSelectedChannel,
-  VisibleChannels,
-  SetVisibleChannels,
+
 }) => {
   // data
   const {
@@ -51,7 +50,8 @@ const Channel = ({
     near_schedule,
     setNear_schedule,
     far_schedule,
-    setFar_schedule,
+    setFar_schedule,VisibleChannels,
+    SetVisibleChannels
   } = useFramesStore((state) => state);
 
   const isVisible = VisibleChannels.includes(channelName);

@@ -40,6 +40,18 @@ export const useFramesStore = create((set) => ({
   // remove Channel
   removeChannel: (channel) =>
     set((state) => ({ channels: state.channels.filter((c) => c !== channel) })),
+// visible channel list. (ui perpese )
+    VisibleChannels: [
+      'translation_x',
+      'translation_y',
+      'translation_z',
+      'rotation_3d_x',
+      'rotation_3d_y',
+      'rotation_3d_z','near_schedule', 'far_schedule', 'strength_schedule', 'fov_schedule','audio'
+    ],
+  // set Visible Channels
+  
+  SetVisibleChannels: (VisibleChannels) => set(() => ({ VisibleChannels })),
 
   // sperate state for each channel
   // movment
