@@ -98,13 +98,14 @@ console.log(VisibleChannels);
                         style={{
                           height: '2rem',
                           width:
-                            editroRef.current &&
-                            editroRef.current.children[0].scrollWidth,
+                          RullerRef.current &&
+                          RullerRef.current.scrollWidth,
                         }}
                       ></div>
                     ) : (
                       <div key={index}>
                         <Timeline
+                        RullerRef={RullerRef}
                           editroRef={editroRef}
                           selected={channelName === selectedChannel}
                           setSelectedChannel={setSelectedChannel}

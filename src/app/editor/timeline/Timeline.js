@@ -9,6 +9,7 @@ import { useRef } from 'react';
 import AudioChannel from './AudioChannel';
 
 const Timeline = ({
+  RullerRef,
   selected,
   zoom,
   first,
@@ -192,6 +193,7 @@ const Timeline = ({
           >
             {channelName === 'audio' ? (
               <AudioChannel
+              RullerRef={RullerRef}
                 zoom={zoom}
                 selected={selected}
                 editroRef={editroRef}

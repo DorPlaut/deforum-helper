@@ -3,7 +3,7 @@ import { useFramesStore } from '@/store/framesStore';
 import React, { useEffect, useRef, useState } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 
-const AudioChannel = ({ zoom, selected, editroRef }) => {
+const AudioChannel = ({ zoom, selected, editroRef ,RullerRef}) => {
   // Global state
   const {
     isPlaying,
@@ -57,7 +57,7 @@ const AudioChannel = ({ zoom, selected, editroRef }) => {
     <div
       className="waveform-container"
       style={{
-        width: editroRef.current && editroRef.current.children[0].scrollWidth,
+        width: RullerRef.current && RullerRef.current.scrollWidth,
       }}
     >
       <div
