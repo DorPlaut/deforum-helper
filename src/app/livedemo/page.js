@@ -5,7 +5,7 @@ import { Canvas } from '@react-three/fiber';
 import Link from 'next/link';
 import AudioPlayer from './AudioPlayer';
 
-const page = () => {
+const Page = () => {
   const audioRef = useRef();
   useEffect(() => {
     if (audioRef.current) {
@@ -25,4 +25,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
