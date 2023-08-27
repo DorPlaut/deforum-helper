@@ -1,127 +1,75 @@
 'use client';
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import Timeline from './timeline/Timeline';
-import ControlPanel from './control-panel/Tools/ToolsPanel';
+import ControlPanel from './control-panel/ControlPanel';
 import Channel from './Channel';
 import Link from 'next/link';
 import Loading from '../loading';
-import { useFramesStore } from '@/store/framesStore';
-import { usePageStore } from '@/store/pageStore';
-import Rullers from './timeline/Rullers';
 
 const Editor = () => {
-  // global state
-  const { channels, transX, frameCount } = useFramesStore((state) => state);
-  const { isLoading } = usePageStore((state) => state);
-
+  // ## CHANNELS ##
+  // set the channels you want to edit
+  const channels = [
+    'Translation X',
+    'Translation Y',
+    'Translation Z',
+    'Rotation X',
+    'Rotation Y',
+    'Rotation Z',
+  ];
   //   local state for ui
   const [selectedChannel, setSelectedChannel] = useState('');
   const [zoom, setZoom] = useState(50);
-  const [VisibleChannels, SetVisibleChannels] = useState(channels);
-
-  useEffect(() => {
-    SetVisibleChannels(channels);
-  }, [channels]);
-
-  // buffer - elemts ref to chack if they are on screen at any given time
-  const editroRef = useRef();
-
-  // channel width from editor ref
-  const RullerRef = useRef();
-  const [channelWidth, setChannelWidth] = useState('100%');
-  useEffect(() => {
-    if (RullerRef.current) {
-      const length = RullerRef.current.offsetWidth;
-      setChannelWidth(length);
-    }
-  }, [frameCount, zoom]);
 
   return (
     <div className="editor">
       {/* control panel */}
       <ControlPanel zoom={zoom} setZoom={setZoom} />
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <Suspense fallback={<Loading />}>
-          <div className="timeline-container">
-            <div className="channels">
-              {/* rullers */}
-              <div
-                className="channel"
-                style={{
-                  height: '2rem',
-                }}
-              >
-                frame/time
-              </div>
-
-              {/* channels */}
-
-              {channels.map((channelName, index) => {
-                return (
-                  <Channel
-                    key={index}
-                    channelName={channelName}
-                    selectedChannel={selectedChannel}
-                    setSelectedChannel={setSelectedChannel}
-                    VisibleChannels={VisibleChannels}
-                    SetVisibleChannels={SetVisibleChannels}
-                  />
-                );
-              })}
-            </div>
-
-            {/* timelines */}
-
-            <div className="frames" ref={editroRef}>
-              {channels.map((channelName, index) => {
-                const isHidden = VisibleChannels.indexOf(channelName) === -1;
-                return (
-                  <div key={index} className="timelines-container">
-                    {index === 0 && (
-                      <Rullers
-                        zoom={zoom}
-                        frames={transX}
-                        RullerRef={RullerRef}
-                      />
-                    )}
-                    {isHidden ? (
-                      <div
-                        key={index}
-                        className="timeLine hidden-timeline"
-                        style={{
-                          height: '2rem',
-                          width:
-                            editroRef.current &&
-                            editroRef.current.children[0].scrollWidth,
-                        }}
-                      ></div>
-                    ) : (
-                      <div key={index}>
-                        <Timeline
-                          editroRef={editroRef}
-                          selected={channelName === selectedChannel}
-                          setSelectedChannel={setSelectedChannel}
-                          channelName={channelName}
-                          first={index === 0}
-                          zoom={zoom}
-                        />
-                      </div>
-                    )}
-                  </div>
-                );
-
-                // isHidden ? (
-
-                // ) : (
-
-                // );
-              })}
-            </div>
+      <div className="timeline-container">
+        <div className="channels">
+          {/* rullers */}
+          <div
+            className="channel"
+            style={{
+              height: '2rem',
+            }}
+          >
+            frame/time
           </div>
-        </Suspense>
-      )}
+
+          {/* channels */}
+
+          {channels.map((channelName, index) => {
+            return (
+              <Channel
+                key={index}
+                channelName={channelName}
+                selectedChannel={selectedChannel}
+                setSelectedChannel={setSelectedChannel}
+              />
+            );
+          })}
+        </div>
+
+        {/* timelines */}
+        <div className="frames">
+          <Suspense fallback={<Loading />}>
+            {channels.map((channelName, index) => {
+              return (
+                <div key={index}>
+                  <Timeline
+                    selected={channelName === selectedChannel}
+                    setSelectedChannel={setSelectedChannel}
+                    channelName={channelName}
+                    first={index === 0}
+                    zoom={zoom}
+                  />
+                </div>
+              );
+            })}
+          </Suspense>
+        </div>
+      </div>
     </div>
   );
 };

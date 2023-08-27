@@ -2,9 +2,7 @@ const formatStringToArray = (string, frameCount) => {
   const formattedArray = string.split(',').map((item) => {
     const innerArraay = item.trim().split(':');
     const frame = parseInt(innerArraay[0]);
-    const value = parseFloat(
-      innerArraay[1].trim().slice(1, innerArraay[1].length - 1)
-    );
+    const value = parseInt(innerArraay[1].slice(1, innerArraay[1].length - 1));
     return [frame, value, true];
   });
   //

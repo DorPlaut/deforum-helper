@@ -1,28 +1,20 @@
 'use client';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import Scene from './Scene';
 import { Canvas } from '@react-three/fiber';
 import Link from 'next/link';
-import AudioPlayer from './AudioPlayer';
 
-const Page = () => {
-  const audioRef = useRef();
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.play();
-    }
-  });
+const page = () => {
   return (
-    <div className="scene-container animation-fade-in">
+    <div className="scene-container">
       <Canvas>
-        <Scene audioRef={audioRef} />
+        <Scene />
       </Canvas>
       <Link className="back-to-editor-btn  block-btn btn" href={'/editor'}>
         back to editor
       </Link>
-      <AudioPlayer audioRef={audioRef} />
     </div>
   );
 };
 
-export default Page;
+export default page;

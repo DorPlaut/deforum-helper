@@ -5,7 +5,7 @@ const useTimeline = (isRunning, setTimeLine) => {
     let timer = null;
     if (!isRunning) {
       clearInterval(timer);
-      // setTimeLine(-0.5);
+      setTimeLine(-0.5);
     } else {
       timer = setInterval(() => {
         if (isRunning) {

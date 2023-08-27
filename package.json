@@ -12,19 +12,18 @@
     "@react-spring/three": "^9.7.3",
     "@react-three/drei": "^9.80.0",
     "@react-three/fiber": "^8.13.6",
-    "@react-three/postprocessing": "^2.15.0",
     "@types/three": "^0.154.0",
-    "@vercel/analytics": "^1.0.2",
     "axios": "^1.4.0",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
+    "formidable": "^3.5.0",
+    "multiparty": "^4.2.3",
     "next": "13.4.10",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
     "react-slider": "^2.0.6",
     "three": "^0.155.0",
-    "wavesurfer.js": "^7.1.5",
     "zustand": "^4.3.9"
   }
 }
