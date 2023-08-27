@@ -1,5 +1,6 @@
+import { useAudioStore } from '@/store/audioStore';
 import { useFramesStore } from '@/store/framesStore';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BiCube, BiTime } from 'react-icons/bi';
 import {
   BsFillFastForwardFill,
@@ -20,9 +21,21 @@ const LiveMenu = ({
   animationSettings,
   setIsAnchorOn,
   isAnchorOn,
+  audioRef,
 }) => {
   // global state data
   const { fps, frameCount } = useFramesStore((state) => state);
+  // Global state
+  const {
+    isPlaying,
+    setIsPlaying,
+    playAudio,
+    pauseAudio,
+    selectedAudio,
+    setSelectedAudio,
+    audioLength,
+    setAudioLength,
+  } = useAudioStore((state) => state);
   // find current frame
   const findFrame = () => {
     const tolerance = 0.001; // You can adjust this tolerance value as needed
@@ -154,6 +167,9 @@ const LiveMenu = ({
               className="btn live-btn block-btn pause-btn"
               onClick={() => {
                 setIsRunning(false);
+                if (audioRef.current) {
+                  audioRef.current.pause();
+                }
               }}
             >
               <BsFillPauseFill />
@@ -163,6 +179,9 @@ const LiveMenu = ({
               className="btn live-btn block-btn play-btn"
               onClick={() => {
                 setIsRunning(true);
+                if (audioRef.current) {
+                  audioRef.current.play();
+                }
               }}
             >
               <BsFillPlayFill />

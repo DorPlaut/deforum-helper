@@ -2,7 +2,7 @@ import { useFramesStore } from '@/store/framesStore';
 import framesToTime from '@/utils/framesToTime';
 import React, { useState } from 'react';
 
-const Rullers = ({ frames, zoom }) => {
+const Rullers = ({ frames, zoom, RullerRef }) => {
   const { fps, frameCount, hoverdFrame, setHoverdFrame, transX } =
     useFramesStore((state) => state);
   //   local state
@@ -10,7 +10,7 @@ const Rullers = ({ frames, zoom }) => {
   // const [hoverdFrame, setHoverdFrame] = useState([0, 0, true]);
 
   return (
-    <div className="rullers">
+    <div className="rullers" ref={RullerRef}>
       <div className="timeline-ruller">
         {frames.map((frame, index) => {
           if (index < frameCount)

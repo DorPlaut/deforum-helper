@@ -17,6 +17,7 @@ import TransitionsPicker from './TransitionsPicker';
 import getHigestValue from '@/utils/getHigestValue';
 import framesToTime from '@/utils/framesToTime';
 import PresetsBtn from './PresetsBtn';
+import AddAudioBtn from './AddAudioBtn';
 
 const ToolsPanel = ({ zoom, setZoom }) => {
   // global state
@@ -65,16 +66,8 @@ const ToolsPanel = ({ zoom, setZoom }) => {
           <BiRefresh />
         </button>
 
-        {/* max value input */}
-        {/* <div className="max-value-input">
-          <input
-            type="number"
-            max={30}
-            min={1}
-            value={maxValue}
-            onChange={(e) => setMaxValue(e.target.value)}
-          />
-        </div> */}
+        {/* add audio */}
+        <AddAudioBtn />
 
         {/* 3d live mode btn */}
         <Link

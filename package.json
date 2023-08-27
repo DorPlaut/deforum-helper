@@ -24,6 +24,7 @@
     "react-icons": "^4.10.1",
     "react-slider": "^2.0.6",
     "three": "^0.155.0",
+    "wavesurfer.js": "^7.1.5",
     "zustand": "^4.3.9"
   }
 }

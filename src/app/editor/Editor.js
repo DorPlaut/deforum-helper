@@ -1,5 +1,5 @@
 'use client';
-import React, { Suspense, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import Timeline from './timeline/Timeline';
 import ControlPanel from './control-panel/Tools/ToolsPanel';
 import Channel from './Channel';
@@ -7,18 +7,34 @@ import Link from 'next/link';
 import Loading from '../loading';
 import { useFramesStore } from '@/store/framesStore';
 import { usePageStore } from '@/store/pageStore';
+import Rullers from './timeline/Rullers';
 
 const Editor = () => {
   // global state
-  const { channels } = useFramesStore((state) => state);
+  const { channels, transX, frameCount } = useFramesStore((state) => state);
   const { isLoading } = usePageStore((state) => state);
 
   //   local state for ui
   const [selectedChannel, setSelectedChannel] = useState('');
   const [zoom, setZoom] = useState(50);
+  const [VisibleChannels, SetVisibleChannels] = useState(channels);
+
+  useEffect(() => {
+    SetVisibleChannels(channels);
+  }, [channels]);
 
   // buffer - elemts ref to chack if they are on screen at any given time
   const editroRef = useRef();
+
+  // channel width from editor ref
+  const RullerRef = useRef();
+  const [channelWidth, setChannelWidth] = useState('100%');
+  useEffect(() => {
+    if (RullerRef.current) {
+      const length = RullerRef.current.offsetWidth;
+      setChannelWidth(length);
+    }
+  }, [frameCount, zoom]);
 
   return (
     <div className="editor">
@@ -49,26 +65,58 @@ const Editor = () => {
                     channelName={channelName}
                     selectedChannel={selectedChannel}
                     setSelectedChannel={setSelectedChannel}
+                    VisibleChannels={VisibleChannels}
+                    SetVisibleChannels={SetVisibleChannels}
                   />
                 );
               })}
             </div>
 
             {/* timelines */}
+
             <div className="frames" ref={editroRef}>
               {channels.map((channelName, index) => {
+                const isHidden = VisibleChannels.indexOf(channelName) === -1;
                 return (
-                  <div key={index}>
-                    <Timeline
-                      editroRef={editroRef}
-                      selected={channelName === selectedChannel}
-                      setSelectedChannel={setSelectedChannel}
-                      channelName={channelName}
-                      first={index === 0}
-                      zoom={zoom}
-                    />
+                  <div key={index} className="timelines-container">
+                    {index === 0 && (
+                      <Rullers
+                        zoom={zoom}
+                        frames={transX}
+                        RullerRef={RullerRef}
+                      />
+                    )}
+                    {isHidden ? (
+                      <div
+                        key={index}
+                        className="timeLine hidden-timeline"
+                        style={{
+                          height: '2rem',
+                          width:
+                            editroRef.current &&
+                            editroRef.current.children[0].scrollWidth,
+                        }}
+                      ></div>
+                    ) : (
+                      <div key={index}>
+                        <Timeline
+                          editroRef={editroRef}
+                          selected={channelName === selectedChannel}
+                          setSelectedChannel={setSelectedChannel}
+                          channelName={channelName}
+                          first={index === 0}
+                          zoom={zoom}
+                        />
+                      </div>
+                    )}
                   </div>
                 );
+
+                // isHidden ? (
+
+                // ) : (
+
+                // );
               })}
             </div>
           </div>

@@ -1,11 +1,13 @@
 'use client';
 import { useFramesStore } from '@/store/framesStore';
 import React, { Suspense, useEffect, useState } from 'react';
-import { BsArrowRepeat } from 'react-icons/bs';
+import { BsArrowRepeat, BsMusicNoteBeamed } from 'react-icons/bs';
 import framesToTime from '@/utils/framesToTime';
 import Loading from '../../../loading';
 import { BiTime } from 'react-icons/bi';
 import { AiOutlineUpload } from 'react-icons/ai';
+import { useAudioStore } from '@/store/audioStore';
+import secondsToMinSec from '@/utils/secondsToMinSec';
 
 const AnimationSettingsForm = () => {
   // globals state from state store
@@ -27,6 +29,17 @@ const AnimationSettingsForm = () => {
     rotY,
     rotZ,
   } = useFramesStore((state) => state);
+  // Global state
+  const {
+    isPlaying,
+    setIsPlaying,
+    playAudio,
+    pauseAudio,
+    selectedAudio,
+    setSelectedAudio,
+    setAudioLength,
+    audioLength,
+  } = useAudioStore((state) => state);
   // local state
   const [tempFps, setTempFps] = useState(fps);
   const [tempFrameCount, setTempFrameCount] = useState(frameCount);
@@ -48,6 +61,17 @@ const AnimationSettingsForm = () => {
     setFps(tempFps);
     setFrameCount(tempFrameCount);
   };
+
+  // update framecount to match audio length
+  const matchFrameCountToAudio = () => {
+    const newFrameCount = Math.round(audioLength * fps);
+    setTempFrameCount(newFrameCount);
+    handleSubmit();
+  };
+
+  // useEffect(() => {
+  //   if (selectedAudio) matchFrameCountToAudio();
+  // }, [selectedAudio]);
 
   return (
     <div>
@@ -90,6 +114,20 @@ const AnimationSettingsForm = () => {
               Update Settings
             </button>
           </div>
+          {selectedAudio && (
+            <div className="settings-btn-container">
+              <span>
+                <BsMusicNoteBeamed />: {secondsToMinSec(audioLength)}
+              </span>
+              <button
+                className="btn settings-btn "
+                type="submit"
+                onClick={matchFrameCountToAudio}
+              >
+                Match length
+              </button>
+            </div>
+          )}
         </form>
       </Suspense>
     </div>

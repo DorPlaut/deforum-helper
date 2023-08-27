@@ -6,6 +6,7 @@ import Frame from './Frame';
 import Rullers from './Rullers';
 import Loading from '@/app/loading';
 import { useRef } from 'react';
+import AudioChannel from './AudioChannel';
 
 const Timeline = ({
   selected,
@@ -54,6 +55,7 @@ const Timeline = ({
     if (channelName === 'strength_schedule') return strength_schedule;
     if (channelName === 'near_schedule') return near_schedule;
     if (channelName === 'far_schedule') return far_schedule;
+    if (channelName === 'audio') return transX;
   };
   const frames = findFrames();
 
@@ -69,6 +71,7 @@ const Timeline = ({
     if (channelName === 'strength_schedule') return setStrength_schedule;
     if (channelName === 'near_schedule') return setNear_schedule;
     if (channelName === 'far_schedule') return setFar_schedule;
+    if (channelName === 'audio') return setTransX;
   };
   const setFrames = findSetFrames();
 
@@ -174,26 +177,8 @@ const Timeline = ({
   }, []);
   // JSX
 
-  // useEffect(() => {
-  //   if (editroRef.current) {
-  //     console.log(editroRef);
-  //     console.log(editroRef.current.clientHeight);
-  //     console.log(editroRef.current.offsetWidth);
-  //     console.log(editroRef.current.offsetTop);
-  //     console.log(editroRef.current.offsetHeight);
-  //     console.log(editroRef.current.offsetLeft);
-  //     console.log(editroRef.current.clientWidth);
-  //   }
-  // }, [frames]);
   return (
     <>
-      {/* a timeline ruller. only render on top of the first channel */}
-      {first && (
-        <>
-          <Rullers zoom={zoom} frames={frames} />
-          {frames.length <= 1 && <Loading />}
-        </>
-      )}
       {/* a timeline channel contain frames  */}
       {frames.length > 1 && (
         <>
@@ -205,25 +190,35 @@ const Timeline = ({
               background: selected ? color1 : color2,
             }}
           >
-            {frames.map((frame, index) => {
-              const isAnchor = frame.length === 3;
-              if (frameCount > index)
-                return (
-                  <Frame
-                    channelName={channelName}
-                    editroRef={editroRef}
-                    key={index}
-                    index={index}
-                    frame={frame}
-                    frames={frames}
-                    setFrames={setFrames}
-                    zoom={zoom}
-                    isAnchor={isAnchor}
-                    selected={selected}
-                    getFrameHeight={getFrameHeight}
-                  />
-                );
-            })}
+            {channelName === 'audio' ? (
+              <AudioChannel
+                zoom={zoom}
+                selected={selected}
+                editroRef={editroRef}
+              />
+            ) : (
+              <>
+                {frames.map((frame, index) => {
+                  const isAnchor = frame.length === 3;
+                  if (frameCount > index)
+                    return (
+                      <Frame
+                        channelName={channelName}
+                        editroRef={editroRef}
+                        key={index}
+                        index={index}
+                        frame={frame}
+                        frames={frames}
+                        setFrames={setFrames}
+                        zoom={zoom}
+                        isAnchor={isAnchor}
+                        selected={selected}
+                        getFrameHeight={getFrameHeight}
+                      />
+                    );
+                })}
+              </>
+            )}
           </div>
         </>
       )}

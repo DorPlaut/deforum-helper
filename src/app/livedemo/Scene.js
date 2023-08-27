@@ -16,7 +16,7 @@ import LiveMenu from './LiveMenu';
 import { config, useSpring, animated } from '@react-spring/three';
 import ValueIndicators from './ValueIndicators';
 
-const Scene = () => {
+const Scene = ({ audioRef }) => {
   // global state
   const {
     fps,
@@ -247,6 +247,7 @@ const Scene = () => {
         <Center>
           <Html>
             <LiveMenu
+              audioRef={audioRef}
               setIsAnchorOn={setIsAnchorOn}
               isAnchorOn={isAnchorOn}
               timeLine={timeLine}
@@ -256,6 +257,7 @@ const Scene = () => {
               animationSettings={animationSettings}
             />
           </Html>
+
           <Html>
             <ValueIndicators
               strength={cameraStrength}

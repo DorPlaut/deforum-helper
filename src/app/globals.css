@@ -17,6 +17,7 @@
   --editorTransitions: 0.2s;
   --channelHeightOpen: 15rem;
   --channelHeightClose: 5rem;
+  --channelHeightHidden: 2rem;
 }
 /* page settings */
 * {
@@ -56,9 +57,9 @@ main {
 .header {
   padding: 1rem;
 }
-/* .invisible {
+.invisible {
   display: none;
-} */
+}
 
 .unclickable {
   pointer-events: none;
@@ -346,9 +347,11 @@ h4 {
   border-top: solid 1px var(--editorColor3);
   border-radius: 0 0 20px 20px;
 }
+
 .frames {
   overflow-x: scroll;
   overflow-y: hidden;
+  width: fit-content;
 }
 .frames::-webkit-scrollbar {
   background: var(--editorColor5);
@@ -367,6 +370,10 @@ h4 {
   transition: var(--editorTransitions);
 }
 
+.hidden-timeline {
+  border-bottom: solid 1px var(--editorColor3);
+  background: var(--editorColor6);
+}
 .frame,
 .channel {
   transition: var(--editorTransitions);
@@ -483,6 +490,22 @@ h4 {
   justify-content: center;
 }
 
+/* EDITOR - AUDIO channel */
+/* controls */
+
+/* waveform */
+.waveform-container {
+  overflow: hidden;
+  position: relative;
+}
+.waveform {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
 /* EDITOR - channels */
 .channel {
   width: 9.5rem;
@@ -490,6 +513,10 @@ h4 {
   position: relative;
   text-align: left;
 }
+/* .channel-name {
+  display: flex;
+  justify-content: space-between;
+} */
 .channel span {
   margin-right: 2rem;
 }
@@ -544,7 +571,8 @@ h4 {
 .copy-btn,
 .minimize-btn,
 .paste-btn,
-.formula-btn {
+.formula-btn,
+.hide-btn {
   position: absolute;
   color: var(--editorColor1);
   background: none;
@@ -575,10 +603,16 @@ h4 {
   right: 0.5rem;
   font-size: 1rem;
 }
+.hide-btn {
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1rem;
+}
 .minimize-btn:hover,
 .copy-btn:hover,
 .paste-btn:hover,
-.formula-btn:hover {
+.formula-btn:hover,
+.hide-btn:hover {
   color: var(--editorColor5);
   background: var(--editorColor1);
 }
@@ -586,7 +620,8 @@ h4 {
 .btn-3d,
 .reset-btn,
 .transitions-btn,
-.presets-btn {
+.presets-btn,
+.add-audio-btn {
   font-size: 2rem;
   padding: 0.1rem;
   border-radius: 50%;
@@ -604,6 +639,10 @@ h4 {
   opacity: 0;
   transition: 0.2s;
   scale: 1.5;
+}
+
+.add-audio-btn svg {
+  scale: 0.75;
 }
 /*  */
 .btn-3d:hover svg {
@@ -648,10 +687,10 @@ footer {
   align-items: center;
   height: 1rem;
 }
-.footer-spacer {
+/* .footer-spacer {
   width: 100%;
   height: 1rem;
-}
+} */
 
 /* 3d live demo */
 .scene-container {
@@ -730,7 +769,7 @@ canvas {
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  transition: 0.5s;
+  transition: 0.2s;
 }
 .indicators-btn {
   margin: 0.5rem;

@@ -20,7 +20,16 @@ const ZoomFader = ({ zoom, setZoom }) => {
           aria-label="zoom"
           className="zoom-fader"
           thumbClassName="btn zoom-fader-handle"
-          onChange={(v) => setZoom(v)}
+          onChange={(v) => {
+            setZoom(v);
+          }}
+          onAfterChange={(v) => {
+            setZoom(v);
+            setTimeout(() => {
+              console.log('lets update');
+              setZoom(v);
+            }, 1000);
+          }}
           value={zoom}
           min={min}
           max={max}
