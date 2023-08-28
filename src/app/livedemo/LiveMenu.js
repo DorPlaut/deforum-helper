@@ -83,6 +83,9 @@ const LiveMenu = ({
         return prevTimeLine + step;
       else return animationLengthInSec;
     });
+    if (audioRef.current) {
+      audioRef.current.currentTime += step;
+    }
     setTimer(
       setInterval(() => {
         setTimeLine((prevTimeLine) => {
@@ -90,6 +93,9 @@ const LiveMenu = ({
             return prevTimeLine + step;
           else return animationLengthInSec;
         });
+        if (audioRef.current) {
+          audioRef.current.currentTime += step;
+        }
       }, 150)
     );
   };
@@ -99,12 +105,18 @@ const LiveMenu = ({
       if (prevTimeLine - step > 0) return prevTimeLine - step;
       else return 0;
     });
+    if (audioRef.current) {
+      audioRef.current.currentTime -= step;
+    }
     setTimer(
       setInterval(() => {
         setTimeLine((prevTimeLine) => {
           if (prevTimeLine - step > 0) return prevTimeLine - step;
           else return 0;
         });
+        if (audioRef.current) {
+          audioRef.current.currentTime -= step;
+        }
       }, 150)
     );
   };
@@ -143,6 +155,9 @@ const LiveMenu = ({
             className="btn live-btn block-btn"
             onClick={() => {
               setTimeLine(0);
+              if (audioRef.current) {
+                audioRef.current.currentTime = 0;
+              }
             }}
           >
             <BsSkipStartFill />
@@ -206,6 +221,9 @@ const LiveMenu = ({
             className="btn live-btn block-btn"
             onClick={() => {
               setTimeLine(animationLengthInSec);
+              if (audioRef.current) {
+                audioRef.current.currentTime = audioRef.current.duration;
+              }
             }}
           >
             <BsSkipEndFill />
@@ -217,6 +235,10 @@ const LiveMenu = ({
             onClick={() => {
               setIsRunning(false);
               setTimeLine(0);
+              if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
+              }
               setTimeout(() => {
                 setFrame(0);
               }, 100);
