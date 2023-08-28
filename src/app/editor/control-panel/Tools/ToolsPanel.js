@@ -12,12 +12,19 @@ import formatArrayToString from '@/utils/formatArrayToString';
 import formatStringToArray from '@/utils/formatStringToArray';
 import Link from 'next/link';
 import { TbEaseIn } from 'react-icons/tb';
-import { BsFillTrash3Fill } from 'react-icons/bs';
+import {
+  BsBookmarkPlus,
+  BsFillBookmarkPlusFill,
+  BsFillTrash3Fill,
+} from 'react-icons/bs';
+import { BiHide, BiShow } from 'react-icons/bi';
+
 import TransitionsPicker from './TransitionsPicker';
 import getHigestValue from '@/utils/getHigestValue';
 import framesToTime from '@/utils/framesToTime';
 import PresetsBtn from './PresetsBtn';
 import AddAudioBtn from './AddAudioBtn';
+import HideShowBtn from './HideShowBtn';
 
 const ToolsPanel = ({ zoom, setZoom }) => {
   // global state
@@ -41,6 +48,12 @@ const ToolsPanel = ({ zoom, setZoom }) => {
     maxValue,
     setMaxValue,
     hoverdFrame,
+    selectedFrame,
+    setselectedFrame,
+    markers,
+    addMarker,
+    removeMarker,
+    SetVisibleChannels,
   } = useFramesStore((state) => state);
 
   return (
@@ -57,7 +70,7 @@ const ToolsPanel = ({ zoom, setZoom }) => {
       <div className="control-buttons">
         {/* reset btn  */}
         <button
-          title="Start over"
+          title="Start over - refresh"
           className="btn block-btn reset-btn"
           onClick={() => {
             window.location.reload(false);
@@ -65,7 +78,22 @@ const ToolsPanel = ({ zoom, setZoom }) => {
         >
           <BiRefresh />
         </button>
-
+        {/* add marker */}
+        <button
+          title="Add Marker - Click on the upper ruller to select a frame. Click here to mark/unmark it"
+          className="btn block-btn marker-btn"
+          onClick={() => {
+            if (markers.includes(selectedFrame)) {
+              removeMarker(selectedFrame);
+            } else {
+              addMarker(selectedFrame);
+            }
+          }}
+        >
+          <BsFillBookmarkPlusFill />
+        </button>
+        {/* Hide/show channels  */}
+        <HideShowBtn />
         {/* add audio */}
         <AddAudioBtn />
 

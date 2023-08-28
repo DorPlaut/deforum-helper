@@ -25,6 +25,8 @@ export const useFramesStore = create((set) => ({
   setFar: (far) => set(() => ({ far })),
 
   // CHANNELS
+  selectedChannel: '',
+  setSelectedChannel: (selectedChannel) => set(() => ({ selectedChannel })),
   // channel list
   channels: [
     'translation_x',
@@ -93,6 +95,12 @@ export const useFramesStore = create((set) => ({
   setHoverdFrame: (hoverdFrame) => set(() => ({ hoverdFrame })),
   selectedFrame: [0, 0, true],
   setselectedFrame: (selectedFrame) => set(() => ({ selectedFrame })),
+  markers: [],
+  addMarker: (marker) =>
+    set((state) => ({ markers: [...state.markers, marker] })),
+  // remove marker
+  removeMarker: (marker) =>
+    set((state) => ({ markers: state.markers.filter((c) => c !== marker) })),
 
   // Transitions
   // set transition mode as string

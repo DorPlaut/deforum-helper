@@ -621,7 +621,8 @@ h4 {
 .reset-btn,
 .transitions-btn,
 .presets-btn,
-.add-audio-btn {
+.add-audio-btn,
+.marker-btn {
   font-size: 2rem;
   padding: 0.1rem;
   border-radius: 50%;
@@ -656,6 +657,9 @@ h4 {
 .transitions-btn svg,
 .presets-btn svg {
   scale: 0.8;
+}
+.marker-btn svg {
+  scale: 0.7;
 }
 
 /* max value input */

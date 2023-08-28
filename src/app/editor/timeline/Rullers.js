@@ -11,11 +11,13 @@ const Rullers = ({ frames, zoom, RullerRef }) => {
     transX,
     selectedFrame,
     setselectedFrame,
+    markers,
+    addMarker,
+    removeMarker,
   } = useFramesStore((state) => state);
   //   local state
   const [isHovered, setIsHovered] = useState(false);
   // const [hoverdFrame, setHoverdFrame] = useState([0, 0, true]);
-
   return (
     <div className="rullers" ref={RullerRef}>
       <div className="timeline-ruller">
@@ -33,7 +35,13 @@ const Rullers = ({ frames, zoom, RullerRef }) => {
                 onMouseLeave={() => setIsHovered(false)}
                 key={index}
                 className="ruller-frame"
-                style={{ width: `${zoom}px` }}
+                style={{
+                  width: `${zoom}px`,
+                  background:
+                    selectedFrame === frame[0]
+                      ? '#5dfff999'
+                      : markers.includes(frame[0]) && '#a8131380',
+                }}
               >
                 {zoom > 20 && index % 5 === 0 && (
                   <span className="ruller-frame-number">{frame[0]}</span>

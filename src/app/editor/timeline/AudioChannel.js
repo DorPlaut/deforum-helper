@@ -21,7 +21,7 @@ const AudioChannel = ({ selected, RullerRef }) => {
     transX,
     hoverdFrame,
     selectedFrame,
-    setselectedFrame,
+    setSelectedChannel,
   } = useFramesStore((state) => state);
 
   // create wave form visualization
@@ -39,6 +39,9 @@ const AudioChannel = ({ selected, RullerRef }) => {
   };
   useEffect(() => {
     CreateWaveForm();
+    setTimeout(() => {
+      setSelectedChannel('audio');
+    }, 1000);
   }, []);
 
   // create the wave form

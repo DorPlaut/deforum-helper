@@ -14,12 +14,7 @@ import { LiaCopy, LiaPasteSolid } from 'react-icons/lia';
 import AudioChannelControls from './AudioChannelControls';
 import { BiHide, BiShow } from 'react-icons/bi';
 
-const Channel = ({
-  channelName,
-  selectedChannel,
-  setSelectedChannel,
-
-}) => {
+const Channel = ({ channelName }) => {
   // data
   const {
     frameCount,
@@ -50,8 +45,11 @@ const Channel = ({
     near_schedule,
     setNear_schedule,
     far_schedule,
-    setFar_schedule,VisibleChannels,
-    SetVisibleChannels
+    setFar_schedule,
+    VisibleChannels,
+    SetVisibleChannels,
+    selectedChannel,
+    setSelectedChannel,
   } = useFramesStore((state) => state);
 
   const isVisible = VisibleChannels.includes(channelName);

@@ -11,12 +11,18 @@ import Rullers from './timeline/Rullers';
 
 const Editor = () => {
   // global state
-  const { channels, transX, frameCount, VisibleChannels, SetVisibleChannels } =
-    useFramesStore((state) => state);
+  const {
+    channels,
+    transX,
+    frameCount,
+    VisibleChannels,
+    SetVisibleChannels,
+    selectedChannel,
+    setSelectedChannel,
+  } = useFramesStore((state) => state);
   const { isLoading } = usePageStore((state) => state);
 
   //   local state for ui
-  const [selectedChannel, setSelectedChannel] = useState('');
   const [zoom, setZoom] = useState(50);
 
   // buffer - elements ref to chack if they are on screen at any given time
@@ -47,14 +53,7 @@ const Editor = () => {
               {/* channels */}
 
               {channels.map((channelName, index) => {
-                return (
-                  <Channel
-                    key={index}
-                    channelName={channelName}
-                    selectedChannel={selectedChannel}
-                    setSelectedChannel={setSelectedChannel}
-                  />
-                );
+                return <Channel key={index} channelName={channelName} />;
               })}
             </div>
 
@@ -88,7 +87,6 @@ const Editor = () => {
                           RullerRef={RullerRef}
                           editroRef={editroRef}
                           selected={channelName === selectedChannel}
-                          setSelectedChannel={setSelectedChannel}
                           channelName={channelName}
                           first={index === 0}
                           zoom={zoom}

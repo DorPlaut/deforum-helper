@@ -14,7 +14,6 @@ const Timeline = ({
   zoom,
   first,
   channelName,
-  setSelectedChannel,
   editroRef,
 }) => {
   // Global state
@@ -42,6 +41,8 @@ const Timeline = ({
     setNear_schedule,
     far_schedule,
     setFar_schedule,
+    selectedChannel,
+    setSelectedChannel,
   } = useFramesStore((state) => state);
   // SELECT TIMELINE CHANNEL
   // find current channel by channel name and set it to frames
@@ -193,7 +194,7 @@ const Timeline = ({
           >
             {channelName === 'audio' ? (
               <AudioChannel
-              RullerRef={RullerRef}
+                RullerRef={RullerRef}
                 zoom={zoom}
                 selected={selected}
                 editroRef={editroRef}
