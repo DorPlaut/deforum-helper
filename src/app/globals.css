@@ -482,7 +482,7 @@ h4 {
 .ruller-frame {
   border-bottom: solid 1px var(--editorColor3);
   border-left: solid 1px var(--editorColor4);
-
+  cursor: pointer;
   height: 2rem;
   transition: 0.2s;
   display: flex;

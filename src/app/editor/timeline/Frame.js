@@ -182,7 +182,7 @@ const Frame = ({
       {isInnerVisible && (
         <div className="frame-inner animation-fade-in">
           {/*  */}
-          {selected && zoom > 15 && (
+          {selected && zoom > 5 && (
             <>
               {/* on/off button */}
               {index > 0 && (
