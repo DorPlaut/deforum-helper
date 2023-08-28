@@ -129,7 +129,7 @@ const Scene = ({ audioRef }) => {
   // ANIMATION
   // animation timeline
   const [timeLine, setTimeLine] = useState(0);
-  const [isRunning, setIsRunning] = useState(true);
+  const [isRunning, setIsRunning] = useState(false);
   useTimeline(isRunning, setTimeLine);
   // camera animation values
   const [positionX, setPositionX] = useState(0);
