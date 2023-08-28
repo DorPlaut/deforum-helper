@@ -176,7 +176,7 @@ const Frame = ({
       className={'frame'}
       style={{
         width: `${zoom}px`,
-        border: zoom < 15 && 'none',
+        borderRight: zoom < 15 && 'none',
       }}
     >
       {isInnerVisible && (
