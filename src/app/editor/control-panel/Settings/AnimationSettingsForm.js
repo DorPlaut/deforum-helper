@@ -65,13 +65,13 @@ const AnimationSettingsForm = () => {
   // update framecount to match audio length
   const matchFrameCountToAudio = () => {
     const newFrameCount = Math.round(audioLength * fps);
+    setFrameCount(newFrameCount);
     setTempFrameCount(newFrameCount);
-    handleSubmit();
   };
 
-  // useEffect(() => {
-  //   if (selectedAudio) matchFrameCountToAudio();
-  // }, [selectedAudio]);
+  useEffect(() => {
+    if (selectedAudio) matchFrameCountToAudio();
+  }, [selectedAudio]);
 
   return (
     <div>

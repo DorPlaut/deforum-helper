@@ -3,8 +3,15 @@ import framesToTime from '@/utils/framesToTime';
 import React, { useState } from 'react';
 
 const Rullers = ({ frames, zoom, RullerRef }) => {
-  const { fps, frameCount, hoverdFrame, setHoverdFrame, transX } =
-    useFramesStore((state) => state);
+  const {
+    fps,
+    frameCount,
+    hoverdFrame,
+    setHoverdFrame,
+    transX,
+    selectedFrame,
+    setselectedFrame,
+  } = useFramesStore((state) => state);
   //   local state
   const [isHovered, setIsHovered] = useState(false);
   // const [hoverdFrame, setHoverdFrame] = useState([0, 0, true]);
@@ -19,6 +26,9 @@ const Rullers = ({ frames, zoom, RullerRef }) => {
                 onMouseEnter={() => {
                   setIsHovered(true);
                   setHoverdFrame(index);
+                }}
+                onClick={() => {
+                  setselectedFrame(index);
                 }}
                 onMouseLeave={() => setIsHovered(false)}
                 key={index}

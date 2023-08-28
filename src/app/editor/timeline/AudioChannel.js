@@ -1,9 +1,10 @@
 import { useAudioStore } from '@/store/audioStore';
 import { useFramesStore } from '@/store/framesStore';
+import framesToTime from '@/utils/framesToTime';
 import React, { useEffect, useRef, useState } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 
-const AudioChannel = ({ zoom, selected, editroRef ,RullerRef}) => {
+const AudioChannel = ({ selected, RullerRef }) => {
   // Global state
   const {
     isPlaying,
@@ -14,15 +15,14 @@ const AudioChannel = ({ zoom, selected, editroRef ,RullerRef}) => {
     setSelectedAudio,
   } = useAudioStore((state) => state);
 
-  const { frameCount } = useFramesStore((state) => state);
-
-  // channel width from editor ref
-  // const [channelWidth, setChannelWidth] = useState('100%');
-  // useEffect(() => {
-  //   if (editroRef.current) {
-  //     setChannelWidth(editroRef.current.children[0].scrollWidth);
-  //   }
-  // }, [frameCount, zoom]);
+  const {
+    frameCount,
+    fps,
+    transX,
+    hoverdFrame,
+    selectedFrame,
+    setselectedFrame,
+  } = useFramesStore((state) => state);
 
   // create wave form visualization
   // wave form ref
@@ -31,9 +31,10 @@ const AudioChannel = ({ zoom, selected, editroRef ,RullerRef}) => {
   const CreateWaveForm = () => {
     waveformRef.current = WaveSurfer.create({
       container: '#waveform',
-      waveColor: '#3498db',
-      progressColor: '#2980b9',
-      cursorColor: 'red',
+      waveColor: '#5dfff999',
+      progressColor: '#3d5e5c80',
+      cursorColor: 'darkRed',
+      height: 'auto',
     });
   };
   useEffect(() => {
@@ -47,11 +48,29 @@ const AudioChannel = ({ zoom, selected, editroRef ,RullerRef}) => {
     }
   }, [selectedAudio]);
 
+  // set position from frames ruller
+  useEffect(() => {
+    if (transX[selectedFrame]) {
+      waveformRef.current.setTime(
+        framesToTime(fps, transX[selectedFrame][0], true)
+      );
+    }
+  }, [selectedFrame]);
+
   // controls
 
   useEffect(() => {
-    if (waveformRef.current) waveformRef.current.playPause();
+    if (waveformRef.current) {
+      if (isPlaying) waveformRef.current.play();
+      else waveformRef.current.pause();
+    }
   }, [isPlaying]);
+
+  useEffect(() => {
+    if (waveformRef.current) {
+      waveformRef.current.setOptions({ height: selected ? 250 : 80 });
+    }
+  }, [selected]);
 
   return (
     <div
@@ -60,15 +79,7 @@ const AudioChannel = ({ zoom, selected, editroRef ,RullerRef}) => {
         width: RullerRef.current && RullerRef.current.scrollWidth,
       }}
     >
-      <div
-        id="waveform"
-        className="waveform"
-        style={{
-          transform: selected
-            ? `scaleY(3.4) translateY(3.45rem)`
-            : `scaleY(1) translateY(-1.5rem)`,
-        }}
-      ></div>
+      <div id="waveform" className="waveform"></div>
     </div>
   );
 };

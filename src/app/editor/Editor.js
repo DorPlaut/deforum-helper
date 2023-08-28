@@ -11,36 +11,18 @@ import Rullers from './timeline/Rullers';
 
 const Editor = () => {
   // global state
-  const { channels, transX, frameCount ,VisibleChannels,
-    SetVisibleChannels} = useFramesStore((state) => state);
+  const { channels, transX, frameCount, VisibleChannels, SetVisibleChannels } =
+    useFramesStore((state) => state);
   const { isLoading } = usePageStore((state) => state);
 
   //   local state for ui
   const [selectedChannel, setSelectedChannel] = useState('');
   const [zoom, setZoom] = useState(50);
 
-  // useEffect(() => {
-  //   SetVisibleChannels(channels);
-  // }, [channels]);
-
-  // buffer - elemts ref to chack if they are on screen at any given time
+  // buffer - elements ref to chack if they are on screen at any given time
   const editroRef = useRef();
-
   // channel width from editor ref
   const RullerRef = useRef();
-  const [channelWidth, setChannelWidth] = useState('100%');
-  useEffect(() => {
-    if (RullerRef.current) {
-      const length = RullerRef.current.offsetWidth;
-      setChannelWidth(length);
-    }
-  }, [frameCount, zoom]);
-
-
-  // 
-  useEffect(()=>{
-console.log(VisibleChannels);
-  },[VisibleChannels])
 
   return (
     <div className="editor">
@@ -71,7 +53,6 @@ console.log(VisibleChannels);
                     channelName={channelName}
                     selectedChannel={selectedChannel}
                     setSelectedChannel={setSelectedChannel}
-        
                   />
                 );
               })}
@@ -98,14 +79,13 @@ console.log(VisibleChannels);
                         style={{
                           height: '2rem',
                           width:
-                          RullerRef.current &&
-                          RullerRef.current.scrollWidth,
+                            RullerRef.current && RullerRef.current.scrollWidth,
                         }}
                       ></div>
                     ) : (
                       <div key={index}>
                         <Timeline
-                        RullerRef={RullerRef}
+                          RullerRef={RullerRef}
                           editroRef={editroRef}
                           selected={channelName === selectedChannel}
                           setSelectedChannel={setSelectedChannel}
