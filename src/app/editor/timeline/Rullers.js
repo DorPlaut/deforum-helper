@@ -32,6 +32,13 @@ const Rullers = ({ frames, zoom, RullerRef }) => {
                 onClick={() => {
                   setselectedFrame(index);
                 }}
+                onDoubleClick={() => {
+                  if (markers.includes(selectedFrame)) {
+                    removeMarker(selectedFrame);
+                  } else {
+                    addMarker(selectedFrame);
+                  }
+                }}
                 onMouseLeave={() => setIsHovered(false)}
                 key={index}
                 className="ruller-frame"

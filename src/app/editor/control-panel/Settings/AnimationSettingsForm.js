@@ -94,7 +94,7 @@ const AnimationSettingsForm = () => {
             <div className="frames-input">
               <label htmlFor="leangh">Length (in frames)</label>
               <input
-                max={5000}
+                max={10000}
                 min={2}
                 type="number"
                 value={tempFrameCount}
